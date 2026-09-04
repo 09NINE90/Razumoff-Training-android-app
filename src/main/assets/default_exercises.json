@@ -1,0 +1,452 @@
+[
+  {
+    "name": "Жим штанги лежа",
+    "description": "Базовое упражнение для развития грудных мышц, трицепсов и передних дельт",
+    "muscleGroups": ["CHEST", "TRICEPS", "SHOULDERS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Жим штанги лежа на наклонной скамье (голова выше)",
+    "description": "Упражнение для развития верхней части грудных мышц",
+    "muscleGroups": ["CHEST", "SHOULDERS", "TRICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Жим штанги лежа на наклонной скамье (голова ниже)",
+    "description": "Упражнение для развития нижней части грудных мышц",
+    "muscleGroups": ["CHEST", "TRICEPS", "SHOULDERS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Жим гантелей лежа",
+    "description": "Упражнение для развития грудных мышц с большей амплитудой движения",
+    "muscleGroups": ["CHEST", "TRICEPS", "SHOULDERS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Жим гантелей лежа на наклонной скамье",
+    "description": "Упражнение для развития верхней части грудных мышц с гантелями",
+    "muscleGroups": ["CHEST", "SHOULDERS", "TRICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Разведение гантелей лежа",
+    "description": "Изолирующее упражнение для грудных мышц",
+    "muscleGroups": ["CHEST"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Разведение гантелей на наклонной скамье",
+    "description": "Изолирующее упражнение для верхней части грудных мышц",
+    "muscleGroups": ["CHEST", "SHOULDERS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Сведение рук в кроссовере",
+    "description": "Изолирующее упражнение для грудных мышц на блочном тренажере",
+    "muscleGroups": ["CHEST", "TRICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Кроссовер",
+    "isCustom": false
+  },
+  {
+    "name": "Отжимания на брусьях",
+    "description": "Упражнение для развития грудных мышц и трицепсов",
+    "muscleGroups": ["CHEST", "TRICEPS", "SHOULDERS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": "Брусья",
+    "isCustom": false
+  },
+  {
+    "name": "Отжимания от пола",
+    "description": "Базовое упражнение с собственным весом для грудных мышц",
+    "muscleGroups": ["CHEST", "TRICEPS", "SHOULDERS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": null,
+    "isCustom": false
+  },
+  {
+    "name": "Подтягивания средним хватом",
+    "description": "Базовое упражнение для развития мышц спины",
+    "muscleGroups": ["BACK", "LATS", "BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Турник",
+    "isCustom": false
+  },
+  {
+    "name": "Подтягивания широким хватом",
+    "description": "Базовое упражнение для развития широчайших мышц спины",
+    "muscleGroups": ["BACK", "LATS", "BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Турник",
+    "isCustom": false
+  },
+  {
+    "name": "Подтягивания узким обратным хватом",
+    "description": "Упражнение для развития бицепса и нижней части широчайших",
+    "muscleGroups": ["BACK", "LATS", "BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Турник",
+    "isCustom": false
+  },
+  {
+    "name": "Тяга штанги в наклоне",
+    "description": "Базовое упражнение для развития мышц спины",
+    "muscleGroups": ["BACK", "LATS", "BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Тяга гантели в наклоне",
+    "description": "Упражнение для развития широчайших мышц спины",
+    "muscleGroups": ["BACK", "LATS", "BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Тяга верхнего блока к груди",
+    "description": "Упражнение для развития широчайших мышц спины на блочном тренажере",
+    "muscleGroups": ["BACK", "LATS", "BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Блочный тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Тяга верхнего блока за голову",
+    "description": "Упражнение для развития верхней части широчайших",
+    "muscleGroups": ["BACK", "LATS", "TRAPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Блочный тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Тяга нижнего блока к поясу",
+    "description": "Упражнение для развития широчайших мышц спины",
+    "muscleGroups": ["BACK", "LATS", "BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Блочный тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Гиперэкстензия",
+    "description": "Упражнение для развития мышц спины и ягодиц",
+    "muscleGroups": ["BACK", "GLUTES", "HAMSTRINGS"],
+    "bodyPart": "LOWER",
+    "movementType": "ISOLATION",
+    "equipment": "Гиперэкстензия",
+    "isCustom": false
+  },
+  {
+    "name": "Жим штанги стоя",
+    "description": "Базовое упражнение для развития плечевого пояса",
+    "muscleGroups": ["SHOULDERS", "TRICEPS", "TRAPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Жим гантелей сидя",
+    "description": "Упражнение для развития дельтовидных мышц",
+    "muscleGroups": ["SHOULDERS", "TRICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PUSH",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Разведение гантелей в стороны",
+    "description": "Упражнение для развития средних дельт",
+    "muscleGroups": ["SHOULDERS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Разведение гантелей в наклоне",
+    "description": "Упражнение для развития задних дельт",
+    "muscleGroups": ["SHOULDERS", "BACK"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Подъем гантелей перед собой",
+    "description": "Упражнение для развития передних дельт",
+    "muscleGroups": ["SHOULDERS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Сгибание рук со штангой стоя",
+    "description": "Базовое упражнение для развития бицепса",
+    "muscleGroups": ["BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Сгибание рук с гантелями стоя",
+    "description": "Упражнение для развития бицепса с гантелями",
+    "muscleGroups": ["BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Сгибание рук с гантелями на наклонной скамье",
+    "description": "Изолирующее упражнение для бицепса с максимальной амплитудой",
+    "muscleGroups": ["BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Молотковые сгибания с гантелями",
+    "description": "Упражнение для развития бицепса и плечелучевой мышцы",
+    "muscleGroups": ["BICEPS", "FOREARMS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Разгибание рук на блоке вниз",
+    "description": "Упражнение для развития трицепса на блочном тренажере",
+    "muscleGroups": ["TRICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Блочный тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Разгибание рук с гантелью из-за головы",
+    "description": "Упражнение для развития трицепса с гантелью",
+    "muscleGroups": ["TRICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Французский жим со штангой",
+    "description": "Упражнение для развития трицепса со штангой",
+    "muscleGroups": ["TRICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Приседания со штангой",
+    "description": "Базовое упражнение для развития мышц ног и ягодиц",
+    "muscleGroups": ["QUADRICEPS", "GLUTES", "HAMSTRINGS"],
+    "bodyPart": "LOWER",
+    "movementType": "SQUAT",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Приседания с гантелями",
+    "description": "Упражнение для развития ног с гантелями",
+    "muscleGroups": ["QUADRICEPS", "GLUTES", "HAMSTRINGS"],
+    "bodyPart": "LOWER",
+    "movementType": "SQUAT",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Жим ногами в тренажере",
+    "description": "Упражнение для развития квадрицепсов и ягодиц",
+    "muscleGroups": ["QUADRICEPS", "GLUTES", "HAMSTRINGS"],
+    "bodyPart": "LOWER",
+    "movementType": "PUSH",
+    "equipment": "Тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Выпады со штангой",
+    "description": "Упражнение для развития ног и ягодиц",
+    "muscleGroups": ["QUADRICEPS", "GLUTES", "HAMSTRINGS"],
+    "bodyPart": "LOWER",
+    "movementType": "LUNGE",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Выпады с гантелями",
+    "description": "Упражнение для развития ног и ягодиц с гантелями",
+    "muscleGroups": ["QUADRICEPS", "GLUTES", "HAMSTRINGS"],
+    "bodyPart": "LOWER",
+    "movementType": "LUNGE",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Сгибание ног лежа в тренажере",
+    "description": "Упражнение для развития бицепса бедра",
+    "muscleGroups": ["HAMSTRINGS"],
+    "bodyPart": "LOWER",
+    "movementType": "ISOLATION",
+    "equipment": "Тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Разгибание ног сидя в тренажере",
+    "description": "Упражнение для развития квадрицепсов",
+    "muscleGroups": ["QUADRICEPS"],
+    "bodyPart": "LOWER",
+    "movementType": "ISOLATION",
+    "equipment": "Тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Становая тяга",
+    "description": "Базовое упражнение для развития мышц спины, ног и ягодиц",
+    "muscleGroups": ["BACK", "HAMSTRINGS", "GLUTES"],
+    "bodyPart": "FULL",
+    "movementType": "PULL",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Становая тяга на прямых ногах",
+    "description": "Упражнение для развития бицепса бедра и ягодиц",
+    "muscleGroups": ["HAMSTRINGS", "GLUTES", "BACK"],
+    "bodyPart": "LOWER",
+    "movementType": "PULL",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Подъем на носки стоя",
+    "description": "Упражнение для развития икроножных мышц",
+    "muscleGroups": ["CALVES"],
+    "bodyPart": "LOWER",
+    "movementType": "ISOLATION",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Подъем на носки сидя",
+    "description": "Упражнение для развития камбаловидной мышцы",
+    "muscleGroups": ["CALVES"],
+    "bodyPart": "LOWER",
+    "movementType": "ISOLATION",
+    "equipment": "Тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Подъем на носки в тренажере",
+    "description": "Упражнение для развития икроножных мышц",
+    "muscleGroups": ["CALVES"],
+    "bodyPart": "LOWER",
+    "movementType": "ISOLATION",
+    "equipment": "Тренажер",
+    "isCustom": false
+  },
+  {
+    "name": "Скручивания на пресс лежа",
+    "description": "Базовое упражнение для развития прямой мышцы живота",
+    "muscleGroups": ["CORE"],
+    "bodyPart": "FULL",
+    "movementType": "ISOLATION",
+    "equipment": null,
+    "isCustom": false
+  },
+  {
+    "name": "Подъем ног в висе",
+    "description": "Упражнение для развития нижней части пресса",
+    "muscleGroups": ["CORE"],
+    "bodyPart": "FULL",
+    "movementType": "ISOLATION",
+    "equipment": "Турник",
+    "isCustom": false
+  },
+  {
+    "name": "Подъем туловища на наклонной скамье",
+    "description": "Упражнение для развития пресса с дополнительной нагрузкой",
+    "muscleGroups": ["CORE"],
+    "bodyPart": "FULL",
+    "movementType": "ISOLATION",
+    "equipment": "Наклонная скамья",
+    "isCustom": false
+  },
+  {
+    "name": "Шраги со штангой",
+    "description": "Упражнение для развития трапециевидных мышц",
+    "muscleGroups": ["TRAPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Штанга",
+    "isCustom": false
+  },
+  {
+    "name": "Шраги с гантелями",
+    "description": "Упражнение для развития трапециевидных мышц с гантелями",
+    "muscleGroups": ["TRAPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Гантели",
+    "isCustom": false
+  },
+  {
+    "name": "Сгибание рук на бицепс в тренажере Скотта",
+    "description": "Изолирующее упражнение для бицепса",
+    "muscleGroups": ["BICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "ISOLATION",
+    "equipment": "Тренажер Скотта",
+    "isCustom": false
+  },
+  {
+    "name": "Пуловер с гантелей",
+    "description": "Упражнение для развития грудных мышц и широчайших",
+    "muscleGroups": ["CHEST", "BACK", "TRICEPS"],
+    "bodyPart": "UPPER",
+    "movementType": "PULL",
+    "equipment": "Гантели",
+    "isCustom": false
+  }
+]
