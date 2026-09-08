@@ -1,6 +1,5 @@
 package ru.razumoff.razumofftraining.ui.screens.workouts.session.details.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,7 +20,6 @@ fun SetRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 2.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -42,17 +40,8 @@ fun SetRow(
             color = if (set.weight > 0) {
                 MaterialTheme.colorScheme.primary
             } else {
-                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                MaterialTheme.colorScheme.onSurfaceVariant
             }
         )
-//        if (set.isWarmup) {
-//            Text(
-//                text = "🔥",
-//                style = MaterialTheme.typography.bodyMedium,
-//                modifier = Modifier.weight(0.5f)
-//            )
-//        } else {
-//            Spacer(modifier = Modifier.weight(0.5f))
-//        }
     }
 }

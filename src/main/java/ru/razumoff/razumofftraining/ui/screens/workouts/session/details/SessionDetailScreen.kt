@@ -79,7 +79,10 @@ fun SessionDetailScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Тренировка не найдена")
+                Text(
+                    text = "Тренировка не найдена",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         } else {
             Column(

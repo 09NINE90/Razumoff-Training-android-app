@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.models.WorkoutSession
+import ru.razumoff.razumofftraining.ui.theme.Success
 import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -67,7 +68,7 @@ fun SessionCard(
                     // Длительность
                     session.duration?.let {
                         Text(
-                            text = "• ${it} мин",
+                            text = "• $it мин",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -96,7 +97,7 @@ fun SessionCard(
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
                     contentDescription = "Завершено",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = Success,
                     modifier = Modifier.size(20.dp)
                 )
             } else {

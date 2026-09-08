@@ -132,7 +132,10 @@ fun UserProfileScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Пользователь не найден")
+                    Text(
+                        text = "Пользователь не найден",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             } else {
                 // Аватар

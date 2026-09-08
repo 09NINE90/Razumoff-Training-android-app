@@ -106,7 +106,7 @@ object WorkoutFormatter {
         var totalWeight = 0f
         session.exercises.forEach { exercise ->
             exercise.sets.forEach { set ->
-                totalWeight += set.weight
+                totalWeight += set.weight * set.reps
             }
         }
         return BigDecimal(totalWeight.toDouble())

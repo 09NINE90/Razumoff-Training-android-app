@@ -1,7 +1,5 @@
 package ru.razumoff.razumofftraining.ui.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -44,35 +42,33 @@ fun NavGraph(
         startDestination = Screen.Steps.route,
         modifier = modifier,
         enterTransition = {
-            // Анимация входа: слайд слева
-            slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(300)
-            )
+            slideFadeEnter()
         },
         exitTransition = {
-            // Анимация выхода: слайд вправо
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(300)
-            )
+            slideFadeExit()
         },
         popEnterTransition = {
-            // Анимация входа при возврате: слайд справа
-            slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(300)
-            )
+            slideFadePopEnter()
         },
         popExitTransition = {
-            // Анимация выхода при возврате: слайд влево
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(300)
-            )
+            slideFadePopExit()
         }
     ) {
-        composable(Screen.Exercises.route) {
+        composable(
+            route = Screen.Exercises.route,
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
+        ) {
             val viewModel: ExerciseViewModel = viewModel(
                 factory = ExerciseViewModel.Factory(repository, userId)
             )
@@ -87,7 +83,21 @@ fun NavGraph(
             )
         }
 
-        composable(Screen.AddExercise.route) {
+        composable(
+            route = Screen.AddExercise.route,
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
+        ) {
             val viewModel: ExerciseViewModel = viewModel(
                 factory = ExerciseViewModel.Factory(repository, userId)
             )
@@ -115,7 +125,19 @@ fun NavGraph(
 
         composable(
             route = Screen.SessionDetail.route,
-            arguments = listOf(navArgument("sessionId") { type = NavType.StringType })
+            arguments = listOf(navArgument("sessionId") { type = NavType.StringType }),
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
         ) { backStackEntry ->
             val sessionId = backStackEntry.arguments?.getString("sessionId") ?: return@composable
 
@@ -147,7 +169,21 @@ fun NavGraph(
             )
         }
 
-        composable(Screen.Templates.route) {
+        composable(
+            route = Screen.Templates.route,
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
+        ) {
             val viewModel: TemplatesViewModel = viewModel(
                 factory = TemplatesViewModel.Factory(repository, userId)
             )
@@ -163,7 +199,19 @@ fun NavGraph(
 
         composable(
             route = Screen.TemplateDetail.route,
-            arguments = listOf(navArgument("templateId") { type = NavType.StringType })
+            arguments = listOf(navArgument("templateId") { type = NavType.StringType }),
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
         ) { backStackEntry ->
             val templateId = backStackEntry.arguments?.getString("templateId") ?: return@composable
 
@@ -181,7 +229,21 @@ fun NavGraph(
             )
         }
 
-        composable(Screen.CreateTemplate.route) {
+        composable(
+            route = Screen.CreateTemplate.route,
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
+        ) {
             val viewModel: CreateTemplateViewModel = viewModel(
                 factory = CreateTemplateViewModel.Factory(repository, userId)
             )
@@ -197,7 +259,19 @@ fun NavGraph(
 
         composable(
             route = Screen.WorkoutSession.route,
-            arguments = listOf(navArgument("templateId") { type = NavType.StringType })
+            arguments = listOf(navArgument("templateId") { type = NavType.StringType }),
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
         ) { backStackEntry ->
             val templateId = backStackEntry.arguments?.getString("templateId") ?: return@composable
 

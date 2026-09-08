@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -20,11 +17,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.ui.screens.workouts.session.SessionExerciseState
-import ru.razumoff.razumofftraining.utils.FormatUtils.sets
 
 @Composable
 fun ExerciseSummaryCard(
@@ -38,7 +37,7 @@ fun ExerciseSummaryCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             // Заголовок упражнения
             Row(
@@ -52,7 +51,7 @@ fun ExerciseSummaryCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.FitnessCenter,
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_barbell),
                         contentDescription = null,
                         modifier = Modifier.size(20.dp),
                         tint = MaterialTheme.colorScheme.primary
@@ -65,22 +64,14 @@ fun ExerciseSummaryCard(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-                Text(
-                    text = exercise.sets.size.sets(),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .padding(start = 8.dp)
-                )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             // Список подходов
             if (exercise.sets.isNotEmpty()) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     // Заголовки колонок
                     Row(
@@ -89,35 +80,27 @@ fun ExerciseSummaryCard(
                     ) {
                         Text(
                             text = "Подход",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
                         )
                         Text(
                             text = "Повторения",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
                         )
                         Text(
                             text = "Вес",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
-                        )
-                        Text(
-                            text = "",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.weight(0.5f)
                         )
                     }
 
                     exercise.sets.forEach { set ->
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 2.dp),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -129,24 +112,15 @@ fun ExerciseSummaryCard(
                             Text(
                                 text = "${set.reps}",
                                 style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.weight(1f),
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.weight(1f)
                             )
                             Text(
                                 text = if (set.weight > 0) "${set.weight} кг" else "-",
                                 style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.weight(1f),
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.weight(1f)
                             )
-                            if (set.isWarmup) {
-                                Text(
-                                    text = "🔥",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    modifier = Modifier.weight(0.5f)
-                                )
-                            } else {
-                                Spacer(modifier = Modifier.weight(0.5f))
-                            }
                         }
                     }
                 }
@@ -154,7 +128,7 @@ fun ExerciseSummaryCard(
                 Text(
                     text = "Нет подходов",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

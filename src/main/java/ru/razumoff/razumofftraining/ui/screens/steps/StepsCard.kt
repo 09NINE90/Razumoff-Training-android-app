@@ -1,6 +1,7 @@
 package ru.razumoff.razumofftraining.ui.screens.steps
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -9,9 +10,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.razumoff.razumofftraining.ui.theme.Success
 import ru.razumoff.razumofftraining.utils.FormatUtils
 
 @Composable
@@ -26,7 +27,9 @@ fun StepsCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        ),
         shape = MaterialTheme.shapes.extraLarge
     ) {
         Box(
@@ -52,50 +55,75 @@ fun StepsCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-//                // Значение или индикатор загрузки
+                // Значение или индикатор загрузки
                 Box(
                     modifier = Modifier
                         .height(48.dp)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    if (isLoading) {
-                        // Скелетон вместо крутилки
-                        CircularProgressIndicator(
+                    if (isLoading || stepsCount == null) {
+                        Box(
                             modifier = Modifier
-                                .size(36.dp)
+                                .width(120.dp)
                                 .height(36.dp)
+                                .background(
+                                    color = MaterialTheme.colorScheme.surfaceVariant,
+                                    shape = RoundedCornerShape(6.dp)
+                                )
                         )
                     } else {
                         Text(
-                            text = stepsCount?.let { FormatUtils.formatNumberWithSpaces(it) } ?: "Нет данных",
+                            text = FormatUtils.formatNumberWithSpaces(stepsCount),
                             fontSize = 36.sp,
+                            color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.headlineMedium
                         )
                     }
                 }
 
                 // Прогресс-бар
-                val progress = if (stepsCount != null && dailyGoal > 0) {
-                    (stepsCount.toFloat() / dailyGoal).coerceIn(0f, 1f)
-                } else 0f
+                val progress = if (
+                    stepsCount != null && dailyGoal > 0
+                ) {
+                    (stepsCount.toFloat() / dailyGoal)
+                        .coerceIn(0f, 1f)
+                } else {
+                    0f
+                }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                LinearProgressIndicator(
-                    progress = { progress },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(8.dp),
-                    color = when {
-                        isLoading -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
-                        progress >= 1f -> Color.Green
-                        progress >= 0.75f -> MaterialTheme.colorScheme.primary
-                        progress >= 0.5f -> MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
-                        else -> MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
-                    },
-                    trackColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.15f)
-                )
+                if (isLoading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(8.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
+                                shape = RoundedCornerShape(4.dp)
+                            )
+                    )
+                } else {
+                    LinearProgressIndicator(
+                        progress = { progress },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(8.dp),
+                        color = when {
+                            progress >= 1f -> Success
+                            progress >= 0.75f ->
+                                MaterialTheme.colorScheme.primary
+                            progress >= 0.5f ->
+                                MaterialTheme.colorScheme.primary
+                                    .copy(alpha = 0.75f)
+                            else ->
+                                MaterialTheme.colorScheme.primary
+                                    .copy(alpha = 0.45f)
+                        },
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                }
             }
 
             // Кнопка обновления
@@ -110,10 +138,12 @@ fun StepsCard(
                     imageVector = Icons.Default.Refresh,
                     contentDescription = "Обновить",
                     modifier = Modifier.size(20.dp),
-                    tint = if (isLoading)
-                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-                    else
+                    tint = if (isLoading) {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                            .copy(alpha = 0.5f)
+                    } else {
                         MaterialTheme.colorScheme.primary
+                    }
                 )
             }
         }

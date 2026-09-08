@@ -25,7 +25,6 @@ fun WeeklyStatsCard(
     weeklyData: List<WeeklyStepData>,
     weeklyTotal: Int,
     weeklyAverage: Int,
-    isLoading: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Card(

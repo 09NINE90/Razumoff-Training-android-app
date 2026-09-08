@@ -63,13 +63,7 @@ fun BottomNavBar(
                         Icon(
                             item.icon,
                             contentDescription = item.title,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    },
-                    label = {
-                        Text(
-                            item.title,
-                            fontSize = MaterialTheme.typography.labelSmall.fontSize
+                            modifier = Modifier.size(34.dp)
                         )
                     },
                     selected = currentRoute == item.screen.route,

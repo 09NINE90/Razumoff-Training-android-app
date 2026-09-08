@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import ru.razumoff.razumofftraining.ui.theme.Success
 import ru.razumoff.razumofftraining.utils.FormatUtils
 
 data class WeeklyStepData(
@@ -37,6 +38,32 @@ fun WeeklyChart(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         data.forEach { item ->
+
+            val safeMaxValue = maxValue.coerceAtLeast(1)
+
+            val goalProgress =
+                (item.goal.toFloat() / safeMaxValue)
+                    .coerceIn(0f, 1f)
+
+            val stepsProgress =
+                (item.steps.toFloat() / safeMaxValue)
+                    .coerceIn(0f, 1f)
+
+            val barColor = when {
+                item.steps >= item.goal ->
+                    Success
+
+                item.steps >= item.goal * 0.75f ->
+                    MaterialTheme.colorScheme.primary
+
+                item.steps >= item.goal * 0.5f ->
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.75f)
+
+                else ->
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.45f)
+            }
+
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f)
@@ -48,7 +75,8 @@ fun WeeklyChart(
                         .fillMaxWidth()
                         .padding(horizontal = 2.dp)
                 ) {
-                    // Фоновый столбец (цель)
+
+                    // Цель на день
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -58,25 +86,20 @@ fun WeeklyChart(
                             .align(Alignment.BottomCenter)
                             .padding(horizontal = 2.dp)
                             .background(
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
+                                color = MaterialTheme.colorScheme.surfaceVariant,
                                 shape = MaterialTheme.shapes.extraSmall
                             )
                     )
 
-                    // Основной столбец (шаги)
+                    // Фактические шаги
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(
-                                ((item.steps.toFloat() / maxValue) * 100.dp)
-                            )
+                            .height(stepsProgress * 100.dp)
                             .align(Alignment.BottomCenter)
                             .padding(horizontal = 2.dp)
                             .background(
-                                color = if (item.steps >= item.goal)
-                                    MaterialTheme.colorScheme.primary
-                                else
-                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                                color = barColor,
                                 shape = MaterialTheme.shapes.extraSmall
                             )
                     )
@@ -88,14 +111,14 @@ fun WeeklyChart(
                 Text(
                     text = item.day,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 // Количество шагов
                 Text(
                     text = FormatUtils.formatNumberWithSpaces(item.steps),
                     fontSize = 10.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
