@@ -18,7 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.WorkoutSession
 import ru.razumoff.razumofftraining.ui.theme.Success
 import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
@@ -95,7 +98,7 @@ fun SessionCard(
             // Статус завершения
             if (session.isCompleted) {
                 Icon(
-                    imageVector = Icons.Default.CheckCircle,
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_check_circle_fill),
                     contentDescription = "Завершено",
                     tint = Success,
                     modifier = Modifier.size(20.dp)

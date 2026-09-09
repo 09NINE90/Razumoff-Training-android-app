@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ru.razumoff.razumofftraining.database.entities.WorkoutSessionEntity
 
 @Dao
@@ -19,6 +20,9 @@ interface WorkoutSessionDao {
 
     @Query("SELECT * FROM workout_sessions WHERE userId = :userId ORDER BY date DESC LIMIT 10")
     suspend fun getLastTenSessionsByUser(userId: String): List<WorkoutSessionEntity>
+
+    @Query("SELECT * FROM workout_sessions WHERE userId = :userId ORDER BY date DESC LIMIT 10")
+    fun observeLastTenSessionsByUser(userId: String): Flow<List<WorkoutSessionEntity>>
 
     @Query("SELECT * FROM workout_sessions WHERE userId = :userId ORDER BY date DESC LIMIT 5")
     suspend fun getLastFiveSessionsByUser(userId: String): List<WorkoutSessionEntity>

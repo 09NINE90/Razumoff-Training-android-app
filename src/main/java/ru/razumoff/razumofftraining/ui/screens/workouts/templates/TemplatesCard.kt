@@ -68,7 +68,7 @@ fun TemplatesCard(
             }
 
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right),
                 contentDescription = "Перейти к шаблонам",
                 tint = MaterialTheme.colorScheme.primary
             )

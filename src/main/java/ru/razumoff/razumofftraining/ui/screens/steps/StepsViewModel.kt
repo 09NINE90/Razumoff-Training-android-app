@@ -32,8 +32,11 @@ class StepsViewModel : ViewModel() {
     private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: String? get() = _errorMessage.value
 
-    private val _isLoading = mutableStateOf(false)
-    val isLoading: Boolean get() = _isLoading.value
+    private val _isInitialLoading = mutableStateOf(true)
+    val isInitialLoading: Boolean get() = _isInitialLoading.value
+
+    private val _isRefreshing = mutableStateOf(false)
+    val isRefreshing: Boolean get() = _isRefreshing.value
 
     private val _weeklyData = mutableStateOf<List<WeeklyStepData>>(emptyList())
     val weeklyData: List<WeeklyStepData> get() = _weeklyData.value
@@ -44,7 +47,7 @@ class StepsViewModel : ViewModel() {
     private val _weeklyAverage = mutableStateOf(0)
     val weeklyAverage: Int get() = _weeklyAverage.value
 
-    private val _dailyGoal = mutableStateOf(5000)
+    private val _dailyGoal = mutableStateOf(10_000)
     val dailyGoal: Int get() = _dailyGoal.value
 
     private val permissions = setOf(
@@ -71,10 +74,12 @@ class StepsViewModel : ViewModel() {
                 Log.w(LOG_TAG, "Health Connect не доступен")
                 _errorMessage.value = "Health Connect не установлен"
                 _isConnected.value = false
+                _isInitialLoading.value = false
             }
         } catch (e: Exception) {
             Log.e(LOG_TAG, "Ошибка: ${e.message}", e)
             _errorMessage.value = "Ошибка: ${e.message}"
+            _isInitialLoading.value = false
         }
     }
 
@@ -88,17 +93,22 @@ class StepsViewModel : ViewModel() {
 
                 if (granted.containsAll(permissions)) {
                     Log.d(LOG_TAG, "Все разрешения есть!")
+
                     _isConnected.value = true
                     _errorMessage.value = null
-                    loadStepsLastSevenDays(context)
+
+                    loadInitialData(context)
                 } else {
                     Log.w(LOG_TAG, "Нужны разрешения")
+
                     _isConnected.value = false
+                    _isInitialLoading.value = false
                     _errorMessage.value = "Требуются разрешения"
                 }
             } catch (e: Exception) {
                 Log.e(LOG_TAG, "Ошибка: ${e.message}", e)
                 _errorMessage.value = "Ошибка: ${e.message}"
+                _isInitialLoading.value = false
             }
         }
     }
@@ -109,10 +119,12 @@ class StepsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val granted = client.permissionController.getGrantedPermissions()
+
                 if (granted.containsAll(permissions)) {
                     _isConnected.value = true
                     _errorMessage.value = null
-                    loadStepsLastSevenDays(context)
+
+                    loadInitialData(context)
                 } else {
                     Log.d(LOG_TAG, "Запрашиваем разрешения...")
                     requestPermissionsLauncher?.invoke(permissions)
@@ -120,136 +132,32 @@ class StepsViewModel : ViewModel() {
             } catch (e: Exception) {
                 Log.e(LOG_TAG, "Ошибка: ${e.message}", e)
                 _errorMessage.value = "Ошибка: ${e.message}"
+                _isInitialLoading.value = false
             }
         }
     }
 
-    // Загрузка шагов
-    fun loadStepsToday(context: Context) {
-        Log.d(LOG_TAG, "Загрузка шагов...")
-        val client = HealthConnectClient.getOrCreate(context)
-
-        viewModelScope.launch {
-            try {
-                _isLoading.value = true
-                val zoneId = ZoneId.systemDefault()
-                val now = LocalDate.now(zoneId)
-
-                val startOfDay = now.atStartOfDay(zoneId).toInstant()
-                val endOfDay = now.plusDays(1).atStartOfDay(zoneId).toInstant()
-
-                Log.d(LOG_TAG, "Временная зона: ${zoneId.id}")
-                Log.d(LOG_TAG, "Начало дня (локальное): ${now.atStartOfDay(zoneId)}")
-                Log.d(LOG_TAG, "Диапазон: $startOfDay - $endOfDay")
-
-                val response = client.aggregate(
-                    AggregateRequest(
-                        metrics = setOf(StepsRecord.COUNT_TOTAL),
-                        timeRangeFilter = TimeRangeFilter.between(startOfDay, endOfDay)
-                    )
-                )
-
-                Log.d(LOG_TAG, "Ответ: $response")
-
-                val totalSteps = response[StepsRecord.COUNT_TOTAL]
-                Log.d(LOG_TAG, "Получено шагов: $totalSteps")
-
-                _stepsCount.value = totalSteps ?: 0L
-                _errorMessage.value = null
-
-            } catch (e: Exception) {
-                Log.e(LOG_TAG, "Ошибка загрузки шагов: ${e.message}", e)
-                _errorMessage.value = "Ошибка загрузки: ${e.message}"
-                _stepsCount.value = null
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun loadStepsWeek(context: Context){
-        Log.d(LOG_TAG, "Загрузка статистики за неделю...")
-        val client = HealthConnectClient.getOrCreate(context)
-
-        viewModelScope.launch {
-            try {
-                _isLoading.value = true
-                val zoneId = ZoneId.systemDefault()
-                val today = LocalDate.now(zoneId)
-
-                // Получаем начало недели (понедельник)
-                val startOfWeek = today.with(DayOfWeek.MONDAY)
-                val endOfWeek = startOfWeek.plusDays(7)
-
-                Log.d(LOG_TAG, "Неделя: $startOfWeek - $endOfWeek")
-
-                // Получаем цель из Health Connect (если есть)
-                loadDailyGoal(context)
-
-                // Получаем данные за каждый день недели
-                val weeklySteps = mutableListOf<WeeklyStepData>()
-                var totalSteps = 0
-
-                for (i in 0 until 7) {
-                    val date = startOfWeek.plusDays(i.toLong())
-                    val startOfDay = date.atStartOfDay(zoneId).toInstant()
-                    val endOfDay = date.plusDays(1).atStartOfDay(zoneId).toInstant()
-
-                    val response = client.aggregate(
-                        AggregateRequest(
-                            metrics = setOf(StepsRecord.COUNT_TOTAL),
-                            timeRangeFilter = TimeRangeFilter.between(startOfDay, endOfDay)
-                        )
-                    )
-
-                    val steps = response[StepsRecord.COUNT_TOTAL] ?: 0L
-                    val dayName = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
-
-                    weeklySteps.add(
-                        WeeklyStepData(
-                            day = dayName,
-                            steps = steps.toInt(),
-                            goal = _dailyGoal.value
-                        )
-                    )
-                    totalSteps += steps.toInt()
-
-                    Log.d(LOG_TAG, "${date}: $steps шагов")
-                }
-
-                _weeklyData.value = weeklySteps
-                _weeklyTotal.value = totalSteps
-                _weeklyAverage.value = if (weeklySteps.isNotEmpty()) totalSteps / weeklySteps.size else 0
-
-                // Загружаем данные за сегодня
-                loadStepsToday(context)
-
-                _errorMessage.value = null
-
-            } catch (e: Exception) {
-                Log.e(LOG_TAG, "Ошибка загрузки недельной статистики: ${e.message}", e)
-                _errorMessage.value = "Ошибка загрузки: ${e.message}"
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun loadStepsLastSevenDays(context: Context) {
+    fun loadStepsLastSevenDays(
+        context: Context,
+        initialLoad: Boolean
+    ) {
         Log.d(LOG_TAG, "Загрузка статистики за последние 7 дней...")
         val client = HealthConnectClient.getOrCreate(context)
 
         viewModelScope.launch {
             try {
-                _isLoading.value = true
+                if (initialLoad) {
+                    _isInitialLoading.value = true
+                } else {
+                    _isRefreshing.value = true
+                }
+
                 val zoneId = ZoneId.systemDefault()
                 val today = LocalDate.now(zoneId)
 
                 val days = (0 until 7).map { today.minusDays(it.toLong()) }.reversed()
 
                 Log.d(LOG_TAG, "Период: ${days.first()} - ${days.last()} (последние 7 дней)")
-
-                loadDailyGoal(context)
 
                 val weeklySteps = mutableListOf<WeeklyStepData>()
                 var totalSteps = 0
@@ -267,7 +175,12 @@ class StepsViewModel : ViewModel() {
 
                     val steps = response[StepsRecord.COUNT_TOTAL] ?: 0L
 
-                    val dayName = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                    if (date == today) {
+                        _stepsCount.value = steps
+                    }
+
+                    val dayName =
+                        date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
                     val label = if (date == today) {
                         "Сегодня"
@@ -289,56 +202,64 @@ class StepsViewModel : ViewModel() {
 
                 _weeklyData.value = weeklySteps
                 _weeklyTotal.value = totalSteps
-                _weeklyAverage.value = if (weeklySteps.isNotEmpty()) totalSteps / weeklySteps.size else 0
-
-                loadStepsToday(context)
+                _weeklyAverage.value =
+                    if (weeklySteps.isNotEmpty()) {
+                        totalSteps / weeklySteps.size
+                    } else {
+                        0
+                    }
 
                 _errorMessage.value = null
 
             } catch (e: Exception) {
-                Log.e(LOG_TAG, "Ошибка загрузки статистики: ${e.message}", e)
-                _errorMessage.value = "Ошибка загрузки: ${e.message}"
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
+                Log.e(
+                    LOG_TAG,
+                    "Ошибка загрузки статистики: ${e.message}",
+                    e
+                )
 
-    private fun loadDailyGoal(context: Context) {
-        try {
-            val client = HealthConnectClient.getOrCreate(context)
-            viewModelScope.launch {
-                try {
-                    _dailyGoal.value = 10_000 // Дефолтная цель
-                    Log.d(LOG_TAG, "Цель на день: ${_dailyGoal.value}")
-                } catch (e: Exception) {
-                    Log.e(LOG_TAG, "Ошибка загрузки цели: ${e.message}")
-                    _dailyGoal.value = 10_000
-                }
+                _errorMessage.value =
+                    "Ошибка загрузки: ${e.message}"
+
+            } finally {
+                _isInitialLoading.value = false
+                _isRefreshing.value = false
             }
-        } catch (e: Exception) {
-            Log.e(LOG_TAG, "Ошибка загрузки цели: ${e.message}")
-            _dailyGoal.value = 10_000
         }
     }
 
     // Обновить все данные
+    fun loadInitialData(context: Context) {
+        loadStepsLastSevenDays(
+            context = context,
+            initialLoad = true
+        )
+    }
+
     fun refreshAllData(context: Context) {
-        loadStepsLastSevenDays(context)
+        loadStepsLastSevenDays(
+            context = context,
+            initialLoad = false
+        )
     }
 
 
     // Обработка результата запроса разрешений
     fun onPermissionsResult(granted: Set<String>, context: Context) {
         Log.d(LOG_TAG, "Результат запроса разрешений: $granted")
+
         if (granted.containsAll(permissions)) {
             Log.d(LOG_TAG, "Все разрешения получены!")
+
             _isConnected.value = true
             _errorMessage.value = null
-            loadStepsLastSevenDays(context)
+
+            loadInitialData(context)
         } else {
             Log.w(LOG_TAG, "Не все разрешения получены")
+
             _isConnected.value = false
+            _isInitialLoading.value = false
             _errorMessage.value = "Разрешения не получены"
         }
     }

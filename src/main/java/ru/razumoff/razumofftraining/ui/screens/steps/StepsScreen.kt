@@ -37,18 +37,16 @@ fun StepsScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
     val isConnected = viewModel.isConnected
     val stepsCount = viewModel.stepsCount
     val errorMessage = viewModel.errorMessage
-    val isLoading = viewModel.isLoading
     val weeklyData = viewModel.weeklyData
     val weeklyTotal = viewModel.weeklyTotal
     val weeklyAverage = viewModel.weeklyAverage
     val dailyGoal = viewModel.dailyGoal
-
-    var isInitialLoad by remember { mutableStateOf(true) }
+    val isInitialLoading = viewModel.isInitialLoading
+    val isRefreshing = viewModel.isRefreshing
 
     // Регистрируем лаунчер для запроса разрешений
     val requestPermissionsLauncher = rememberLauncherForActivityResult(
@@ -63,20 +61,13 @@ fun StepsScreen(
             requestPermissionsLauncher.launch(permissions)
         }
         viewModel.checkHealthConnect(context)
-        isInitialLoad = false
-    }
-
-    LaunchedEffect(isConnected) {
-        if (isConnected) {
-            viewModel.refreshAllData(context)
-        }
     }
 
     // UI экрана
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        if (isInitialLoad || isLoading) {
+        if (isInitialLoading) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -89,7 +80,7 @@ fun StepsScreen(
                     CircularProgressIndicator()
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = if (isInitialLoad) "Подключение к Health Connect..." else "Загрузка данных...",
+                        text = "Загрузка данных...",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -149,7 +140,7 @@ fun StepsScreen(
                     StepsCard(
                         stepsCount = stepsCount,
                         dailyGoal = dailyGoal,
-                        isLoading = isLoading,
+                        isRefreshing = isRefreshing,
                         onRefresh = { viewModel.refreshAllData(context) }
                     )
 

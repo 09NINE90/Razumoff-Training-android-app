@@ -10,7 +10,7 @@ import ru.razumoff.razumofftraining.database.repository.GymRepository
 import ru.razumoff.razumofftraining.ui.screens.exercises.AddExerciseScreen
 import ru.razumoff.razumofftraining.ui.screens.exercises.ExercisesScreen
 import ru.razumoff.razumofftraining.ui.screens.steps.StepsScreen
-import ru.razumoff.razumofftraining.viewmodel.ExerciseViewModel
+import ru.razumoff.razumofftraining.ui.screens.exercises.ExerciseViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -119,7 +119,6 @@ fun NavGraph(
         composable(Screen.UserProfile.route) {
             UserProfileScreen(
                 viewModel = viewModelUser,
-                onBack = { navController.popBackStack() }
             )
         }
 

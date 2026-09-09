@@ -1,11 +1,13 @@
-package ru.razumoff.razumofftraining.viewmodel
+package ru.razumoff.razumofftraining.ui.screens.exercises
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.razumoff.razumofftraining.database.mappers.ExerciseMapper
 import ru.razumoff.razumofftraining.models.Exercise
@@ -19,8 +21,14 @@ class ExerciseViewModel(
     private val _exercises = MutableStateFlow<List<Exercise>>(emptyList())
     val exercises: StateFlow<List<Exercise>> = _exercises.asStateFlow()
 
-    private val _exercisesCount = MutableStateFlow(0)
-    val exercisesCount: StateFlow<Int> = _exercisesCount.asStateFlow()
+    val exercisesCount: StateFlow<Int> =
+        repository
+            .observeExercisesCount()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = 0
+            )
 
 
     private val _isLoading = MutableStateFlow(false)
@@ -46,21 +54,6 @@ class ExerciseViewModel(
                 val entities = repository.getAllExercises()
                 val domainExercises = entities.map { ExerciseMapper.toDomain(it) }
                 _exercises.value = domainExercises
-                _errorMessage.value = null
-            } catch (e: Exception) {
-                _errorMessage.value = "Ошибка загрузки упражнений: ${e.message}"
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun loadExercisesCount() {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                val entitiesCount = repository.getExercisesCount()
-                _exercisesCount.value = entitiesCount
                 _errorMessage.value = null
             } catch (e: Exception) {
                 _errorMessage.value = "Ошибка загрузки упражнений: ${e.message}"

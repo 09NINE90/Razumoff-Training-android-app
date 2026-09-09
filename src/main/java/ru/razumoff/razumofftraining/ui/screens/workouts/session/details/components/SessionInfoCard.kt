@@ -10,10 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePicker
@@ -35,8 +31,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.WorkoutSession
 import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
 import ru.razumoff.razumofftraining.utils.FormatUtils.sets
@@ -107,7 +106,7 @@ fun SessionInfoCard(
                     modifier = Modifier.clickable { showDatePicker = true }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.CalendarToday,
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_calendar_dots),
                         contentDescription = "Изменить дату",
                         modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -119,7 +118,7 @@ fun SessionInfoCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Icon(
-                        imageVector = Icons.Default.Edit,
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_pencil_simple),
                         contentDescription = "Редактировать",
                         modifier = Modifier.size(14.dp),
                         tint = MaterialTheme.colorScheme.primary
@@ -133,7 +132,7 @@ fun SessionInfoCard(
                     modifier = Modifier.clickable { showTimePicker = true }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Timer,
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_clock),
                         contentDescription = "Изменить время",
                         modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -145,7 +144,7 @@ fun SessionInfoCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Icon(
-                        imageVector = Icons.Default.Edit,
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_pencil_simple),
                         contentDescription = "Редактировать",
                         modifier = Modifier.size(14.dp),
                         tint = MaterialTheme.colorScheme.primary
@@ -159,7 +158,7 @@ fun SessionInfoCard(
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Timer,
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_clock),
                             contentDescription = null,
                             modifier = Modifier.size(16.dp),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant

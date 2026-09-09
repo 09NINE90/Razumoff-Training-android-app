@@ -23,4 +23,7 @@ interface WorkoutTemplateDao {
 
     @Query("DELETE FROM workout_templates WHERE id = :templateId AND userId = :userId")
     suspend fun deleteTemplate(templateId: String, userId: String)
+
+    @Query("SELECT COUNT(*) FROM workout_templates WHERE userId = :userId")
+    fun observeTemplatesCount(userId: String): Flow<Int>
 }

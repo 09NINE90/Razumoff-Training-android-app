@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.ui.theme.Success
 import ru.razumoff.razumofftraining.utils.FormatUtils
 
@@ -19,7 +20,7 @@ import ru.razumoff.razumofftraining.utils.FormatUtils
 fun StepsCard(
     stepsCount: Long?,
     dailyGoal: Int,
-    isLoading: Boolean = false,
+    isRefreshing: Boolean = false,
     onRefresh: () -> Unit,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
@@ -62,7 +63,7 @@ fun StepsCard(
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    if (isLoading || stepsCount == null) {
+                    if (isRefreshing || stepsCount == null) {
                         Box(
                             modifier = Modifier
                                 .width(120.dp)
@@ -94,7 +95,7 @@ fun StepsCard(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                if (isLoading) {
+                if (isRefreshing) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -129,16 +130,16 @@ fun StepsCard(
             // Кнопка обновления
             IconButton(
                 onClick = onRefresh,
-                enabled = !isLoading,
+                enabled = !isRefreshing,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .size(32.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Default.Refresh,
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_arrows_clockwise_fill),
                     contentDescription = "Обновить",
                     modifier = Modifier.size(20.dp),
-                    tint = if (isLoading) {
+                    tint = if (isRefreshing) {
                         MaterialTheme.colorScheme.onSurfaceVariant
                             .copy(alpha = 0.5f)
                     } else {

@@ -49,6 +49,10 @@ class GymRepository(
         return database.exerciseDao().getAllExercises()
     }
 
+    fun observeExercisesCount(): Flow<Int> {
+        return database.exerciseDao().observeExercisesCount()
+    }
+
     suspend fun getExercisesCount(): Int {
         return database.exerciseDao().getExercisesCount()
     }
@@ -81,6 +85,10 @@ class GymRepository(
     // --- Шаблоны тренировок ---
     suspend fun insertTemplate(template: WorkoutTemplateEntity) {
         database.workoutTemplateDao().insertTemplate(template)
+    }
+
+    fun observeTemplatesCount(userId: String): Flow<Int> {
+        return database.workoutTemplateDao().observeTemplatesCount(userId)
     }
 
     suspend fun getTemplatesByUser(userId: String): List<WorkoutTemplateEntity> {
@@ -155,6 +163,10 @@ class GymRepository(
 
     suspend fun getLastTenSessionsByUser(userId: String): List<WorkoutSessionEntity> {
         return database.workoutSessionDao().getLastTenSessionsByUser(userId)
+    }
+
+    fun observeLastTenSessionsByUser(userId: String): Flow<List<WorkoutSessionEntity>> {
+        return database.workoutSessionDao().observeLastTenSessionsByUser(userId)
     }
 
     suspend fun getLastFiveSessionsByUser(userId: String): List<WorkoutSessionEntity> {

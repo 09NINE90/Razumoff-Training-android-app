@@ -1,46 +1,25 @@
 package ru.razumoff.razumofftraining.ui.screens.workouts.session.details
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
-import ru.razumoff.razumofftraining.models.SessionExercise
-import ru.razumoff.razumofftraining.models.WorkoutSession
-import ru.razumoff.razumofftraining.models.WorkoutSet
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razumofftraining.ui.screens.workouts.session.SessionDetailViewModel
 import ru.razumoff.razumofftraining.ui.screens.workouts.session.details.components.SessionExerciseDetailCard
 import ru.razumoff.razumofftraining.ui.screens.workouts.session.details.components.SessionInfoCard
 import ru.razumoff.razumofftraining.ui.screens.workouts.session.details.components.SessionInfoCopyButtons
 import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
-import ru.razumoff.razumofftraining.utils.FormatUtils.sets
-import ru.razumoff.razumofftraining.utils.WorkoutFormatter
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,7 +118,7 @@ fun SessionDetailScreen(
             headerText = "Детали тренировки",
             onBackClick = onBack,
             showBackButton = true,
-            actionIcon = Icons.Default.Delete,
+            actionIcon = ImageVector.vectorResource(R.drawable.ic_trash),
             actionDescription = "Удалить",
             onActionClick = { showDeleteDialog = true },
             actionButtonColor = MaterialTheme.colorScheme.error,

@@ -19,6 +19,9 @@ interface ExerciseDao {
     @Query("SELECT COUNT(*) FROM exercises")
     suspend fun getExercisesCount(): Int
 
+    @Query("SELECT COUNT(*) FROM exercises")
+    fun observeExercisesCount(): Flow<Int>
+
     @Query("DELETE FROM exercises")
     suspend fun deleteAllExercises()
 

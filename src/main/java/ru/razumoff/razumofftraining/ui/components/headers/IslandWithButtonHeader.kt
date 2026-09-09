@@ -25,7 +25,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 
 @Composable
 fun IslandWithButtonHeader(
@@ -67,7 +69,7 @@ fun IslandWithButtonHeader(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_left),
                             contentDescription = "Назад",
                             tint = MaterialTheme.colorScheme.onSurface
                         )
