@@ -1,4 +1,4 @@
-package ru.razumoff.razumofftraining.ui.screens.steps
+package ru.razumoff.razumofftraining.ui.screens.steps.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -8,11 +8,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.ui.theme.Success
 import ru.razumoff.razumofftraining.utils.FormatUtils
 
@@ -21,7 +18,6 @@ fun StepsCard(
     stepsCount: Long?,
     dailyGoal: Int,
     isRefreshing: Boolean = false,
-    onRefresh: () -> Unit,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     Card(
@@ -125,27 +121,6 @@ fun StepsCard(
                         trackColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 }
-            }
-
-            // Кнопка обновления
-            IconButton(
-                onClick = onRefresh,
-                enabled = !isRefreshing,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .size(32.dp)
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_arrows_clockwise_fill),
-                    contentDescription = "Обновить",
-                    modifier = Modifier.size(20.dp),
-                    tint = if (isRefreshing) {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                            .copy(alpha = 0.5f)
-                    } else {
-                        MaterialTheme.colorScheme.primary
-                    }
-                )
             }
         }
     }

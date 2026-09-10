@@ -39,6 +39,7 @@ fun IslandWithButtonHeader(
     actionDescription: String = "Действие",
     onActionClick: (() -> Unit)? = null,
     showActionButton: Boolean = true,
+    enableActionButton: Boolean = true,
     actionButtonColor: Color = MaterialTheme.colorScheme.primary,
     actionIconTint: Color = MaterialTheme.colorScheme.onPrimary
 ){
@@ -107,10 +108,17 @@ fun IslandWithButtonHeader(
             Surface(
                 modifier = Modifier
                     .size(50.dp)
-                    .clickable { onActionClick() },
+                    .clickable(
+                        enabled = enableActionButton,
+                        onClick = onActionClick
+                    ),
                 shape = RoundedCornerShape(50.dp),
-                color = actionButtonColor,
-                shadowElevation = 8.dp,
+                color = if (enableActionButton) {
+                    actionButtonColor
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
+                },
+                shadowElevation = if (enableActionButton) 8.dp else 2.dp,
                 tonalElevation = 0.dp
             ) {
                 Box(
@@ -122,7 +130,11 @@ fun IslandWithButtonHeader(
                             imageVector = it,
                             contentDescription = actionDescription,
                             modifier = Modifier.size(28.dp),
-                            tint = actionIconTint
+                            tint = if (enableActionButton) {
+                                actionIconTint
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            }
                         )
                     }
                 }

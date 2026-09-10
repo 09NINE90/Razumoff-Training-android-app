@@ -92,8 +92,7 @@ fun TemplatesScreen(
                         ) { template ->
                             TemplateCard(
                                 template = template,
-                                onClick = { onTemplateClick(template) },
-                                onDelete = { viewModel.deleteTemplate(template.id) }
+                                onClick = { onTemplateClick(template) }
                             )
                         }
                     }

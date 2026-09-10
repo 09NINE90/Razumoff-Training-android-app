@@ -80,6 +80,7 @@ class WorkoutSessionViewModel(
                     userId = userId,
                     templateId = templateId,
                     templateName = template.name,
+                    workoutType = template.workoutType,
                     isCompleted = false
                 )
                 repository.insertSession(sessionEntity)

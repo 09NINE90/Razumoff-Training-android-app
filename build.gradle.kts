@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+val appVersionName = "1.3.1"
+
 android {
     namespace = "ru.razumoff.razumofftraining"
     compileSdk = 37
@@ -14,7 +16,7 @@ android {
         minSdk = 30
         targetSdk = 37
         versionCode = 1
-        versionName = "1.2.1"
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +38,18 @@ android {
 
     buildFeatures {
         compose = true
+    }
+}
+
+androidComponents {
+    onVariants(
+        selector().withBuildType("debug")
+    ) { variant ->
+        variant.outputs.forEach { output ->
+            output.outputFileName.set(
+                "RazumoffTrainingApp-debug-v$appVersionName.apk"
+            )
+        }
     }
 }
 

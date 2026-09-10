@@ -1,35 +1,23 @@
 package ru.razumoff.razumofftraining.ui.screens.steps
 
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.times
 import androidx.health.connect.client.PermissionController
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
-import ru.razumoff.razumofftraining.ui.components.charts.WeeklyChart
-import ru.razumoff.razumofftraining.ui.components.charts.WeeklyStepData
-import ru.razumoff.razumofftraining.utils.FormatUtils
-import java.time.DayOfWeek
-import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
+import ru.razumoff.razumofftraining.R
+import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
+import ru.razumoff.razumofftraining.ui.screens.steps.components.StepsCard
+import ru.razumoff.razumofftraining.ui.screens.steps.components.WeeklyStatsCard
+import ru.razumoff.razumofftraining.ui.screens.steps.viewmodel.StepsViewModel
 
 @Composable
 fun StepsScreen(
@@ -65,13 +53,13 @@ fun StepsScreen(
 
     // UI экрана
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
     ) {
         if (isInitialLoading) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
@@ -88,12 +76,12 @@ fun StepsScreen(
             }
         } else {
             Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                modifier = modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.height(60.dp))
+
                 // Шапка
                 if (!isConnected) {
                     Row(
@@ -140,8 +128,7 @@ fun StepsScreen(
                     StepsCard(
                         stepsCount = stepsCount,
                         dailyGoal = dailyGoal,
-                        isRefreshing = isRefreshing,
-                        onRefresh = { viewModel.refreshAllData(context) }
+                        isRefreshing = isRefreshing
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -167,5 +154,17 @@ fun StepsScreen(
                 }
             }
         }
+
+        // Плавающий заголовок
+        IslandWithButtonHeader(
+            headerText = "Шаги",
+            actionDescription = "Обновить",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            onActionClick = { viewModel.refreshAllData(context) },
+            actionIcon = ImageVector.vectorResource(R.drawable.ic_arrows_clockwise_fill),
+            enableActionButton = !isRefreshing
+        )
     }
 }

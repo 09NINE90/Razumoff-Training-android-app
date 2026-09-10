@@ -1,4 +1,4 @@
-package ru.razumoff.razumofftraining.ui.screens.templates
+package ru.razumoff.razumofftraining.ui.screens.templates.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +13,7 @@ import ru.razumoff.razumofftraining.database.mappers.ExerciseMapper
 import ru.razumoff.razumofftraining.models.Exercise
 import ru.razumoff.razumofftraining.models.TemplateExercise
 import ru.razumoff.razumofftraining.database.repository.GymRepository
+import ru.razumoff.razumofftraining.models.WorkoutType
 import java.util.UUID
 
 class CreateTemplateViewModel(
@@ -32,6 +33,9 @@ class CreateTemplateViewModel(
 
     private val _availableExercises = MutableStateFlow<List<Exercise>>(emptyList())
     val availableExercises: StateFlow<List<Exercise>> = _availableExercises.asStateFlow()
+
+    private val _workoutType = MutableStateFlow(WorkoutType.REGULAR)
+    val workoutType: StateFlow<WorkoutType> = _workoutType.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
@@ -101,20 +105,22 @@ class CreateTemplateViewModel(
         }
     }
 
-    fun saveTemplate(): Boolean {
+    fun saveTemplate(onSuccess: () -> Unit) {
         val name = _templateName.value.trim()
+
         if (name.isEmpty()) {
             _errorMessage.value = "Введите название тренировки"
-            return false
+            return
         }
 
         if (_selectedExercises.value.isEmpty()) {
             _errorMessage.value = "Добавьте хотя бы одно упражнение"
-            return false
+            return
         }
 
         viewModelScope.launch {
             _isSaving.value = true
+
             try {
                 val templateId = UUID.randomUUID().toString()
 
@@ -123,11 +129,14 @@ class CreateTemplateViewModel(
                     id = templateId,
                     userId = userId,
                     name = name,
-                    description = _templateDescription.value.takeIf { it.isNotBlank() }
+                    description = _templateDescription.value
+                        .takeIf { it.isNotBlank() },
+                    workoutType = _workoutType.value.name
                 )
+
                 repository.insertTemplate(templateEntity)
 
-                // 2. Сохраняем упражнения в шаблоне
+                // 2. Сохраняем упражнения
                 val exerciseEntities = _selectedExercises.value.mapIndexed { index, exercise ->
                     TemplateExerciseEntity(
                         templateId = templateId,
@@ -136,17 +145,23 @@ class CreateTemplateViewModel(
                         notes = exercise.notes
                     )
                 }
+
                 repository.insertTemplateExercises(exerciseEntities)
 
                 _errorMessage.value = null
-                _isSaving.value = false
-                return@launch
+
+                onSuccess()
+
             } catch (e: Exception) {
                 _errorMessage.value = "Ошибка сохранения: ${e.message}"
+            } finally {
                 _isSaving.value = false
             }
         }
-        return true
+    }
+
+    fun setWorkoutType(type: WorkoutType) {
+        _workoutType.value = type
     }
 
     fun resetState() {

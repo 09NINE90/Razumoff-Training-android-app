@@ -1,6 +1,5 @@
 package ru.razumoff.razumofftraining.ui.screens.templates
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,18 +10,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.TemplateExercise
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
+import ru.razumoff.razumofftraining.ui.screens.templates.viewmodel.TemplateDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TemplateDetailScreen(
     viewModel: TemplateDetailViewModel = viewModel(),
     onBack: () -> Unit,
-    onStartWorkout: () -> Unit
+    onStartWorkout: () -> Unit,
+    onEdit: () -> Unit
 ) {
     val template by viewModel.template.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -111,7 +115,10 @@ fun TemplateDetailScreen(
             headerText = template?.name ?: "Детали шаблона",
             onBackClick = onBack,
             showBackButton = true,
-            showActionButton = false
+            showActionButton = true,
+            actionIcon = ImageVector.vectorResource(R.drawable.ic_pencil_simple),
+            actionDescription = "Редактировать",
+            onActionClick = onEdit
         )
     }
 }

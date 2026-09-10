@@ -28,8 +28,7 @@ import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
 @Composable
 fun TemplateCard(
     template: WorkoutTemplate,
-    onClick: () -> Unit,
-    onDelete: () -> Unit
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -68,13 +67,13 @@ fun TemplateCard(
             }
 
             IconButton(
-                onClick = onDelete,
+                onClick = onClick,
                 modifier = Modifier.size(36.dp)
             ) {
                 Icon(
-                    ImageVector.vectorResource(R.drawable.ic_trash),
-                    contentDescription = "Удалить шаблон",
-                    tint = MaterialTheme.colorScheme.error
+                    ImageVector.vectorResource(R.drawable.ic_arrow_right),
+                    contentDescription = "Перейти в шаблон",
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }

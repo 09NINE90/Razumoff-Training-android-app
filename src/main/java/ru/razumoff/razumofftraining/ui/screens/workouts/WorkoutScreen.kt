@@ -22,6 +22,7 @@ import ru.razumoff.razumofftraining.ui.screens.workouts.session.SessionCard
 import ru.razumoff.razumofftraining.ui.screens.workouts.templates.TemplatesCard
 import ru.razumoff.razumofftraining.utils.FormatUtils.workouts
 import ru.razumoff.razumofftraining.ui.screens.exercises.ExerciseViewModel
+import ru.razumoff.razumofftraining.ui.screens.statistics.StatisticsCard
 import kotlin.collections.lastIndex
 
 @Composable
@@ -31,6 +32,7 @@ fun WorkoutScreen(
     onTemplatesClick: () -> Unit,
     onExerciseClick: () -> Unit,
     onSessionClick: (WorkoutSession) -> Unit,
+    onStatisticsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -77,15 +79,22 @@ fun WorkoutScreen(
             ) {
                 Spacer(modifier = Modifier.height(70.dp))
 
+                ExercisesCard(
+                    exercisesCount = exercisesCount,
+                    onClick = onExerciseClick
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
                 TemplatesCard(
                     templatesCount = templatesCount,
                     onClick = onTemplatesClick
                 )
+
                 Spacer(modifier = Modifier.height(12.dp))
 
-                ExercisesCard(
-                    exercisesCount = exercisesCount,
-                    onClick = onExerciseClick
+                StatisticsCard(
+                    onClick = onStatisticsClick
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))

@@ -30,6 +30,22 @@ interface WorkoutSessionDao {
     @Query("DELETE FROM workout_sessions WHERE id = :sessionId AND userId = :userId")
     suspend fun deleteSession(sessionId: String, userId: String)
 
+    @Query(
+        """
+            UPDATE workout_sessions
+            SET workoutType = :workoutType,
+                updatedAt = :updatedAt
+            WHERE templateId = :templateId
+              AND userId = :userId
+        """
+    )
+    suspend fun updateWorkoutTypeByTemplate(
+        templateId: String,
+        userId: String,
+        workoutType: String,
+        updatedAt: Long = System.currentTimeMillis()
+    )
+
     @Query("UPDATE workout_sessions SET isCompleted = 1, duration = :duration, notes = :notes, feeling = :feeling, updatedAt = :updatedAt WHERE id = :sessionId")
     suspend fun completeSession(
         sessionId: String,
@@ -45,4 +61,34 @@ interface WorkoutSessionDao {
         newDate: Long,
         updatedAt: Long = System.currentTimeMillis()
     )
+
+    @Query("""
+        UPDATE workout_sessions
+        SET templateName = :templateName,
+            updatedAt = :updatedAt
+        WHERE templateId = :templateId
+          AND userId = :userId
+    """)
+    suspend fun updateTemplateNameByTemplate(
+        templateId: String,
+        userId: String,
+        templateName: String,
+        updatedAt: Long = System.currentTimeMillis()
+    )
+
+    @Query(
+        """
+        SELECT COUNT(*)
+        FROM workout_sessions
+        WHERE userId = :userId
+          AND isCompleted = 1
+          AND (:workoutType IS NULL OR workoutType = :workoutType)
+          AND (:fromDate IS NULL OR date >= :fromDate)
+    """
+    )
+    suspend fun getCompletedSessionsCount(
+        userId: String,
+        workoutType: String?,
+        fromDate: Long?
+    ): Int
 }

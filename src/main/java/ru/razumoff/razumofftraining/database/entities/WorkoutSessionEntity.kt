@@ -2,6 +2,7 @@ package ru.razumoff.razumofftraining.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ru.razumoff.razumofftraining.models.WorkoutType
 import java.util.UUID
 
 @Entity(tableName = "workout_sessions")
@@ -16,6 +17,7 @@ data class WorkoutSessionEntity(
     val notes: String? = null,
     val feeling: Int? = null,        // Самочувствие 1-10
     val isCompleted: Boolean = true,
+    val workoutType: String = WorkoutType.REGULAR.name,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )

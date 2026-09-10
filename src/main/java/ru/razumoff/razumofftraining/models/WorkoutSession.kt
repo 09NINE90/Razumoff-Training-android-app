@@ -32,3 +32,8 @@ data class WorkoutSet(
     val isWarmup: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 )
+
+enum class WorkoutType(val displayName: String) {
+    REGULAR("Обычная"),
+    STRENGTH("Силовая")
+}

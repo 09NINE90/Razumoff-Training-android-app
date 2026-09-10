@@ -12,8 +12,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
+import ru.razumoff.razumofftraining.models.WorkoutType
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
+import ru.razumoff.razumofftraining.ui.screens.templates.components.ExerciseSelectItem
+import ru.razumoff.razumofftraining.ui.screens.templates.components.SelectedExerciseItem
+import ru.razumoff.razumofftraining.ui.screens.templates.viewmodel.CreateTemplateViewModel
 import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,6 +34,7 @@ fun CreateTemplateScreen(
     val templateDescription by viewModel.templateDescription.collectAsState()
     val selectedExercises by viewModel.selectedExercises.collectAsState()
     val availableExercises by viewModel.availableExercises.collectAsState()
+    val workoutType by viewModel.workoutType.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val isSaving by viewModel.isSaving.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
@@ -90,18 +98,43 @@ fun CreateTemplateScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Описание
-//            OutlinedTextField(
-//                value = templateDescription,
-//                onValueChange = { viewModel.updateTemplateDescription(it) },
-//                label = { Text("Описание (необязательно)") },
-//                placeholder = { Text("Коротко о тренировке") },
-//                modifier = Modifier.fillMaxWidth(),
-//                minLines = 2,
-//                maxLines = 4
-//            )
-//
-//            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Тип тренировки",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                WorkoutType.entries.forEachIndexed { index, type ->
+                    SegmentedButton(
+                        selected = workoutType == type,
+                        onClick = { viewModel.setWorkoutType(type) },
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = WorkoutType.entries.size
+                        ),
+                        icon = {
+                            SegmentedButtonDefaults.Icon(
+                                active = workoutType == type,
+                                activeContent = {
+                                    Icon(
+                                        imageVector = ImageVector.vectorResource(R.drawable.ic_check),
+                                        contentDescription = null
+                                    )
+                                },
+                                inactiveContent = {}
+                            )
+                        }
+                    ) {
+                        Text(type.displayName)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             // Строка поиска
             OutlinedTextField(
@@ -225,43 +258,12 @@ fun CreateTemplateScreen(
             // Выбранные упражнения (над строкой поиска)
             if (selectedExercises.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(12.dp))
+
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp),
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                // Сохранить
-                Button(
-                    onClick = {
-                        viewModel.saveTemplate()
-                        onTemplateCreated()
-                        onBack()
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(44.dp),
-                    enabled = !isSaving && templateName.isNotBlank() && selectedExercises.isNotEmpty(),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    if (isSaving) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            strokeWidth = 2.dp
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = "Сохранить",
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("Сохранить шаблон")
-                    }
-                }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -292,14 +294,17 @@ fun CreateTemplateScreen(
         IslandWithButtonHeader(
             headerText = "Новый шаблон",
             actionDescription = "Сохранить",
+            actionIcon = ImageVector.vectorResource(R.drawable.ic_floppy_disk),
             onActionClick = {
-                viewModel.saveTemplate()
-                onTemplateCreated()
-                onBack()
+                viewModel.saveTemplate {
+                    onTemplateCreated()
+                    onBack()
+                }
             },
             onBackClick = onBack,
             showBackButton = true,
-            showActionButton = false
+            enableActionButton = selectedExercises.isNotEmpty() && templateName.isNotEmpty(),
+            showActionButton = true
         )
     }
 }

@@ -14,10 +14,14 @@ import ru.razumoff.razumofftraining.ui.screens.exercises.ExerciseViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import ru.razumoff.razumofftraining.ui.screens.statistics.StatisticsScreen
+import ru.razumoff.razumofftraining.ui.screens.statistics.viewmodel.StatisticsViewModel
 import ru.razumoff.razumofftraining.ui.screens.templates.CreateTemplateScreen
-import ru.razumoff.razumofftraining.ui.screens.templates.CreateTemplateViewModel
+import ru.razumoff.razumofftraining.ui.screens.templates.viewmodel.CreateTemplateViewModel
+import ru.razumoff.razumofftraining.ui.screens.templates.EditTemplateScreen
+import ru.razumoff.razumofftraining.ui.screens.templates.viewmodel.EditTemplateViewModel
 import ru.razumoff.razumofftraining.ui.screens.templates.TemplateDetailScreen
-import ru.razumoff.razumofftraining.ui.screens.templates.TemplateDetailViewModel
+import ru.razumoff.razumofftraining.ui.screens.templates.viewmodel.TemplateDetailViewModel
 import ru.razumoff.razumofftraining.ui.screens.user.UserProfileScreen
 import ru.razumoff.razumofftraining.ui.screens.workouts.templates.TemplatesScreen
 import ru.razumoff.razumofftraining.ui.screens.workouts.templates.TemplatesViewModel
@@ -160,11 +164,20 @@ fun NavGraph(
             WorkoutScreen(
                 viewModelWorkout = viewModelWorkout,
                 viewModelExercise = viewModelExercise,
-                onTemplatesClick = { navController.navigate(Screen.Templates.route) },
-                onExerciseClick = { navController.navigate(Screen.Exercises.route) },
+                onTemplatesClick = {
+                    navController.navigate(Screen.Templates.route)
+                },
+                onExerciseClick = {
+                    navController.navigate(Screen.Exercises.route)
+                },
                 onSessionClick = { session ->
-                    navController.navigate(Screen.SessionDetail.passSessionId(session.id))
-                }
+                    navController.navigate(
+                        Screen.SessionDetail.passSessionId(session.id)
+                    )
+                },
+                onStatisticsClick = {
+                    navController.navigate(Screen.Statistics.route)
+                },
             )
         }
 
@@ -224,6 +237,58 @@ fun NavGraph(
                 onBack = { navController.popBackStack() },
                 onStartWorkout = {
                     navController.navigate(Screen.WorkoutSession.passTemplateId(templateId))
+                },
+                onEdit = {
+                    navController.navigate(
+                        Screen.EditTemplate.passTemplateId(templateId)
+                    )
+                }
+            )
+        }
+
+        composable(
+            route = Screen.EditTemplate.route,
+            arguments = listOf(
+                navArgument("templateId") {
+                    type = NavType.StringType
+                }
+            ),
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
+        ) { backStackEntry ->
+
+            val templateId =
+                backStackEntry.arguments?.getString("templateId")
+                    ?: return@composable
+
+            val viewModel: EditTemplateViewModel = viewModel(
+                factory = EditTemplateViewModel.Factory(
+                    repository = repository,
+                    userId = userId,
+                    templateId = templateId
+                )
+            )
+
+            EditTemplateScreen(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onSaved = {
+                    navController.popBackStack()
+                },
+                onDeleted = {
+                    navController.navigate(Screen.Templates.route)
                 }
             )
         }
@@ -281,6 +346,32 @@ fun NavGraph(
             WorkoutSessionScreen(
                 viewModel = viewModel,
                 onFinish = { navController.navigate(Screen.Workout.route) }
+            )
+        }
+
+        composable(
+            route = Screen.Statistics.route,
+            enterTransition = {
+                detailEnter()
+            },
+            exitTransition = {
+                detailExit()
+            },
+            popEnterTransition = {
+                detailPopEnter()
+            },
+            popExitTransition = {
+                detailPopExit()
+            }
+        ) {
+            val viewModel: StatisticsViewModel = viewModel(
+                factory = StatisticsViewModel.Factory(repository, userId)
+            )
+            StatisticsScreen(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                }
             )
         }
     }

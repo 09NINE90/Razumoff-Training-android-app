@@ -1,5 +1,6 @@
 package ru.razumoff.razumofftraining.database.repository
 
+import androidx.room.withTransaction
 import kotlinx.coroutines.flow.Flow
 import ru.razumoff.razumofftraining.database.AppDatabase
 import ru.razumoff.razumofftraining.database.entities.ExerciseEntity
@@ -10,6 +11,9 @@ import ru.razumoff.razumofftraining.database.entities.UserMeasurementEntity
 import ru.razumoff.razumofftraining.database.entities.WorkoutSessionEntity
 import ru.razumoff.razumofftraining.database.entities.WorkoutSetEntity
 import ru.razumoff.razumofftraining.database.entities.WorkoutTemplateEntity
+import ru.razumoff.razumofftraining.models.ExerciseProgressRow
+import ru.razumoff.razumofftraining.models.ExerciseStatisticsRow
+import ru.razumoff.razumofftraining.models.WorkoutType
 
 class GymRepository(
     private val database: AppDatabase
@@ -99,8 +103,69 @@ class GymRepository(
         return database.workoutTemplateDao().getTemplateById(templateId, userId)
     }
 
+    fun observeTemplateById(
+        templateId: String,
+        userId: String
+    ): Flow<WorkoutTemplateEntity?> {
+        return database.workoutTemplateDao()
+            .observeTemplateById(templateId, userId)
+    }
+
     suspend fun getTemplateExercises(templateId: String): List<TemplateExerciseEntity> {
         return database.templateExerciseDao().getExercisesByTemplateId(templateId)
+    }
+
+    suspend fun updateTemplateWorkoutType(
+        templateId: String,
+        userId: String,
+        workoutType: WorkoutType
+    ) {
+        val type = workoutType.name
+
+        database.workoutTemplateDao().updateWorkoutType(
+            templateId = templateId,
+            userId = userId,
+            workoutType = type
+        )
+
+        database.workoutSessionDao().updateWorkoutTypeByTemplate(
+            templateId = templateId,
+            userId = userId,
+            workoutType = type
+        )
+    }
+
+    suspend fun updateTemplate(
+        templateId: String,
+        userId: String,
+        name: String,
+        description: String?,
+        workoutType: WorkoutType
+    ) {
+        database.withTransaction {
+
+            // 1. Обновляем сам шаблон
+            database.workoutTemplateDao().updateTemplate(
+                templateId = templateId,
+                userId = userId,
+                name = name,
+                description = description
+            )
+
+            // 2. Обновляем тип всех связанных сессий
+            database.workoutSessionDao().updateWorkoutTypeByTemplate(
+                templateId = templateId,
+                userId = userId,
+                workoutType = workoutType.name
+            )
+
+            // 3. Обновляем название всех связанных сессий
+            database.workoutSessionDao().updateTemplateNameByTemplate(
+                templateId = templateId,
+                userId = userId,
+                templateName = name
+            )
+        }
     }
 
     // --- Упражнения в шаблоне ---
@@ -207,4 +272,73 @@ class GymRepository(
     suspend fun deleteSessionExercise(sessionExerciseId: String) {
         database.sessionExerciseDao().deleteSessionExercise(sessionExerciseId)
     }
+
+
+    // Статистика
+
+    suspend fun getCompletedSessionsCount(
+        userId: String,
+        workoutType: String?,
+        fromDate: Long?
+    ): Int {
+        return database.workoutSessionDao()
+            .getCompletedSessionsCount(
+                userId = userId,
+                workoutType = workoutType,
+                fromDate = fromDate
+            )
+    }
+
+    suspend fun getTotalSets(
+        userId: String,
+        workoutType: String?,
+        fromDate: Long?
+    ): Int {
+        return database.workoutSetDao()
+            .getTotalSets(
+                userId = userId,
+                workoutType = workoutType,
+                fromDate = fromDate
+            )
+    }
+
+    suspend fun getTotalReps(
+        userId: String,
+        workoutType: String?,
+        fromDate: Long?
+    ): Int {
+        return database.workoutSetDao()
+            .getTotalReps(
+                userId = userId,
+                workoutType = workoutType,
+                fromDate = fromDate
+            )
+    }
+
+    suspend fun getTotalVolume(
+        userId: String,
+        workoutType: String?,
+        fromDate: Long?
+    ): Double {
+        return database.workoutSetDao()
+            .getTotalVolume(
+                userId = userId,
+                workoutType = workoutType,
+                fromDate = fromDate
+            )
+    }
+
+    suspend fun getExerciseStatistics(
+        userId: String,
+        workoutType: String?,
+        fromDate: Long?
+    ): List<ExerciseStatisticsRow> {
+        return database.workoutSetDao()
+            .getExerciseStatistics(
+                userId = userId,
+                workoutType = workoutType,
+                fromDate = fromDate
+            )
+    }
+
 }

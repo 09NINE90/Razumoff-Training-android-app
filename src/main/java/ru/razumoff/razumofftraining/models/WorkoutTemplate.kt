@@ -5,6 +5,7 @@ data class WorkoutTemplate(
     val name: String,
     val description: String? = null,
     val exercises: List<TemplateExercise> = emptyList(),
+    val workoutType: String = WorkoutType.REGULAR.name,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )

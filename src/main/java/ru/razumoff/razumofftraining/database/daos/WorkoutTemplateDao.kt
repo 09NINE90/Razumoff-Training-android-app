@@ -21,9 +21,49 @@ interface WorkoutTemplateDao {
     @Query("SELECT * FROM workout_templates WHERE id = :templateId AND userId = :userId")
     suspend fun getTemplateById(templateId: String, userId: String): WorkoutTemplateEntity?
 
+    @Query("""
+        SELECT * FROM workout_templates
+        WHERE id = :templateId
+          AND userId = :userId
+    """)
+    fun observeTemplateById(
+        templateId: String,
+        userId: String
+    ): Flow<WorkoutTemplateEntity?>
+
     @Query("DELETE FROM workout_templates WHERE id = :templateId AND userId = :userId")
     suspend fun deleteTemplate(templateId: String, userId: String)
 
     @Query("SELECT COUNT(*) FROM workout_templates WHERE userId = :userId")
     fun observeTemplatesCount(userId: String): Flow<Int>
+
+    @Query("""
+        UPDATE workout_templates
+        SET workoutType = :workoutType,
+            updatedAt = :updatedAt
+        WHERE id = :templateId
+          AND userId = :userId
+    """)
+    suspend fun updateWorkoutType(
+        templateId: String,
+        userId: String,
+        workoutType: String,
+        updatedAt: Long = System.currentTimeMillis()
+    )
+
+    @Query("""
+            UPDATE workout_templates
+            SET name = :name,
+                description = :description,
+                updatedAt = :updatedAt
+            WHERE id = :templateId
+              AND userId = :userId
+        """)
+    suspend fun updateTemplate(
+        templateId: String,
+        userId: String,
+        name: String,
+        description: String?,
+        updatedAt: Long = System.currentTimeMillis()
+    )
 }

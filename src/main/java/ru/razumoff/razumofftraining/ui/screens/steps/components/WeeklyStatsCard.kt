@@ -1,4 +1,4 @@
-package ru.razumoff.razumofftraining.ui.screens.steps
+package ru.razumoff.razumofftraining.ui.screens.steps.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

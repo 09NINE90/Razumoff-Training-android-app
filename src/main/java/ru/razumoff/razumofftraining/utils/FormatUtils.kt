@@ -1,5 +1,6 @@
 package ru.razumoff.razumofftraining.utils
 
+import android.annotation.SuppressLint
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
@@ -95,5 +96,20 @@ object FormatUtils {
 
     fun Int.years(): String {
         return "$this ${pluralizeYears(this)}"
+    }
+
+    @SuppressLint("DefaultLocale")
+    fun formatVolume(volume: Double): String {
+        return if (volume >= 1000) {
+            String.format(
+                "%.1f т",
+                volume / 1000
+            )
+        } else {
+            String.format(
+                "%.0f кг",
+                volume
+            )
+        }
     }
 }
