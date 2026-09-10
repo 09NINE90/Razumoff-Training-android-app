@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
@@ -25,7 +26,6 @@ import ru.razumoff.razumofftraining.models.WorkoutSession
 import ru.razumoff.razumofftraining.ui.theme.Success
 import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
 import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 @Composable
@@ -61,7 +61,7 @@ fun SessionCard(
                 ) {
                     // Дата
                     Text(
-                        text = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
+                        text = SimpleDateFormat("dd.MM.yyyy HH:mm", LocalLocale.current.platformLocale)
                             .format(session.date),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant

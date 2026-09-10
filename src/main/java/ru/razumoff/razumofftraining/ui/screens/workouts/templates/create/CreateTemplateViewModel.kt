@@ -70,10 +70,6 @@ class CreateTemplateViewModel(
         _templateName.value = name
     }
 
-    fun updateTemplateDescription(description: String) {
-        _templateDescription.value = description
-    }
-
     fun addExercise(exercise: Exercise) {
         if (_selectedExercises.value.any { it.exerciseId == exercise.id }) {
             _errorMessage.value = "Упражнение уже добавлено"
@@ -94,15 +90,6 @@ class CreateTemplateViewModel(
         _selectedExercises.value = _selectedExercises.value
             .filter { it.exerciseId != exerciseId }
             .mapIndexed { index, exercise -> exercise.copy(order = index + 1) }
-    }
-
-    fun moveExercise(fromIndex: Int, toIndex: Int) {
-        val list = _selectedExercises.value.toMutableList()
-        val item = list.removeAt(fromIndex)
-        list.add(toIndex, item)
-        _selectedExercises.value = list.mapIndexed { index, exercise ->
-            exercise.copy(order = index + 1)
-        }
     }
 
     fun saveTemplate(onSuccess: () -> Unit) {

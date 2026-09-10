@@ -11,7 +11,6 @@ import ru.razumoff.razumofftraining.database.entities.UserMeasurementEntity
 import ru.razumoff.razumofftraining.database.entities.WorkoutSessionEntity
 import ru.razumoff.razumofftraining.database.entities.WorkoutSetEntity
 import ru.razumoff.razumofftraining.database.entities.WorkoutTemplateEntity
-import ru.razumoff.razumofftraining.models.ExerciseProgressRow
 import ru.razumoff.razumofftraining.models.ExerciseStatisticsRow
 import ru.razumoff.razumofftraining.models.WorkoutType
 
@@ -32,22 +31,6 @@ class GymRepository(
         database.userMeasurementDao().insertMeasurement(measurement)
     }
 
-    fun getMeasurements(userId: String): Flow<List<UserMeasurementEntity>> {
-        return database.userMeasurementDao().getMeasurements(userId)
-    }
-
-    fun getMeasurementsByType(userId: String, type: String): Flow<List<UserMeasurementEntity>> {
-        return database.userMeasurementDao().getMeasurementsByType(userId, type)
-    }
-
-    suspend fun getLatestMeasurement(userId: String, type: String): UserMeasurementEntity? {
-        return database.userMeasurementDao().getLatestMeasurement(userId, type)
-    }
-
-    suspend fun deleteMeasurement(id: String, userId: String) {
-        database.userMeasurementDao().deleteMeasurement(id, userId)
-    }
-
     // --- Операции с упражнениями ---
     suspend fun getAllExercises(): List<ExerciseEntity> {
         return database.exerciseDao().getAllExercises()
@@ -57,13 +40,6 @@ class GymRepository(
         return database.exerciseDao().observeExercisesCount()
     }
 
-    suspend fun getExercisesCount(): Int {
-        return database.exerciseDao().getExercisesCount()
-    }
-
-    suspend fun deleteAllExercises() {
-        return database.exerciseDao().deleteAllExercises()
-    }
 
     suspend fun getExercisesByUserId(userId: String): List<ExerciseEntity> {
         return database.exerciseDao().getExercisesByUserId(userId)
@@ -75,10 +51,6 @@ class GymRepository(
 
     suspend fun insertExercise(exercise: ExerciseEntity) {
         database.exerciseDao().insertExercise(exercise)
-    }
-
-    suspend fun deleteExerciseById(exerciseId: String, userId: String) {
-        database.exerciseDao().deleteExerciseById(exerciseId, userId)
     }
 
     suspend fun deleteExercise(exercise: ExerciseEntity) {
@@ -169,10 +141,6 @@ class GymRepository(
     }
 
     // --- Упражнения в шаблоне ---
-    suspend fun insertTemplateExercise(templateExercise: TemplateExerciseEntity) {
-        database.templateExerciseDao().insertTemplateExercise(templateExercise)
-    }
-
     suspend fun insertTemplateExercises(templateExercises: List<TemplateExerciseEntity>) {
         database.templateExerciseDao().insertTemplateExercises(templateExercises)
     }
@@ -222,20 +190,9 @@ class GymRepository(
         return database.sessionExerciseDao().getExercisesBySessionId(sessionId)
     }
 
-    suspend fun getSessionsByUser(userId: String): List<WorkoutSessionEntity> {
-        return database.workoutSessionDao().getSessionsByUser(userId)
-    }
-
-    suspend fun getLastTenSessionsByUser(userId: String): List<WorkoutSessionEntity> {
-        return database.workoutSessionDao().getLastTenSessionsByUser(userId)
-    }
 
     fun observeLastTenSessionsByUser(userId: String): Flow<List<WorkoutSessionEntity>> {
         return database.workoutSessionDao().observeLastTenSessionsByUser(userId)
-    }
-
-    suspend fun getLastFiveSessionsByUser(userId: String): List<WorkoutSessionEntity> {
-        return database.workoutSessionDao().getLastFiveSessionsByUser(userId)
     }
 
     suspend fun updateSessionDate(sessionId: String, newDate: Long) {
@@ -245,10 +202,6 @@ class GymRepository(
     // --- Подходы ---
     suspend fun insertWorkoutSet(workoutSet: WorkoutSetEntity) {
         database.workoutSetDao().insertWorkoutSet(workoutSet)
-    }
-
-    suspend fun insertWorkoutSets(workoutSets: List<WorkoutSetEntity>) {
-        database.workoutSetDao().insertWorkoutSets(workoutSets)
     }
 
     suspend fun getSetsBySessionExerciseId(sessionExerciseId: String): List<WorkoutSetEntity> {

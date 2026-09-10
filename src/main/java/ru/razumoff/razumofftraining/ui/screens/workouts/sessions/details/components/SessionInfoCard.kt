@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,6 @@ import ru.razumoff.razumofftraining.utils.FormatUtils.sets
 import ru.razumoff.razumofftraining.utils.WorkoutFormatter.formatTotalSessionWeight
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
 
 @Composable
@@ -112,7 +112,7 @@ fun SessionInfoCard(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                        text = SimpleDateFormat("dd.MM.yyyy", LocalLocale.current.platformLocale)
                             .format(session.date),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
@@ -138,7 +138,7 @@ fun SessionInfoCard(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = SimpleDateFormat("HH:mm", Locale.getDefault())
+                        text = SimpleDateFormat("HH:mm", LocalLocale.current.platformLocale)
                             .format(session.date),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface

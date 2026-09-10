@@ -1,5 +1,6 @@
 package ru.razumoff.razumofftraining.ui.screens.workouts.sessions
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -263,6 +264,7 @@ class WorkoutSessionViewModel(
         }
     }
 
+    @SuppressLint("EmptySuperCall")
     override fun onCleared() {
         super.onCleared()
         timerJob?.cancel()

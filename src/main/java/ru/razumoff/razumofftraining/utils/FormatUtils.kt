@@ -18,7 +18,7 @@ object FormatUtils {
             }
             val format = DecimalFormat("#,###", symbols)
             format.format(number)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             number.toString()
         }
     }

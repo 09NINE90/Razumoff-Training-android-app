@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ru.razumoff.razumofftraining.database.entities.WorkoutSetEntity
-import ru.razumoff.razumofftraining.models.ExerciseProgressRow
 import ru.razumoff.razumofftraining.models.ExerciseStatisticsRow
 
 @Dao

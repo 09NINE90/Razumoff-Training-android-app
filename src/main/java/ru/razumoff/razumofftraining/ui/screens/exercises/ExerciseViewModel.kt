@@ -79,19 +79,6 @@ class ExerciseViewModel(
         }
     }
 
-    fun deleteExercise(exercise: Exercise) {
-        viewModelScope.launch {
-            try {
-                val entity = ExerciseMapper.toEntity(exercise, userId)
-                repository.deleteExercise(entity)
-                loadExercises()
-                _errorMessage.value = null
-            } catch (e: Exception) {
-                _errorMessage.value = "Ошибка удаления упражнения: ${e.message}"
-            }
-        }
-    }
-
     class Factory(
         private val repository: GymRepository,
         private val userId: String

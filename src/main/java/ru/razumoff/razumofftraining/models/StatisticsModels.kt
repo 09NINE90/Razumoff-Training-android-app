@@ -50,9 +50,3 @@ data class ExerciseStatisticsRow(
     val totalReps: Int,
     val sessionsCount: Int
 )
-
-data class ExerciseProgressRow(
-    val sessionId: String,
-    val date: Long,
-    val maxWeight: Float
-)
