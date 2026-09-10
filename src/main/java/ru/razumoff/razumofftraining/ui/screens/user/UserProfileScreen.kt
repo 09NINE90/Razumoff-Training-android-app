@@ -17,7 +17,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
@@ -31,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,12 +39,10 @@ import ru.razumoff.razumofftraining.ui.components.dialogs.DatePickerDialog
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razumofftraining.ui.components.inputs.EditableField
 import ru.razumoff.razumofftraining.utils.FormatUtils.years
-import ru.razumoff.razumofftraining.viewmodel.UserViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
 import java.time.ZoneId
-import java.util.Locale
 import java.util.Date
 
 @Composable
@@ -72,7 +70,7 @@ fun UserProfileScreen(
         initialDisplayMode = DisplayMode.Picker
     )
 
-    val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    val dateFormat = SimpleDateFormat("dd.MM.yyyy", LocalLocale.current.platformLocale)
 
     fun calculateAge(birthDateMillis: Long?): String {
         if (birthDateMillis == null) return "Не указан"

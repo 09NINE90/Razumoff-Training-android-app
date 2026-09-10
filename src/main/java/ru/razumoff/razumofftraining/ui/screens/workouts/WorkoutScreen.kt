@@ -1,11 +1,23 @@
 package ru.razumoff.razumofftraining.ui.screens.workouts
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,13 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.razumoff.razumofftraining.models.WorkoutSession
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
+import ru.razumoff.razumofftraining.ui.screens.exercises.ExerciseViewModel
 import ru.razumoff.razumofftraining.ui.screens.exercises.ExercisesCard
-import ru.razumoff.razumofftraining.ui.screens.workouts.session.SessionCard
+import ru.razumoff.razumofftraining.ui.screens.statistics.StatisticsCard
+import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.SessionCard
 import ru.razumoff.razumofftraining.ui.screens.workouts.templates.TemplatesCard
 import ru.razumoff.razumofftraining.utils.FormatUtils.workouts
-import ru.razumoff.razumofftraining.ui.screens.exercises.ExerciseViewModel
-import ru.razumoff.razumofftraining.ui.screens.statistics.StatisticsCard
-import kotlin.collections.lastIndex
 
 @Composable
 fun WorkoutScreen(

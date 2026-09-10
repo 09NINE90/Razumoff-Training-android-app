@@ -13,11 +13,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.razumoff.razumofftraining.database.entities.WorkoutSessionEntity
-import ru.razumoff.razumofftraining.models.WorkoutSession
-import ru.razumoff.razumofftraining.models.SessionExercise
-import ru.razumoff.razumofftraining.models.WorkoutSet
 import ru.razumoff.razumofftraining.database.repository.GymRepository
-import kotlin.collections.emptyList
+import ru.razumoff.razumofftraining.models.SessionExercise
+import ru.razumoff.razumofftraining.models.WorkoutSession
+import ru.razumoff.razumofftraining.models.WorkoutSet
 import kotlin.time.Duration.Companion.milliseconds
 
 class WorkoutViewModel(

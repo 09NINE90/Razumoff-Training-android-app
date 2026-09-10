@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.razumoff.razumofftraining.database.mappers.WorkoutTemplateMapper
+import ru.razumoff.razumofftraining.database.repository.GymRepository
 import ru.razumoff.razumofftraining.models.TemplateExercise
 import ru.razumoff.razumofftraining.models.WorkoutTemplate
-import ru.razumoff.razumofftraining.database.repository.GymRepository
 
 class TemplatesViewModel(
     private val repository: GymRepository,

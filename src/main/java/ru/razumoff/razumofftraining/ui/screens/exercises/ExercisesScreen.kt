@@ -1,6 +1,5 @@
 package ru.razumoff.razumofftraining.ui.screens.exercises
 
-import ExerciseCard
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -106,7 +105,7 @@ fun ExercisesScreen(
                             exercise = exercise,
                             onClick = { onExerciseClick(exercise) },
                             modifier = Modifier.padding(
-                                bottom = if (index == exercises.lastIndex) 100.dp else 0.dp
+                                bottom = if (index == exercises.lastIndex) 110.dp else 0.dp
                             )
                         )
                     }
