@@ -170,7 +170,7 @@ class WorkoutFormatter(
                     }
 
                 sb.append(
-                    "  - ${getString(R.string.sets)} " +
+                    "  - ${getString(R.string.set)} " +
                             "${set.setNumber}: " +
                             "${set.reps} x " +
                             "$weightStr$warmupStr\n"
