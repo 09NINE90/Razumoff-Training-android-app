@@ -4,7 +4,7 @@
     <style name="Theme.RAZO" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="Theme.RAZO.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#FAFAFA</item>
+        <item name="windowSplashScreenBackground">#E53935</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.RAZO</item>
     </style>
