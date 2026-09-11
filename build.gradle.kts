@@ -5,7 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-val appVersionName = "1.3.2"
+val appName = "RAZO"
+val appVersionName = "1.3.3"
 
 android {
     namespace = "ru.razumoff.razumofftraining"
@@ -47,7 +48,7 @@ androidComponents {
     ) { variant ->
         variant.outputs.forEach { output ->
             output.outputFileName.set(
-                "RazumoffTrainingApp-debug-v$appVersionName.apk"
+                "$appName-debug-v$appVersionName.apk"
             )
         }
     }
@@ -80,6 +81,7 @@ dependencies {
 
     // Health Connect
     implementation(libs.androidx.connect.client)
+    implementation(libs.androidx.ui)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)

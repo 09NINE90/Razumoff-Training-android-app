@@ -1,6 +1,5 @@
 package ru.razumoff.razumofftraining.ui.screens.exercises
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,18 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.razumoff.razumofftraining.models.Exercise
+import ru.razumoff.razumofftraining.models.localizedName
 import ru.razumoff.razumofftraining.ui.components.text.PrimaryText
 
 @Composable
 fun ExerciseCard(
     exercise: Exercise,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
+        modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -66,7 +63,7 @@ fun ExerciseCard(
                     modifier = Modifier.wrapContentSize()
                 ) {
                     PrimaryText(
-                        text = exercise.bodyPart.displayName
+                        text = exercise.bodyPart.localizedName()
                     )
                 }
 
@@ -77,7 +74,7 @@ fun ExerciseCard(
                     modifier = Modifier.wrapContentSize()
                 ) {
                     PrimaryText(
-                        text = exercise.movementType.displayName
+                        text = exercise.movementType.localizedName()
                     )
                 }
 
@@ -109,7 +106,7 @@ fun ExerciseCard(
                             modifier = Modifier.wrapContentSize()
                         ) {
                             Text(
-                                text = muscle.displayName,
+                                text = muscle.localizedName(),
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
                                 fontSize = 10.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant

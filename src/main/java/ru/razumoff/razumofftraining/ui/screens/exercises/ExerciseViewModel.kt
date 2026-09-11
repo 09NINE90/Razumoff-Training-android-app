@@ -3,9 +3,12 @@ package ru.razumoff.razumofftraining.ui.screens.exercises
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -40,9 +43,6 @@ class ExerciseViewModel(
     private val _isSaving = MutableStateFlow(false)
     val isSaving: StateFlow<Boolean> = _isSaving.asStateFlow()
 
-    private val _saveSuccess = MutableStateFlow(false)
-    val saveSuccess: StateFlow<Boolean> = _saveSuccess.asStateFlow()
-
     init {
         loadExercises()
     }
@@ -63,18 +63,30 @@ class ExerciseViewModel(
         }
     }
 
-    fun addExercise(exercise: Exercise) {
+    fun addExercise(
+        exercise: Exercise,
+        onSuccess: () -> Unit
+    ) {
         viewModelScope.launch {
             _isSaving.value = true
-            _saveSuccess.value = false
+            _errorMessage.value = null
+
             try {
-                val entity = ExerciseMapper.toEntity(exercise, userId)
+                val entity = ExerciseMapper.toEntity(
+                    exercise,
+                    userId
+                )
+
                 repository.insertExercise(entity)
+
                 loadExercises()
-                _errorMessage.value = null
-                _saveSuccess.value = true
+
+                onSuccess()
             } catch (e: Exception) {
-                _errorMessage.value = "Ошибка добавления упражнения: ${e.message}"
+                _errorMessage.value =
+                    "Ошибка добавления упражнения: ${e.message}"
+            } finally {
+                _isSaving.value = false
             }
         }
     }

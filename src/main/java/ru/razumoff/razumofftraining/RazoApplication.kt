@@ -3,7 +3,7 @@ package ru.razumoff.razumofftraining
 import android.app.Application
 import ru.razumoff.razumofftraining.di.AppContainer
 
-class RazumoffTrainingApplication : Application() {
+class RazoApplication : Application() {
 
     // Контейнер зависимостей доступен из любого места приложения
     lateinit var appContainer: AppContainer

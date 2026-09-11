@@ -21,7 +21,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razumofftraining.ui.screens.statistics.components.EmptyStatisticsCard
 import ru.razumoff.razumofftraining.ui.screens.statistics.components.ExerciseStatisticsCard
@@ -110,7 +112,7 @@ fun StatisticsScreen(
 
                 item {
                     Text(
-                        text = "Упражнения",
+                        text = stringResource(R.string.exercises),
                         style = MaterialTheme.typography.titleLarge
                     )
                 }
@@ -137,7 +139,7 @@ fun StatisticsScreen(
 
         // Плавающий заголовок
         IslandWithButtonHeader(
-            headerText = "Статистика",
+            headerText = stringResource(R.string.statistics),
             onBackClick = onBack,
             showActionButton = false,
             showBackButton = true

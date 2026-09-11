@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 import ru.razumoff.razumofftraining.ui.components.charts.WeeklyStepData
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.format.TextStyle
-import java.util.Locale
 
 class StepsViewModel : ViewModel() {
 
@@ -178,18 +176,9 @@ class StepsViewModel : ViewModel() {
                         _stepsCount.value = steps
                     }
 
-                    val dayName =
-                        date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
-
-                    val label = if (date == today) {
-                        "Сегодня"
-                    } else {
-                        "$dayName ${date.dayOfMonth}"
-                    }
-
                     weeklySteps.add(
                         WeeklyStepData(
-                            day = label,
+                            date = date,
                             steps = steps.toInt(),
                             goal = _dailyGoal.value
                         )

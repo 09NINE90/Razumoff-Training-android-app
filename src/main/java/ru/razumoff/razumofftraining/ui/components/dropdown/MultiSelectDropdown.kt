@@ -16,20 +16,31 @@ fun <T> MultiSelectDropdown(
     expanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
     label: String,
-    displayMapper: (T) -> String,
+    displayMapper: @Composable (T) -> String,
     modifier: Modifier = Modifier.fillMaxWidth()
 ) {
+
+    val selectedText = if (selectedItems.isEmpty()) {
+        "Выберите $label"
+    } else {
+        buildString {
+            selectedItems.forEachIndexed { index, item ->
+                if (index > 0) {
+                    append(", ")
+                }
+
+                append(displayMapper(item))
+            }
+        }
+    }
+
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = onExpandedChange,
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = if (selectedItems.isEmpty()) {
-                "Выберите $label"
-            } else {
-                selectedItems.joinToString(separator = ", ") { displayMapper(it) }
-            },
+            value = selectedText,
             onValueChange = {},
             readOnly = true,
             label = { Text(label) },

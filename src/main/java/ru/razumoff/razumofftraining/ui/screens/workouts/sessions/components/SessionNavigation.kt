@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -16,7 +14,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 
 @Composable
 fun SessionNavigation(
@@ -40,9 +42,12 @@ fun SessionNavigation(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer
             )
         ) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Назад")
+            Icon(
+                ImageVector.vectorResource(R.drawable.ic_arrow_left),
+                contentDescription = stringResource(R.string.back)
+            )
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Назад")
+            Text(stringResource(R.string.back))
         }
 
         Button(
@@ -57,13 +62,19 @@ fun SessionNavigation(
             enabled = hasSets
         ) {
             if (currentIndex == totalExercises - 1) {
-                Icon(Icons.Default.Check, contentDescription = "Завершить")
+                Icon(
+                    Icons.Default.Check,
+                    contentDescription = stringResource(R.string.done)
+                )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("Завершить")
+                Text(stringResource(R.string.done))
             } else {
-                Text("Далее")
+                Text(stringResource(R.string.next))
                 Spacer(modifier = Modifier.width(4.dp))
-                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Далее")
+                Icon(
+                    ImageVector.vectorResource(R.drawable.ic_arrow_right),
+                    contentDescription = stringResource(R.string.next)
+                )
             }
         }
     }

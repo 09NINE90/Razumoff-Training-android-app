@@ -30,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
@@ -38,7 +40,7 @@ import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.SessionDetailVi
 import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.details.components.SessionExerciseDetailCard
 import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.details.components.SessionInfoCard
 import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.details.components.SessionInfoCopyButtons
-import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,7 +110,11 @@ fun SessionDetailScreen(
 
                 // Список упражнений
                 Text(
-                    text = session!!.exercises.size.exercises(),
+                    text = pluralStringResource(
+                        R.plurals.exercises_count,
+                        session!!.exercises.size,
+                        session!!.exercises.size
+                    ),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -173,7 +179,7 @@ fun SessionDetailScreen(
                 TextButton(
                     onClick = { showDeleteDialog = false }
                 ) {
-                    Text("Отмена")
+                    Text(stringResource(R.string.cancel))
                 }
             },
             icon = {

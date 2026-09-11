@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -76,19 +77,19 @@ fun SessionExerciseDetailCard(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = "Подход",
+                            text = stringResource(R.string.set),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
                         )
                         Text(
-                            text = "Повторения",
+                            text = stringResource(R.string.repetitions_label),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
                         )
                         Text(
-                            text = "Вес",
+                            text = stringResource(R.string.weight_label),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
@@ -101,7 +102,7 @@ fun SessionExerciseDetailCard(
                 }
             } else {
                 Text(
-                    text = "Нет подходов",
+                    text = stringResource(R.string.no_sets),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.StatisticsPeriod
+import ru.razumoff.razumofftraining.models.localizedName
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +50,7 @@ fun StatisticsPeriodSelector(
                     )
                 }
             ) {
-                Text(period.displayName)
+                Text(period.localizedName())
             }
         }
     }

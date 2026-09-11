@@ -8,7 +8,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 
 @Composable
 fun EmptyStatisticsCard() {
@@ -17,7 +19,7 @@ fun EmptyStatisticsCard() {
         shape = RoundedCornerShape(12.dp)
     ) {
         Text(
-            text = "Пока нет данных о выполненных тренировках",
+            text = stringResource(R.string.no_completed_workout_data),
             modifier = Modifier.padding(20.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyMedium

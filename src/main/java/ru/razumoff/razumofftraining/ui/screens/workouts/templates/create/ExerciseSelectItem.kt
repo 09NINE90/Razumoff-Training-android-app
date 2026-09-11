@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.models.Exercise
 import ru.razumoff.razumofftraining.models.TemplateExercise
+import ru.razumoff.razumofftraining.models.localizedName
 
 @Composable
 fun ExerciseSelectItem(
@@ -53,6 +54,13 @@ fun ExerciseSelectItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val muscleGroupsText = buildString {
+                exercise.muscleGroups.forEachIndexed { index, muscleGroup ->
+                    if (index > 0) append(", ")
+                    append(muscleGroup.localizedName())
+                }
+            }
+
             Column(
                 modifier = Modifier.weight(1f)
             ) {
@@ -63,7 +71,7 @@ fun ExerciseSelectItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = exercise.muscleGroups.joinToString(", ") { it.displayName },
+                    text = muscleGroupsText,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

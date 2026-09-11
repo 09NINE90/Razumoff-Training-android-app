@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -68,7 +69,7 @@ fun StepsScreen(
                     CircularProgressIndicator()
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Загрузка данных...",
+                        text = stringResource(R.string.loading_data),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -157,7 +158,7 @@ fun StepsScreen(
 
         // Плавающий заголовок
         IslandWithButtonHeader(
-            headerText = "Шаги",
+            headerText = stringResource(R.string.steps),
             actionDescription = "Обновить",
             modifier = Modifier
                 .fillMaxWidth()

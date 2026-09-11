@@ -14,14 +14,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLocale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.ui.theme.Success
 import ru.razumoff.razumofftraining.utils.FormatUtils
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.TextStyle
 
 data class WeeklyStepData(
-    val day: String,
+    val date: LocalDate,
     val steps: Int,
     val goal: Int = 10000 // цель на день
 )
@@ -33,6 +39,8 @@ fun WeeklyChart(
     maxValue: Int,
     modifier: Modifier = Modifier
 ) {
+    val today = LocalDate.now(ZoneId.systemDefault())
+
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
@@ -63,6 +71,20 @@ fun WeeklyChart(
                     MaterialTheme.colorScheme.primary.copy(alpha = 0.45f)
             }
 
+            val dayName = item.date.dayOfWeek.getDisplayName(
+                TextStyle.SHORT,
+                LocalLocale.current.platformLocale
+            )
+
+            val label = if (item.date == today) {
+                stringResource(R.string.today)
+            } else {
+                stringResource(
+                    R.string.day_with_number,
+                    dayName,
+                    item.date.dayOfMonth
+                )
+            }
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -109,7 +131,7 @@ fun WeeklyChart(
 
                 // День недели
                 Text(
-                    text = item.day,
+                    text = label,
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSurface
                 )

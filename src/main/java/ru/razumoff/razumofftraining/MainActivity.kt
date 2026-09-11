@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -55,8 +56,8 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainApp() {
         val navController = rememberNavController()
-        val repository = (application as RazumoffTrainingApplication).appContainer.repository
-        val application = (application as RazumoffTrainingApplication)
+        val repository = (application as RazoApplication).appContainer.repository
+        val application = (application as RazoApplication)
         val appContainer = application.appContainer
 
         // Создаем и загружаем пользователя
@@ -123,7 +124,7 @@ fun LoadingScreen() {
         ) {
             CircularProgressIndicator()
             Spacer(modifier = Modifier.height(16.dp))
-            Text("Загрузка...")
+            Text(stringResource(R.string.loading_data))
         }
     }
 }

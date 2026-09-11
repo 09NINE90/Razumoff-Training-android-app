@@ -23,7 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.database.entities.WorkoutSetEntity
 
 @Composable
@@ -61,7 +63,7 @@ fun SetsList(
                     ) {
                         Text(
                             text = if (set.weight > 0) {
-                                "${set.reps} x ${set.weight} кг"
+                                "${set.reps} x ${set.weight} ${stringResource(R.string.kg)}"
                             } else {
                                 "${set.reps} (Без веса)"
                             },

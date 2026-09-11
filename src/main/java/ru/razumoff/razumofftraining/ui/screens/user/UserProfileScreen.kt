@@ -31,6 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLocale
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,7 +40,6 @@ import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.ui.components.dialogs.DatePickerDialog
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razumofftraining.ui.components.inputs.EditableField
-import ru.razumoff.razumofftraining.utils.FormatUtils.years
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
@@ -72,13 +73,18 @@ fun UserProfileScreen(
 
     val dateFormat = SimpleDateFormat("dd.MM.yyyy", LocalLocale.current.platformLocale)
 
+    @Composable
     fun calculateAge(birthDateMillis: Long?): String {
-        if (birthDateMillis == null) return "Не указан"
+        if (birthDateMillis == null) return stringResource(R.string.not_specified)
         val birthDate =
             Date(birthDateMillis).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
         val today = LocalDate.now()
         val period = Period.between(birthDate, today)
-        return period.years.years()
+        return pluralStringResource(
+            R.plurals.years_count,
+            period.years,
+            period.years
+        )
     }
 
     LaunchedEffect(user) {
@@ -122,7 +128,7 @@ fun UserProfileScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Пользователь не найден",
+                        text = stringResource(R.string.user_not_found),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -161,7 +167,7 @@ fun UserProfileScreen(
 
                         // Имя
                         EditableField(
-                            label = "Имя",
+                            label = stringResource(R.string.name),
                             value = name,
                             isEditing = isEditing,
                             onValueChange = { name = it },
@@ -170,17 +176,17 @@ fun UserProfileScreen(
 
                         // Возраст
                         EditableField(
-                            label = "Возраст",
+                            label = stringResource(R.string.age),
                             value = birthDateString,
                             isEditing = isEditing,
                             onValueChange = {},
                             displayValue = calculateAge(user!!.birthDate),
-                            placeholder = "Дата рождения",
+                            placeholder = stringResource(R.string.date_of_birth),
                             trailingIcon = {
                                 if (isEditing) {
                                     Icon(
                                         ImageVector.vectorResource(R.drawable.ic_pencil_simple),
-                                        contentDescription = "Выбрать дату",
+                                        contentDescription = stringResource(R.string.select_date),
                                         modifier = Modifier.clickable {
                                             selectedDateMillis?.let {
                                                 datePickerState.selectedDateMillis = it
@@ -194,22 +200,22 @@ fun UserProfileScreen(
 
                         // Вес
                         EditableField(
-                            label = "Вес",
+                            label = stringResource(R.string.weight),
                             value = weight,
                             isEditing = isEditing,
                             onValueChange = { weight = it },
-                            displayValue = user!!.weight?.let { "$it кг" } ?: "Не указан",
-                            placeholder = "Вес (кг)"
+                            displayValue = user!!.weight?.let { "$it ${stringResource(R.string.kg)}" } ?: stringResource(R.string.not_specified),
+                            placeholder = "${stringResource(R.string.weight)} (${stringResource(R.string.kg)})"
                         )
 
                         // Рост
                         EditableField(
-                            label = "Рост",
+                            label = stringResource(R.string.height),
                             value = height,
                             isEditing = isEditing,
                             onValueChange = { height = it },
-                            displayValue = user!!.height?.let { "$it см" } ?: "Не указан",
-                            placeholder = "Рост (см)"
+                            displayValue = user!!.height?.let { "$it ${stringResource(R.string.cm)}" } ?: stringResource(R.string.not_specified),
+                            placeholder = "${stringResource(R.string.height)} (${stringResource(R.string.cm)})"
                         )
                     }
                 }
@@ -221,7 +227,7 @@ fun UserProfileScreen(
                         onClick = { isEditing = false },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Отмена")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             }
@@ -229,10 +235,10 @@ fun UserProfileScreen(
 
         // Плавающий заголовок
         IslandWithButtonHeader(
-            headerText = "Профиль",
+            headerText = stringResource(R.string.profile),
             showBackButton = false,
             actionIcon = if (isEditing) ImageVector.vectorResource(R.drawable.ic_floppy_disk) else ImageVector.vectorResource(R.drawable.ic_pencil_simple),
-            actionDescription = if (isEditing) "Сохранить" else "Редактировать",
+            actionDescription = if (isEditing) stringResource(R.string.save) else stringResource(R.string.edit),
             onActionClick = {
                 if (isEditing) {
                     val birthDateToSave = selectedDateMillis ?: user?.birthDate

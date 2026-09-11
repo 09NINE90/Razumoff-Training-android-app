@@ -33,6 +33,8 @@ fun SessionInfoCopyButtons(
 ){
     val context = LocalContext.current
 
+    val formatter = WorkoutFormatter(context)
+
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -41,7 +43,7 @@ fun SessionInfoCopyButtons(
         Button(
             onClick = {
                 session?.let {
-                    val markdown = WorkoutFormatter.formatToMarkdown(it)
+                    val markdown = formatter.formatToMarkdown(it)
                     copyToClipboard(context,markdown)
                 }
             },
@@ -65,7 +67,7 @@ fun SessionInfoCopyButtons(
         Button(
             onClick = {
                 session?.let {
-                    val text = WorkoutFormatter.formatToSimpleText(it)
+                    val text =  formatter.formatToSimpleText(it)
                     copyToClipboard(context, text)
                 }
             },

@@ -1,3 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RazumoffTraining</string>
+
+    <!-- App -->
+    <string name="app_name">RAZO</string>
+
+    <!-- Common Actions -->
+    <string name="back">Назад</string>
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="add">Добавить</string>
+    <string name="close">Закрыть</string>
+    <string name="search">Поиск</string>
+    <string name="clear">Очистить</string>
+    <string name="done">Завершить</string>
+    <string name="next">Далее</string>
+    <string name="edit_label">Редактировать</string>
+
+    <!-- Main Sections -->
+    <string name="workout">Тренировка</string>
+    <string name="workouts">Тренировки</string>
+    <string name="steps">Шаги</string>
+    <string name="profile">Профиль</string>
+    <string name="templates">Шаблоны</string>
+    <string name="exercises">Упражнения</string>
+    <string name="statistics">Статистика</string>
+
+    <!-- User Data -->
+    <string name="name">Имя</string>
+    <string name="age">Возраст</string>
+    <string name="weight">Вес</string>
+    <string name="height">Рост</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="error_loading_user">Ошибка загрузки пользователя: %1$s</string>
+    <string name="error_updating_user">Ошибка обновления пользователя: %1$s</string>
+    <string name="error_saving_measurement">Ошибка сохранения замера: %1$s</string>
+
+    <!-- Dates & Units -->
+    <string name="today">Сегодня</string>
+    <string name="select_date">Выбрать дату</string>
+    <string name="change_date">Изменить дату</string>
+    <string name="change_time">Изменить время</string>
+    <string name="select_time">Выберите время</string>
+    <string name="day_with_number">%1$s %2$d</string>
+    <string name="kg">кг</string>
+    <string name="cm">см</string>
+    <string name="duration_minutes">мин</string>
+    <string name="t">т</string>
+
+    <!-- Workout Management -->
+    <string name="new_template">Новый шаблон</string>
+    <string name="workout_start">Начало тренировки</string>
+    <string name="total_weight_volume">Объем веса всех упражнений</string>
+    <string name="duration">Длительность</string>
+    <string name="feeling">Самочувствие</string>
+    <string name="notes">Заметки</string>
+    <string name="no_sets">Нет подходов</string>
+    <string name="bodyweight">без веса</string>
+    <string name="warmup">разминочный</string>
+    <string name="generated_by">Сгенерировано RAZO</string>
+    <string name="total">Итого</string>
+    <string name="workout_type">Тип тренировки</string>
+    <string name="regular_workout">Обычная</string>
+    <string name="strength_workout">Силовая</string>
+    <string name="start_workout">Начало тренировки</string>
+    <string name="workout_name">Название тренировки</string>
+    <string name="workout_name_placeholder">Например: Верх тела</string>
+    <string name="recent_workouts">Последние тренировки</string>
+    <string name="recent_workouts_count">Последние %1$d %2$s</string>
+    <string name="weight_volume">Объём веса: %1$s кг</string>
+    <string name="no_completed_workouts">Нет выполненных тренировок</string>
+    <string name="start_first_workout_from_template">Начните первую тренировку из шаблона</string>
+    <string name="workout_completed_title">Тренировка завершена!</string>
+    <string name="great_job">Отличная работа!</string>
+    <string name="workout_not_found">Тренировка не найдена</string>
+    <string name="workout_details">Детали тренировки</string>
+    <string name="delete_workout">Удалить тренировку</string>
+    <string name="delete_workout_question">Удалить тренировку?</string>
+    <string name="delete_workout_confirmation">Это действие нельзя отменить. Вся информация о тренировке будет удалена.</string>
+    <string name="error_starting_workout">Ошибка начала тренировки: %1$s</string>
+    <string name="error_completing_workout">Ошибка завершения тренировки: %1$s</string>
+    <string name="preparing_workout">Подготовка тренировки...</string>
+    <string name="error_loading_workout">Ошибка загрузки тренировки: %1$s</string>
+    <string name="error_updating_date">Ошибка обновления даты: %1$s</string>
+    <string name="error_deleting_workout">Ошибка удаления тренировки: %1$s</string>
+
+    <!-- Templates -->
+    <string name="no_workout_templates">Нет шаблонов тренировок</string>
+    <string name="create_first_template">Создайте первый шаблон</string>
+    <string name="template_not_found">Шаблон не найден</string>
+    <string name="template_no_exercises">В шаблоне нет упражнений</string>
+    <string name="go_to_template">Перейти в шаблон</string>
+    <string name="template_details">Детали шаблона</string>
+    <string name="error_loading_template">Ошибка загрузки шаблона: %1$s</string>
+    <string name="error_saving">Ошибка сохранения: %1$s</string>
+    <string name="error_deleting_template">Ошибка удаления шаблона: %1$s</string>
+    <string name="editing">Редактирование</string>
+    <string name="delete_template">Удалить шаблон</string>
+    <string name="delete_template_question">Удалить шаблон?</string>
+    <string name="delete_template_confirmation">Шаблон «%1$s» будет удалён.\nЭто действие нельзя отменить.</string>
+
+    <!-- Exercises -->
+    <string name="exercise_name">Название</string>
+    <string name="exercise_description">Описание</string>
+    <string name="exercise_muscle_groups">Группы мышц</string>
+    <string name="exercise_body_part">Часть тела</string>
+    <string name="exercise_movement_type">Тип движения</string>
+    <string name="exercise_equipment_optional">Оборудование (необязательно)</string>
+    <string name="exercise_notes_optional">Заметки (необязательно)</string>
+    <string name="exercise_equipment_barbell">Штанга</string>
+    <string name="exercise_equipment_dumbbells">Гантели</string>
+    <string name="exercise_equipment_cable_machine">Блочный тренажер</string>
+    <string name="saving_exercise">Сохранение...</string>
+    <string name="select_at_least_one_muscle_group">Выберите хотя бы одну группу мышц</string>
+    <string name="new_exercise">Новое упражнение</string>
+    <string name="no_exercises">Нет упражнений. Добавьте первое!</string>
+    <string name="exercise_saved">Упражнение сохранено!</string>
+    <string name="no_exercises_available">Нет упражнений</string>
+    <string name="create_exercises_in_section">Создайте упражнения в разделе Упражнения</string>
+    <string name="search_exercises">Поиск упражнений</string>
+    <string name="enter_exercise_name">Введите название упражнения...</string>
+    <string name="error_loading_exercises">Ошибка загрузки упражнений: %1$s</string>
+    <string name="exercise_already_added">Упражнение уже добавлено</string>
+    <string name="error_adding_exercise">Ошибка добавления упражнения: %1$s</string>
+    <string name="add_exercise">Добавить упражнение</string>
+    <string name="unknown_exercise">Неизвестное упражнение</string>
+    <string name="added">Добавлено</string>
+    <string name="add_at_least_one_exercise">Добавьте хотя бы одно упражнение</string>
+
+    <!-- Sets -->
+    <string name="set">Подход</string>
+    <string name="sets">Подходы</string>
+    <string name="set_number">Подход %1$d</string>
+    <string name="repetitions_label">Повторения</string>
+    <string name="repetitions">Повторения</string>
+    <string name="weight_label">Вес</string>
+    <string name="no_weight_label">(Без веса)</string>
+    <string name="add_set">Добавить подход</string>
+    <string name="no_sets_add_first">Нет подходов. Добавьте первый!</string>
+    <string name="error_adding_set">Ошибка добавления подхода: %1$s</string>
+    <string name="set_not_found">Подход не найден</string>
+    <string name="error_deleting_set">Ошибка удаления подхода: %1$s</string>
+    <string name="add_at_least_one_set">Добавьте хотя бы один подход перед переходом</string>
+    <string name="all_exercises_completed">Все упражнения выполнены! Завершите тренировку.</string>
+
+    <!-- Statistics -->
+    <string name="statistics_workout_type_all">Все</string>
+    <string name="statistics_period_all_time">За всё время</string>
+    <string name="statistics_period_this_month">Этот месяц</string>
+    <string name="overall_statistics">Общая статистика</string>
+    <string name="volume">Объём</string>
+    <string name="error_loading_statistics">Ошибка загрузки статистики: %1$s</string>
+    <string name="open_statistics">Открыть статистику</string>
+    <string name="no_completed_workout_data">Пока нет данных о выполненных тренировках</string>
+
+    <!-- Steps -->
+    <string name="last_seven_days">Последние 7 дней</string>
+    <string name="total_steps">Всего шагов</string>
+    <string name="average_per_day">Среднее в день</string>
+    <string name="health_connect_not_installed">Health Connect не установлен</string>
+    <string name="requires_permissions">Требуются разрешения</string>
+    <string name="permissions_not_granted">Разрешения не получены</string>
+    <string name="no_connection_to_health_connect">Нет связи с Health Connect</string>
+    <string name="connect_pedometer">Подключить шагомер</string>
+    <string name="health_connect_permissions_explanation">После нажатия откроется окно разрешений Health Connect</string>
+
+    <!-- Common / UI States -->
+    <string name="completed">Завершено</string>
+    <string name="in_progress">В процессе</string>
+    <string name="loading_data">Загрузка данных...</string>
+    <string name="error_loading_data">Ошибка загрузки данных: %1$s</string>
+    <string name="user_not_found">Пользователь не найден</string>
+    <string name="not_specified">Не указан</string>
+    <string name="nothing_found">Ничего не найдено</string>
+    <string name="try_different_query">Попробуйте изменить запрос</string>
+    <string name="required_field">Обязательное поле</string>
+    <string name="copy_md">Копировать MD</string>
+    <string name="copy_txt">Копировать TXT</string>
+    <string name="without_weight">Без веса</string>
+    <string name="max_weight">максимальный вес</string>
+    <string name="bodyweight_exercise">упражнение без веса</string>
+
+    <!-- Measurements -->
+    <string name="measurement_weight">Вес</string>
+    <string name="measurement_chest">Грудь</string>
+    <string name="measurement_waist">Талия</string>
+    <string name="measurement_hips">Бёдра</string>
+    <string name="measurement_biceps">Бицепс</string>
+    <string name="measurement_forearm">Предплечье</string>
+    <string name="measurement_thigh">Бедро</string>
+    <string name="measurement_calf">Икра</string>
+    <string name="measurement_shoulders">Плечи</string>
+    <string name="measurement_neck">Шея</string>
+
+    <!-- Muscles -->
+    <string name="muscle_chest">Грудь</string>
+    <string name="muscle_back">Спина</string>
+    <string name="muscle_shoulders">Плечи</string>
+    <string name="muscle_biceps">Бицепс</string>
+    <string name="muscle_triceps">Трицепс</string>
+    <string name="muscle_legs">Ноги</string>
+    <string name="muscle_glutes">Ягодицы</string>
+    <string name="muscle_core">Кор</string>
+    <string name="muscle_forearms">Предплечья</string>
+    <string name="muscle_traps">Трапеции</string>
+    <string name="muscle_lats">Широчайшие</string>
+    <string name="muscle_calves">Икры</string>
+    <string name="muscle_hamstrings">Бицепс бедра</string>
+    <string name="muscle_quadriceps">Квадрицепсы</string>
+    <string name="muscle_full_body">Всё тело</string>
+
+    <!-- Body Parts -->
+    <string name="body_part_upper">Верх</string>
+    <string name="body_part_lower">Низ</string>
+    <string name="body_part_full">Всё тело</string>
+
+    <!-- Movements -->
+    <string name="movement_push">Жимовое</string>
+    <string name="movement_pull">Тяговое</string>
+    <string name="movement_squat">Приседание</string>
+    <string name="movement_lunge">Выпад</string>
+    <string name="movement_rotation">Вращение</string>
+    <string name="movement_isolation">Изолирующее</string>
+    <string name="movement_compound">Базовое</string>
+    <string name="movement_cardio">Кардио</string>
+
+    <!-- Plurals -->
+    <plurals name="workouts_count">
+        <item quantity="one">тренировка</item>
+        <item quantity="few">тренировки</item>
+        <item quantity="many">тренировок</item>
+        <item quantity="other">тренировки</item>
+    </plurals>
+
+    <plurals name="templates_count">
+        <item quantity="one">%d шаблон</item>
+        <item quantity="few">%d шаблона</item>
+        <item quantity="many">%d шаблонов</item>
+        <item quantity="other">%d шаблона</item>
+    </plurals>
+
+    <plurals name="exercises_count">
+        <item quantity="one">%d упражнение</item>
+        <item quantity="few">%d упражнения</item>
+        <item quantity="many">%d упражнений</item>
+        <item quantity="other">%d упражнения</item>
+    </plurals>
+
+    <plurals name="sets_count">
+        <item quantity="one">%d подход</item>
+        <item quantity="few">%d подхода</item>
+        <item quantity="many">%d подходов</item>
+        <item quantity="other">%d подхода</item>
+    </plurals>
+
+    <plurals name="selected_exercises_count">
+        <item quantity="one">Выбрано (%d упражнение)</item>
+        <item quantity="few">Выбрано (%d упражнения)</item>
+        <item quantity="many">Выбрано (%d упражнений)</item>
+        <item quantity="other">Выбрано (%d упражнения)</item>
+    </plurals>
+
+    <plurals name="years_count">
+        <item quantity="one">%d год</item>
+        <item quantity="few">%d года</item>
+        <item quantity="many">%d лет</item>
+        <item quantity="other">%d года</item>
+    </plurals>
+
 </resources>

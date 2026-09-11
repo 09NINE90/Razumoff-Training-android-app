@@ -21,10 +21,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.SessionExerciseState
-import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
-import ru.razumoff.razumofftraining.utils.FormatUtils.sets
 
 @Composable
 fun SessionCompleted(
@@ -56,23 +57,35 @@ fun SessionCompleted(
             ) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
-                    contentDescription = "Завершено",
+                    contentDescription = stringResource(R.string.completed),
                     modifier = Modifier.size(56.dp),
                     tint = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Тренировка завершена!",
+                    text = stringResource(R.string.workout_completed_title),
                     style = MaterialTheme.typography.headlineMedium
                 )
                 Text(
-                    text = "Отличная работа!",
+                    text = stringResource(R.string.great_job),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${totalExercises.exercises()} • ${totalSets.sets()}",
+                    text = "${
+                        pluralStringResource(
+                            R.plurals.exercises_count,
+                            totalExercises,
+                            totalExercises
+                        )
+                    } • ${
+                        pluralStringResource(
+                            R.plurals.sets_count,
+                            totalSets,
+                            totalSets
+                        )
+                    }",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -100,7 +113,7 @@ fun SessionCompleted(
                     .height(48.dp),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Закрыть")
+                Text(stringResource(R.string.close))
             }
 
             Spacer(modifier = Modifier.height(16.dp))

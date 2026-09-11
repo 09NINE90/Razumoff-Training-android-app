@@ -14,7 +14,7 @@ fun <T> FilterChipGroup(
     selectedItem: T,
     onItemSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
-    labelMapper: (T) -> String,
+    labelMapper: @Composable (T) -> String,
     chipsPerRow: Int = 4,
     chipModifier: Modifier = Modifier
 ) {

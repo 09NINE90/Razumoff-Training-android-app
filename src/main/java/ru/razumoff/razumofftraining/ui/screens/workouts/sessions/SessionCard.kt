@@ -19,12 +19,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLocale
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.WorkoutSession
 import ru.razumoff.razumofftraining.ui.theme.Success
-import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
 import java.text.SimpleDateFormat
 
 
@@ -61,8 +62,10 @@ fun SessionCard(
                 ) {
                     // Дата
                     Text(
-                        text = SimpleDateFormat("dd.MM.yyyy HH:mm", LocalLocale.current.platformLocale)
-                            .format(session.date),
+                        text = SimpleDateFormat(
+                            "dd.MM.yyyy HH:mm",
+                            LocalLocale.current.platformLocale
+                        ).format(session.date),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -70,7 +73,7 @@ fun SessionCard(
                     // Длительность
                     session.duration?.let {
                         Text(
-                            text = "• $it мин",
+                            text = "• $it ${stringResource(R.string.duration_minutes)}",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -88,7 +91,11 @@ fun SessionCard(
 
                 // Количество упражнений
                 Text(
-                    text = session.exercises.size.exercises(),
+                    text = pluralStringResource(
+                        R.plurals.exercises_count,
+                        session.exercises.size,
+                        session.exercises.size
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -98,14 +105,14 @@ fun SessionCard(
             if (session.isCompleted) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_check_circle_fill),
-                    contentDescription = "Завершено",
+                    contentDescription = stringResource(R.string.completed),
                     tint = Success,
                     modifier = Modifier.size(20.dp)
                 )
             } else {
                 Icon(
                     imageVector = Icons.Default.PlayArrow,
-                    contentDescription = "В процессе",
+                    contentDescription = stringResource(R.string.in_progress),
                     modifier = Modifier.size(20.dp)
                 )
             }

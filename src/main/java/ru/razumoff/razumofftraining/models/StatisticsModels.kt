@@ -1,19 +1,31 @@
 package ru.razumoff.razumofftraining.models
 
-enum class StatisticsPeriod(
-    val displayName: String
-) {
-    ALL_TIME("За всё время"),
-    THIS_MONTH("Этот месяц")
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import ru.razumoff.razumofftraining.R
+
+enum class StatisticsPeriod {
+    ALL_TIME,
+    THIS_MONTH
+}
+
+@Composable
+fun StatisticsPeriod.localizedName(): String {
+    return when (this) {
+        StatisticsPeriod.ALL_TIME ->
+            stringResource(R.string.statistics_period_all_time)
+
+        StatisticsPeriod.THIS_MONTH ->
+            stringResource(R.string.statistics_period_this_month)
+    }
 }
 
 enum class StatisticsWorkoutType(
-    val displayName: String,
     val workoutType: WorkoutType?
 ) {
-    ALL("Все", null),
-    REGULAR("Обычная", WorkoutType.REGULAR),
-    STRENGTH("Силовая", WorkoutType.STRENGTH);
+    ALL(null),
+    REGULAR(WorkoutType.REGULAR),
+    STRENGTH(WorkoutType.STRENGTH);
 
     fun toWorkoutType(): String? {
         return when (this) {
@@ -23,6 +35,21 @@ enum class StatisticsWorkoutType(
         }
     }
 }
+
+@Composable
+fun StatisticsWorkoutType.localizedName(): String {
+    return when (this) {
+        StatisticsWorkoutType.ALL ->
+            stringResource(R.string.statistics_workout_type_all)
+
+        StatisticsWorkoutType.REGULAR ->
+            stringResource(R.string.regular_workout)
+
+        StatisticsWorkoutType.STRENGTH ->
+            stringResource(R.string.strength_workout)
+    }
+}
+
 
 data class StatisticsSummary(
     val completedSessions: Int = 0,

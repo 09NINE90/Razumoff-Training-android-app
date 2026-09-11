@@ -15,9 +15,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.ExerciseStatistics
 import ru.razumoff.razumofftraining.utils.FormatUtils.formatVolume
+
 @Composable
 fun ExerciseStatisticsCard(
     statistic: ExerciseStatistics,
@@ -44,9 +47,9 @@ fun ExerciseStatisticsCard(
 
             Text(
                 text = if (statistic.maxWeight > 0f) {
-                    "${statistic.maxWeight} кг"
+                    "${statistic.maxWeight} ${stringResource(R.string.kg)}"
                 } else {
-                    "Без веса"
+                    stringResource(R.string.without_weight)
                 },
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary
@@ -54,9 +57,9 @@ fun ExerciseStatisticsCard(
 
             Text(
                 text = if (statistic.maxWeight > 0f) {
-                    "максимальный вес"
+                    stringResource(R.string.max_weight)
                 } else {
-                    "упражнение без веса"
+                    stringResource(R.string.bodyweight_exercise)
                 },
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -77,22 +80,22 @@ fun ExerciseStatisticsCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 StatisticValue(
-                    title = "Подходы",
+                    title = stringResource(R.string.sets),
                     value = statistic.totalSets.toString()
                 )
 
                 StatisticValue(
-                    title = "Повторения",
+                    title = stringResource(R.string.repetitions),
                     value = statistic.totalReps.toString()
                 )
 
                 StatisticValue(
-                    title = "Тренировки",
+                    title = stringResource(R.string.workouts),
                     value = statistic.sessionsCount.toString()
                 )
             }
 
-            if (statistic.totalVolume > 0){
+            if (statistic.totalVolume > 0) {
                 Spacer(
                     modifier = Modifier.height(12.dp)
                 )
@@ -102,7 +105,7 @@ fun ExerciseStatisticsCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     StatisticValue(
-                        title = "Объём",
+                        title = stringResource(R.string.volume),
                         value = formatVolume(statistic.totalVolume)
                     )
                 }

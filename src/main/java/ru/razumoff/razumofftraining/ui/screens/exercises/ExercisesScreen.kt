@@ -7,34 +7,47 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.razumoff.razumofftraining.models.Exercise
+import androidx.navigation.NavController
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
+import ru.razumoff.razumofftraining.R
 
 @Composable
 fun ExercisesScreen(
     viewModel: ExerciseViewModel,
+    navController: NavController,
     onAddExercise: () -> Unit,
-    onExerciseClick: (Exercise) -> Unit,
     onBack: () -> Unit
 ) {
     val exercises by viewModel.exercises.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
-    val saveSuccess by viewModel.saveSuccess.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val exerciseSaved: String = stringResource(R.string.exercise_saved)
+
+    val exerciseSavedState = navController
+        .currentBackStackEntry
+        ?.savedStateHandle
+        ?.getStateFlow("exercise_saved", false)
+        ?.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadExercises()
     }
 
-    LaunchedEffect(saveSuccess) {
-        if (saveSuccess) {
+    LaunchedEffect(exerciseSavedState?.value) {
+        if (exerciseSavedState?.value == true) {
             snackbarHostState.showSnackbar(
-                message = "Упражнение сохранено!",
+                message = exerciseSaved,
                 duration = SnackbarDuration.Short
             )
+
+            navController.currentBackStackEntry
+                ?.savedStateHandle
+                ?.set("exercise_saved", false)
         }
     }
 
@@ -86,7 +99,7 @@ fun ExercisesScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Нет упражнений. Добавьте первое!",
+                        text = stringResource(R.string.no_exercises),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -103,7 +116,6 @@ fun ExercisesScreen(
                     ) { index, exercise ->
                         ExerciseCard(
                             exercise = exercise,
-                            onClick = { onExerciseClick(exercise) },
                             modifier = Modifier.padding(
                                 bottom = if (index == exercises.lastIndex) 110.dp else 0.dp
                             )
@@ -115,11 +127,18 @@ fun ExercisesScreen(
 
         // 2. Плавающая шапка (поверх всего)
         IslandWithButtonHeader(
-            headerText = "Упражнения",
-            actionDescription = "Добавить упражнение",
+            headerText = stringResource(R.string.exercises),
+            actionDescription = stringResource(R.string.add_exercise),
             onActionClick = onAddExercise,
             onBackClick = onBack,
             showBackButton = true
+        )
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 110.dp)
         )
     }
 }

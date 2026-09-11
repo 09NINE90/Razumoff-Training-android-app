@@ -9,9 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 
 @Composable
 fun AddSetForm(
@@ -35,7 +37,7 @@ fun AddSetForm(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Добавить подход",
+                text = stringResource(R.string.add_set),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -60,7 +62,7 @@ fun AddSetForm(
                 OutlinedTextField(
                     value = weightInput,
                     onValueChange = onWeightChange,
-                    label = { Text("Вес (кг)") },
+                    label = { Text(stringResource(R.string.weight_label)) },
                     modifier = Modifier.weight(1f),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
@@ -79,7 +81,7 @@ fun AddSetForm(
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Добавить")
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Добавить подход")
+                Text(stringResource(R.string.add_set))
             }
         }
     }

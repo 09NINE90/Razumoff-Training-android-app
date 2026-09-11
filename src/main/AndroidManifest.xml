@@ -11,7 +11,7 @@
     </queries>
 
     <application
-        android:name=".RazumoffTrainingApplication"
+        android:name=".RazoApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -21,13 +21,13 @@
         android:versionCode="1"
         android:versionName="1.1.0"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RazumoffTraining">
+        android:theme="@style/Theme.RAZO">
 
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.RazumoffTraining.Starting"
+            android:theme="@style/Theme.RAZO.Starting"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

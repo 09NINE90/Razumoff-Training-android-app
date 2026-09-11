@@ -79,10 +79,8 @@ fun NavGraph(
 
             ExercisesScreen(
                 viewModel = viewModel,
+                navController = navController,
                 onAddExercise = { navController.navigate(Screen.AddExercise.route) },
-                onExerciseClick = { exercise ->
-                    // TODO: Перейти к деталям упражнения
-                },
                 onBack = { navController.popBackStack() }
             )
         }
@@ -108,10 +106,23 @@ fun NavGraph(
 
             AddExerciseScreen(
                 onSave = { exercise ->
-                    viewModel.addExercise(exercise)
+                    viewModel.addExercise(
+                        exercise = exercise,
+                        onSuccess = {
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("exercise_saved", true)
+
+                            navController.popBackStack()
+                        }
+                    )
+                },
+                onCancel = {
                     navController.popBackStack()
                 },
-                onCancel = { navController.popBackStack() },
+                onBack = {
+                    navController.popBackStack()
+                },
                 isSaving = viewModel.isSaving.collectAsState().value
             )
         }

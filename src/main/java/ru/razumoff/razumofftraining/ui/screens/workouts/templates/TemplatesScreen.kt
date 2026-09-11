@@ -1,13 +1,29 @@
 package ru.razumoff.razumofftraining.ui.screens.workouts.templates
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.WorkoutTemplate
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 
@@ -68,13 +84,15 @@ fun TemplatesScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "Нет шаблонов тренировок",
+                                text = stringResource(R.string.no_workout_templates),
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
+
                             Spacer(modifier = Modifier.height(8.dp))
+
                             Text(
-                                text = "Создайте первый шаблон",
+                                text = stringResource(R.string.create_first_template),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -102,7 +120,7 @@ fun TemplatesScreen(
 
         // Плавающий заголовок
         IslandWithButtonHeader(
-            headerText = "Шаблоны",
+            headerText = stringResource(R.string.templates),
             actionDescription = "Добавить",
             onActionClick = onAddTemplate,
             modifier = Modifier

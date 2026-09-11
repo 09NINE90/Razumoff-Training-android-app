@@ -18,6 +18,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.components.AddSetForm
 import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.components.SessionCompleted
@@ -74,7 +77,7 @@ fun WorkoutSessionScreen(
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         CircularProgressIndicator()
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Подготовка тренировки...")
+                        Text(stringResource(R.string.preparing_workout))
                     }
                 }
             }
@@ -89,7 +92,7 @@ fun WorkoutSessionScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Нет упражнений")
+                    Text(stringResource(R.string.no_exercises_available))
                 }
             }
             else -> {
@@ -164,7 +167,7 @@ fun WorkoutSessionScreen(
 
         // Плавающий заголовок
         IslandWithButtonHeader(
-            headerText = state.templateName.ifEmpty { "Тренировка" },
+            headerText = state.templateName.ifEmpty {  pluralStringResource(R.plurals.workouts_count, 1) },
             onBackClick = {
                 if (currentExercise?.sets?.isNotEmpty() == true) {
                     // TODO: Показать диалог подтверждения

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -28,17 +29,17 @@ fun BottomNavBar(
 ) {
     val items = listOf(
         BottomNavItem(
-            title = "Шаги",
+            title = stringResource(R.string.steps),
             icon = ImageVector.vectorResource(R.drawable.pedometer_step_counter),
             screen = Screen.Steps
         ),
         BottomNavItem(
-            title = "Тренировки",
+            title = stringResource(R.string.workouts),
             icon = ImageVector.vectorResource(R.drawable.my_workout_plan),
             screen = Screen.Workout
         ),
         BottomNavItem(
-            title = "Профиль",
+            title = stringResource(R.string.profile),
             icon = ImageVector.vectorResource(R.drawable.ic_user),
             screen = Screen.UserProfile
         )

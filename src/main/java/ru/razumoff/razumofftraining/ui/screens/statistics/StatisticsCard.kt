@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
@@ -43,19 +44,19 @@ fun StatisticsCard(
             )  {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_chart_bar),
-                    contentDescription = "Упражнения",
+                    contentDescription = stringResource(R.string.exercises),
                     tint = MaterialTheme.colorScheme.primary
                 )
 
                 Text(
-                    text = "Статистика",
+                    text = stringResource(R.string.statistics),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
 
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right),
-                contentDescription = "Открыть статистику",
+                contentDescription = stringResource(R.string.open_statistics),
                 tint = MaterialTheme.colorScheme.primary,
             )
         }

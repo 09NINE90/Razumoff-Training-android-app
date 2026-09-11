@@ -16,10 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
-import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
 
 
 @Composable
@@ -47,17 +48,21 @@ fun ExercisesCard(
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_barbell),
-                    contentDescription = "Упражнения",
+                    contentDescription = stringResource(R.string.exercises),
                     tint = MaterialTheme.colorScheme.primary
                 )
                 Column {
                     Text(
-                        text = "Упражнения",
+                        text = stringResource(R.string.exercises),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = exercisesCount.exercises(),
+                        text = pluralStringResource(
+                            R.plurals.exercises_count,
+                            exercisesCount,
+                            exercisesCount
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

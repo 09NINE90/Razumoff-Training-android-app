@@ -43,12 +43,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.WorkoutType
+import ru.razumoff.razumofftraining.models.localizedName
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
-import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,14 +112,17 @@ fun CreateTemplateScreen(
             OutlinedTextField(
                 value = templateName,
                 onValueChange = { viewModel.updateTemplateName(it) },
-                label = { Text("Название тренировки") },
-                placeholder = { Text("Например: Верх тела") },
+                label = { Text(stringResource(R.string.workout_name)) },
+                placeholder = { Text(stringResource(R.string.workout_name_placeholder)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 isError = templateName.isBlank(),
                 supportingText = {
                     if (templateName.isBlank()) {
-                        Text("Обязательное поле", color = MaterialTheme.colorScheme.error)
+                        Text(
+                            text = stringResource(R.string.required_field),
+                            color = MaterialTheme.colorScheme.error
+                        )
                     }
                 },
                 shape = RoundedCornerShape(10.dp)
@@ -126,7 +131,7 @@ fun CreateTemplateScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "Тип тренировки",
+                text = stringResource(R.string.workout_type),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -156,7 +161,7 @@ fun CreateTemplateScreen(
                             )
                         }
                     ) {
-                        Text(type.displayName)
+                        Text(type.localizedName())
                     }
                 }
             }
@@ -167,12 +172,15 @@ fun CreateTemplateScreen(
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
-                label = { Text("Поиск упражнений") },
-                placeholder = { Text("Введите название упражнения...") },
+                label = { Text(stringResource(R.string.search_exercises)) },
+                placeholder = { Text(stringResource(R.string.enter_exercise_name)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 leadingIcon = {
-                    Icon(Icons.Default.Search, contentDescription = "Поиск")
+                    Icon(
+                        Icons.Default.Search,
+                        contentDescription = stringResource(R.string.search)
+                    )
                 },
                 trailingIcon = {
                     if (searchQuery.isNotEmpty()) {
@@ -182,7 +190,7 @@ fun CreateTemplateScreen(
                         ) {
                             Icon(
                                 Icons.Default.Close,
-                                contentDescription = "Очистить",
+                                contentDescription = stringResource(R.string.clear),
                                 modifier = Modifier.size(18.dp)
                             )
                         }
@@ -223,14 +231,17 @@ fun CreateTemplateScreen(
                             modifier = Modifier.size(48.dp),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                         )
+
                         Spacer(modifier = Modifier.height(8.dp))
+
                         Text(
-                            text = "Нет упражнений",
+                            text = stringResource(R.string.no_exercises_available),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+
                         Text(
-                            text = "Создайте упражнения в разделе Упражнения",
+                            text = stringResource(R.string.create_exercises_in_section),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -247,18 +258,21 @@ fun CreateTemplateScreen(
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(
                             imageVector = Icons.Default.SearchOff,
-                            contentDescription = "Ничего не найдено",
+                            contentDescription = stringResource(R.string.nothing_found),
                             modifier = Modifier.size(48.dp),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                         )
+
                         Spacer(modifier = Modifier.height(8.dp))
+
                         Text(
-                            text = "Ничего не найдено",
+                            text = stringResource(R.string.nothing_found),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+
                         Text(
-                            text = "Попробуйте изменить запрос",
+                            text = stringResource(R.string.try_different_query),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -295,7 +309,11 @@ fun CreateTemplateScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Выбрано (${selectedExercises.size.exercises()})",
+                    text = pluralStringResource(
+                        R.plurals.selected_exercises_count,
+                        selectedExercises.size,
+                        selectedExercises.size
+                    ),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -319,8 +337,8 @@ fun CreateTemplateScreen(
 
         // Плавающий заголовок (без кнопки добавления)
         IslandWithButtonHeader(
-            headerText = "Новый шаблон",
-            actionDescription = "Сохранить",
+            headerText = stringResource(R.string.new_template),
+            actionDescription = stringResource(R.string.save),
             actionIcon = ImageVector.vectorResource(R.drawable.ic_floppy_disk),
             onActionClick = {
                 viewModel.saveTemplate {

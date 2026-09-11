@@ -25,8 +25,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.WorkoutSession
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razumofftraining.ui.screens.exercises.ExerciseViewModel
@@ -34,7 +37,6 @@ import ru.razumoff.razumofftraining.ui.screens.exercises.ExercisesCard
 import ru.razumoff.razumofftraining.ui.screens.statistics.StatisticsCard
 import ru.razumoff.razumofftraining.ui.screens.workouts.sessions.SessionCard
 import ru.razumoff.razumofftraining.ui.screens.workouts.templates.TemplatesCard
-import ru.razumoff.razumofftraining.utils.FormatUtils.workouts
 
 @Composable
 fun WorkoutScreen(
@@ -78,7 +80,7 @@ fun WorkoutScreen(
                     CircularProgressIndicator()
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Загрузка данных...",
+                        text = stringResource(R.string.loading_data),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -113,9 +115,13 @@ fun WorkoutScreen(
                 // Заголовок раздела "Последние тренировки"
                 Text(
                     text = if (sessions.isEmpty()) {
-                        "Последние тренировки"
+                        stringResource(R.string.recent_workouts)
                     } else {
-                        "Последние ${sessions.size.workouts()}"
+                        stringResource(
+                            R.string.recent_workouts_count,
+                            sessions.size,
+                            pluralStringResource(R.plurals.workouts_count, sessions.size)
+                        )
                     },
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -141,12 +147,12 @@ fun WorkoutScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Нет выполненных тренировок",
+                                text = stringResource(R.string.no_completed_workouts),
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = "Начните первую тренировку из шаблона",
+                                text = stringResource(R.string.start_first_workout_from_template),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -176,8 +182,8 @@ fun WorkoutScreen(
 
         // Плавающий заголовок
         IslandWithButtonHeader(
-            headerText = "Тренировки",
-            actionDescription = "Добавить",
+            headerText = stringResource(R.string.workouts),
+            actionDescription = stringResource(R.string.add),
             onActionClick = onTemplatesClick
         )
     }

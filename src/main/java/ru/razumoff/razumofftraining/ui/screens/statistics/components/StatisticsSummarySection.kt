@@ -8,7 +8,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.StatisticsSummary
 import ru.razumoff.razumofftraining.utils.FormatUtils.formatVolume
 
@@ -21,7 +23,7 @@ fun StatisticsSummarySection(
     ) {
 
         Text(
-            text = "Общая статистика",
+            text = stringResource(R.string.overall_statistics),
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -31,13 +33,13 @@ fun StatisticsSummarySection(
         ) {
 
             StatisticCard(
-                title = "Тренировки",
+                title = stringResource(R.string.workouts),
                 value = summary.completedSessions.toString(),
                 modifier = Modifier.weight(1f)
             )
 
             StatisticCard(
-                title = "Подходы",
+                title = stringResource(R.string.sets),
                 value = summary.totalSets.toString(),
                 modifier = Modifier.weight(1f)
             )
@@ -49,13 +51,13 @@ fun StatisticsSummarySection(
         ) {
 
             StatisticCard(
-                title = "Повторения",
+                title = stringResource(R.string.repetitions),
                 value = summary.totalReps.toString(),
                 modifier = Modifier.weight(1f)
             )
 
             StatisticCard(
-                title = "Объём",
+                title = stringResource(R.string.volume),
                 value = formatVolume(summary.totalVolume),
                 modifier = Modifier.weight(1f)
             )

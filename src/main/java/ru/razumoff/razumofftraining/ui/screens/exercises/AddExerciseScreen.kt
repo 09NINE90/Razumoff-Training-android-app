@@ -1,20 +1,42 @@
 package ru.razumoff.razumofftraining.ui.screens.exercises
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import ru.razumoff.razumofftraining.models.*
-import ru.razumoff.razumofftraining.ui.components.buttons.ActionButtons
+import ru.razumoff.razumofftraining.R
+import ru.razumoff.razumofftraining.models.BodyPart
+import ru.razumoff.razumofftraining.models.Exercise
+import ru.razumoff.razumofftraining.models.MovementType
+import ru.razumoff.razumofftraining.models.MuscleGroup
+import ru.razumoff.razumofftraining.models.localizedName
 import ru.razumoff.razumofftraining.ui.components.chips.FilterChipGroup
 import ru.razumoff.razumofftraining.ui.components.dropdown.MultiSelectDropdown
+import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razumofftraining.ui.components.inputs.AppTextField
 import ru.razumoff.razumofftraining.ui.components.sections.SectionHeader
 import java.util.UUID
@@ -24,6 +46,7 @@ import java.util.UUID
 fun AddExerciseScreen(
     onSave: (Exercise) -> Unit,
     onCancel: () -> Unit,
+    onBack: () -> Unit,
     isSaving: Boolean = false
 ) {
     // Состояния
@@ -41,125 +64,143 @@ fun AddExerciseScreen(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
-            .padding(bottom = 100.dp)
-            .verticalScroll(scrollState)
-            .imePadding(),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Заголовок
-        Text(
-            text = "Новое упражнение",
-            style = MaterialTheme.typography.headlineMedium
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 100.dp)
+                .verticalScroll(scrollState)
+                .imePadding(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(60.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
+            // Название
+            AppTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = stringResource(R.string.exercise_name),
+                isError = name.isBlank()
+            )
 
-        // Название
-        AppTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = "Название *",
-            isError = name.isBlank()
-        )
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(8.dp))
+            // Описание
+            AppTextField(
+                value = description,
+                onValueChange = { description = it },
+                label = stringResource(R.string.exercise_description),
+                minLines = 2,
+                singleLine = false
+            )
 
-        // Описание
-        AppTextField(
-            value = description,
-            onValueChange = { description = it },
-            label = "Описание",
-            minLines = 2,
-            singleLine = false
-        )
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(8.dp))
+            // Группы мышц (Dropdown)
+            MultiSelectDropdown(
+                items = MuscleGroup.entries,
+                selectedItems = selectedMuscleGroups,
+                onItemToggle = { muscle ->
+                    selectedMuscleGroups = if (muscle in selectedMuscleGroups) {
+                        selectedMuscleGroups - muscle
+                    } else {
+                        selectedMuscleGroups + muscle
+                    }
+                },
+                expanded = muscleGroupDropdownExpanded,
+                onExpandedChange = { muscleGroupDropdownExpanded = it },
+                label = stringResource(R.string.exercise_muscle_groups),
+                displayMapper = { it.localizedName() }
+            )
 
-        // Группы мышц (Dropdown)
-        MultiSelectDropdown(
-            items = MuscleGroup.entries,
-            selectedItems = selectedMuscleGroups,
-            onItemToggle = { muscle ->
-                selectedMuscleGroups = if (muscle in selectedMuscleGroups) {
-                    selectedMuscleGroups - muscle
-                } else {
-                    selectedMuscleGroups + muscle
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Часть тела
+            SectionHeader(title = stringResource(R.string.exercise_body_part))
+            Spacer(modifier = Modifier.height(4.dp))
+
+            FilterChipGroup(
+                items = BodyPart.entries,
+                selectedItem = selectedBodyPart,
+                onItemSelected = { selectedBodyPart = it },
+                labelMapper = { it.localizedName() }
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Тип движения
+            SectionHeader(title = stringResource(R.string.exercise_movement_type))
+            Spacer(modifier = Modifier.height(4.dp))
+
+            FilterChipGroup(
+                items = MovementType.entries,
+                selectedItem = selectedMovementType,
+                onItemSelected = { selectedMovementType = it },
+                labelMapper = { it.localizedName() }
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Оборудование
+            AppTextField(
+                value = equipment,
+                onValueChange = { equipment = it },
+                label = stringResource(R.string.exercise_equipment_optional),
+                placeholder = "${stringResource(R.string.exercise_equipment_barbell)}, " +
+                        "${stringResource(R.string.exercise_equipment_dumbbells)}, " +
+                        stringResource(R.string.exercise_equipment_cable_machine),
+                imeAction = ImeAction.Next,
+                onImeAction = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Заметки
+            AppTextField(
+                value = notes,
+                onValueChange = { notes = it },
+                label = stringResource(R.string.exercise_notes_optional),
+                minLines = 2,
+                singleLine = false,
+                imeAction = ImeAction.Done,
+                onImeAction = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
                 }
-            },
-            expanded = muscleGroupDropdownExpanded,
-            onExpandedChange = { muscleGroupDropdownExpanded = it },
-            label = "Группы мышц",
-            displayMapper = { it.displayName }
-        )
+            )
 
-        Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Часть тела
-        SectionHeader(title = "Часть тела")
-        Spacer(modifier = Modifier.height(4.dp))
-
-        FilterChipGroup(
-            items = BodyPart.entries,
-            selectedItem = selectedBodyPart,
-            onItemSelected = { selectedBodyPart = it },
-            labelMapper = { it.displayName }
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Тип движения
-        SectionHeader(title = "Тип движения")
-        Spacer(modifier = Modifier.height(4.dp))
-
-        FilterChipGroup(
-            items = MovementType.entries,
-            selectedItem = selectedMovementType,
-            onItemSelected = { selectedMovementType = it },
-            labelMapper = { it.displayName }
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Оборудование
-        AppTextField(
-            value = equipment,
-            onValueChange = { equipment = it },
-            label = "Оборудование (необязательно)",
-            placeholder = "Штанга, Гантели, Блочный тренажер",
-            imeAction = ImeAction.Next,
-            onImeAction = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) }
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Заметки
-        AppTextField(
-            value = notes,
-            onValueChange = { notes = it },
-            label = "Заметки (необязательно)",
-            minLines = 2,
-            singleLine = false,
-            imeAction = ImeAction.Done,
-            onImeAction = {
-                keyboardController?.hide()
-                focusManager.clearFocus()
+            Button(
+                onClick = onCancel,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.cancel))
             }
-        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            // Подсказка о заполнении
+            if (name.isNotBlank() && selectedMuscleGroups.isEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.select_at_least_one_muscle_group),
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
 
-        // Кнопки
-        ActionButtons(
-            onCancel = {
-                keyboardController?.hide()
-                focusManager.clearFocus()
-                onCancel()
-            },
-            onSave = {
+            Spacer(modifier = Modifier.height(32.dp))
+        }
+
+        IslandWithButtonHeader(
+            headerText = stringResource(R.string.new_exercise),
+            actionDescription = stringResource(R.string.add_exercise),
+            actionIcon = ImageVector.vectorResource(R.drawable.ic_floppy_disk),
+            enableActionButton = name.isNotBlank() && selectedMuscleGroups.isNotEmpty() && !isSaving,
+            onActionClick = {
                 keyboardController?.hide()
                 focusManager.clearFocus()
                 val exercise = Exercise(
@@ -175,20 +216,8 @@ fun AddExerciseScreen(
                 )
                 onSave(exercise)
             },
-            isSaveEnabled = name.isNotBlank() && selectedMuscleGroups.isNotEmpty() && !isSaving,
-            saveText = if (isSaving) "Сохранение..." else "Сохранить"
+            onBackClick = onBack,
+            showBackButton = true
         )
-
-        // Подсказка о заполнении
-        if (name.isNotBlank() && selectedMuscleGroups.isEmpty()) {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Выберите хотя бы одну группу мышц",
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
     }
 }

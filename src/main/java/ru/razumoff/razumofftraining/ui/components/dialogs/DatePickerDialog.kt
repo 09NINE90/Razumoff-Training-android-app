@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import ru.razumoff.razumofftraining.R
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -39,12 +41,12 @@ fun DatePickerDialog(
                         onDismiss()
                     }
                 ) {
-                    Text("Сохранить")
+                    Text(stringResource(R.string.save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text("Отмена")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         ) {

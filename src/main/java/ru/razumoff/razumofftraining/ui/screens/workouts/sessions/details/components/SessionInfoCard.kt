@@ -33,14 +33,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLocale
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.WorkoutSession
-import ru.razumoff.razumofftraining.utils.FormatUtils.exercises
-import ru.razumoff.razumofftraining.utils.FormatUtils.sets
-import ru.razumoff.razumofftraining.utils.WorkoutFormatter.formatTotalSessionWeight
+import ru.razumoff.razumofftraining.utils.FormatUtils.formatTotalSessionWeight
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -191,17 +191,28 @@ fun SessionInfoCard(
                 val roundedWeight = formatTotalSessionWeight(session)
 
                 Text(
-                    text = session.exercises.size.exercises(),
+                    text = stringResource(
+                        R.string.weight_volume,
+                        roundedWeight
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = totalSets.sets(),
+                    text = pluralStringResource(
+                        R.plurals.exercises_count,
+                        session.exercises.size,
+                        session.exercises.size
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "объем веса $roundedWeight кг",
+                    text = pluralStringResource(
+                        R.plurals.sets_count,
+                        totalSets,
+                        totalSets
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -225,12 +236,12 @@ fun SessionInfoCard(
                                 showDatePicker = false
                             }
                         ) {
-                            Text("Сохранить")
+                            Text(stringResource(R.string.save))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = { showDatePicker = false }) {
-                            Text("Отмена")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 ) {
@@ -253,12 +264,12 @@ fun SessionInfoCard(
                                 showTimePicker = false
                             }
                         ) {
-                            Text("Сохранить")
+                            Text(stringResource(R.string.save))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = { showTimePicker = false }) {
-                            Text("Отмена")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 ) {

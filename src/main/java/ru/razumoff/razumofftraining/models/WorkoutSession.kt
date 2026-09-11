@@ -1,5 +1,9 @@
 package ru.razumoff.razumofftraining.models
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import ru.razumoff.razumofftraining.R
+
 data class WorkoutSession(
     val id: String,
     val templateId: String,
@@ -33,7 +37,15 @@ data class WorkoutSet(
     val createdAt: Long = System.currentTimeMillis()
 )
 
-enum class WorkoutType(val displayName: String) {
-    REGULAR("Обычная"),
-    STRENGTH("Силовая")
+enum class WorkoutType {
+    REGULAR,
+    STRENGTH
+}
+
+@Composable
+fun WorkoutType.localizedName(): String {
+    return when (this) {
+        WorkoutType.REGULAR -> stringResource(R.string.regular_workout)
+        WorkoutType.STRENGTH -> stringResource(R.string.strength_workout)
+    }
 }

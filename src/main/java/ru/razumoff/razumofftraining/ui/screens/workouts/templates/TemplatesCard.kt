@@ -16,10 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
-import ru.razumoff.razumofftraining.utils.FormatUtils.templates
 
 
 @Composable
@@ -52,12 +53,16 @@ fun TemplatesCard(
                 )
                 Column {
                     Text(
-                        text = "Шаблоны",
+                        text = stringResource(R.string.templates),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = templatesCount.templates(),
+                        text = pluralStringResource(
+                            R.plurals.templates_count,
+                            templatesCount,
+                            templatesCount
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

@@ -32,10 +32,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razumofftraining.R
 import ru.razumoff.razumofftraining.models.WorkoutType
+import ru.razumoff.razumofftraining.models.localizedName
 import ru.razumoff.razumofftraining.ui.components.headers.IslandWithButtonHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -127,7 +129,7 @@ fun EditTemplateScreen(
                                 )
                             }
                         ) {
-                            Text(type.displayName)
+                            Text(type.localizedName())
                         }
                     }
                 }
@@ -152,7 +154,7 @@ fun EditTemplateScreen(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !isSaving
                 ) {
-                    Text("Отмена")
+                    Text(stringResource(R.string.cancel))
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -218,7 +220,7 @@ fun EditTemplateScreen(
                             showDeleteDialog = false
                         }
                     ) {
-                        Text("Отмена")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             )

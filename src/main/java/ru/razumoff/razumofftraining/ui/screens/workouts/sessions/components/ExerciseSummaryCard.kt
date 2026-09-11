@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -116,7 +117,7 @@ fun ExerciseSummaryCard(
                                 modifier = Modifier.weight(1f)
                             )
                             Text(
-                                text = if (set.weight > 0) "${set.weight} кг" else "-",
+                                text = if (set.weight > 0) "${set.weight} ${stringResource(R.string.kg)}" else "-",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.weight(1f)

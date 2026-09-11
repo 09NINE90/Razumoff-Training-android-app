@@ -1,9 +1,16 @@
 package ru.razumoff.razumofftraining.utils
 
 import android.annotation.SuppressLint
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import ru.razumoff.razumofftraining.R
+import ru.razumoff.razumofftraining.models.WorkoutSession
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
+import kotlin.collections.forEach
 
 object FormatUtils {
 
@@ -33,83 +40,35 @@ object FormatUtils {
      */
     fun Long.formatWithSpaces(): String = formatNumberWithSpaces(this)
 
-    // --- Упражнения ---
-    fun pluralizeExercise(count: Int): String {
-        return when {
-            count % 10 == 1 && count % 100 != 11 -> "упражнение"
-            count % 10 in 2..4 && count % 100 !in 12..14 -> "упражнения"
-            else -> "упражнений"
-        }
-    }
-
-    fun Int.exercises(): String {
-        return "$this ${pluralizeExercise(this)}"
-    }
-
-    // --- Шаблоны ---
-    fun pluralizeTemplate(count: Int): String {
-        return when {
-            count % 10 == 1 && count % 100 != 11 -> "шаблон"
-            count % 10 in 2..4 && count % 100 !in 12..14 -> "шаблона"
-            else -> "шаблонов"
-        }
-    }
-
-    fun Int.templates(): String {
-        return "$this ${pluralizeTemplate(this)}"
-    }
-
-    // --- Подходы ---
-    fun pluralizeSet(count: Int): String {
-        return when {
-            count % 10 == 1 && count % 100 != 11 -> "подход"
-            count % 10 in 2..4 && count % 100 !in 12..14 -> "подхода"
-            else -> "подходов"
-        }
-    }
-
-    fun Int.sets(): String {
-        return "$this ${pluralizeSet(this)}"
-    }
-
-    // --- Тренировки ---
-    fun pluralizeWorkout(count: Int): String {
-        return when {
-            count % 10 == 1 && count % 100 != 11 -> "тренировка"
-            count % 10 in 2..4 && count % 100 !in 12..14 -> "тренировки"
-            else -> "тренировок"
-        }
-    }
-
-    fun Int.workouts(): String {
-        return "$this ${pluralizeWorkout(this)}"
-    }
-
-    // --- Годы (для возраста) ---
-    fun pluralizeYears(count: Int): String {
-        return when {
-            count % 10 == 1 && count % 100 != 11 -> "год"
-            count % 10 in 2..4 && count % 100 !in 12..14 -> "года"
-            else -> "лет"
-        }
-    }
-
-    fun Int.years(): String {
-        return "$this ${pluralizeYears(this)}"
-    }
-
+    @Composable
     @SuppressLint("DefaultLocale")
     fun formatVolume(volume: Double): String {
         return if (volume >= 1000) {
             String.format(
-                "%.1f т",
+                "%.1f ${stringResource(R.string.t)}",
                 volume / 1000
             )
         } else {
             String.format(
-                "%.0f кг",
+                "%.0f ${stringResource(R.string.kg)}",
                 volume
             )
         }
+    }
+
+    fun formatTotalSessionWeight(
+        session: WorkoutSession
+    ): Float {
+        var totalWeight = 0f
+
+        session.exercises.forEach { exercise ->
+            exercise.sets.forEach { set ->
+                totalWeight += set.weight * set.reps
+            }
+        }
+
+        return BigDecimal(totalWeight.toDouble())
+            .setScale(2, RoundingMode.HALF_UP)
+            .toFloat()
     }
 }

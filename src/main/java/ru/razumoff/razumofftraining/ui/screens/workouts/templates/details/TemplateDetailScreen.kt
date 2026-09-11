@@ -32,6 +32,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -78,7 +80,7 @@ fun TemplateDetailScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Шаблон не найден")
+                Text(stringResource(R.string.template_not_found))
             }
         } else {
             Column(
@@ -88,7 +90,11 @@ fun TemplateDetailScreen(
 
                 // Количество упражнений
                 Text(
-                    text = "${template?.exercises?.size ?: 0} упражнений",
+                    text = pluralStringResource(
+                        R.plurals.exercises_count,
+                        template?.exercises?.size ?: 0,
+                        template?.exercises?.size ?: 0
+                    ),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = 12.dp)
@@ -122,10 +128,10 @@ fun TemplateDetailScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Начать тренировку"
+                        contentDescription = stringResource(R.string.start_workout)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Начать тренировку")
+                    Text(stringResource(R.string.start_workout))
                 }
             }
         }
@@ -137,7 +143,7 @@ fun TemplateDetailScreen(
             showBackButton = true,
             showActionButton = true,
             actionIcon = ImageVector.vectorResource(R.drawable.ic_pencil_simple),
-            actionDescription = "Редактировать",
+            actionDescription = stringResource(R.string.edit),
             onActionClick = onEdit
         )
     }
