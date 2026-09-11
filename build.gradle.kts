@@ -9,14 +9,14 @@ val appName = "RAZO"
 val appVersionName = "1.3.3"
 
 android {
-    namespace = "ru.razumoff.razumofftraining"
+    namespace = "ru.razumoff.razo"
     compileSdk = 37
 
     defaultConfig {
         applicationId = "ru.razumoff.razumofftraining"
         minSdk = 30
         targetSdk = 37
-        versionCode = 1
+        versionCode = 2
         versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
