@@ -100,6 +100,7 @@
     <string name="delete_template">Delete template</string>
     <string name="delete_template_question">Delete template?</string>
     <string name="delete_template_confirmation">Template «%1$s» will be deleted.\nThis action cannot be undone.</string>
+    <string name="select_template_to_start_workout">Select a template to start a workout.</string>
 
     <!-- Exercises -->
     <string name="exercise_name">Name</string>

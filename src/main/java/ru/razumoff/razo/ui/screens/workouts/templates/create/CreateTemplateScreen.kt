@@ -19,8 +19,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SearchOff
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -50,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.R
 import ru.razumoff.razo.models.WorkoutType
 import ru.razumoff.razo.models.localizedName
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 import ru.razumoff.razo.ui.components.headers.IslandWithButtonHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -212,12 +211,8 @@ fun CreateTemplateScreen(
                     CircularProgressIndicator()
                 }
             } else if (availableExercises.isEmpty()) {
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
+                SurfaceCard(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
                 ) {
                     Column(
                         modifier = Modifier

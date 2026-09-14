@@ -64,7 +64,7 @@
     <string name="workout_type">Тип тренировки</string>
     <string name="regular_workout">Обычная</string>
     <string name="strength_workout">Силовая</string>
-    <string name="start_workout">Начало тренировки</string>
+    <string name="start_workout">Начать тренировку</string>
     <string name="workout_name">Название тренировки</string>
     <string name="workout_name_placeholder">Например: Верх тела</string>
     <string name="recent_workouts">Последние тренировки</string>
@@ -100,6 +100,7 @@
     <string name="delete_template">Удалить шаблон</string>
     <string name="delete_template_question">Удалить шаблон?</string>
     <string name="delete_template_confirmation">Шаблон «%1$s» будет удалён.\nЭто действие нельзя отменить.</string>
+    <string name="select_template_to_start_workout">Выберите шаблон для начала тренировки.</string>
 
     <!-- Exercises -->
     <string name="exercise_name">Название</string>

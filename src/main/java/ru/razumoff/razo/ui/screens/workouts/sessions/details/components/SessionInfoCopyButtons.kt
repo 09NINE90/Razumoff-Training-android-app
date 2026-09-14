@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.R
@@ -57,7 +58,7 @@ fun SessionInfoCopyButtons(
         ) {
            Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_copy_simple),
-                contentDescription = "Копировать MD",
+                contentDescription = stringResource(R.string.copy_md),
                 modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
@@ -81,7 +82,7 @@ fun SessionInfoCopyButtons(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_copy_simple),
-                contentDescription = "Копировать TXT",
+                contentDescription = stringResource(R.string.copy_txt),
                 modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))

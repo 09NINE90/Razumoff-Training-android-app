@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.health.connect.client.PermissionController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.razumoff.razo.R
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 import ru.razumoff.razo.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razo.ui.screens.steps.components.StepsCard
 import ru.razumoff.razo.ui.screens.steps.components.WeeklyStatsCard
@@ -116,13 +115,9 @@ fun StepsScreen(
                 }
 
                 errorMessage?.let { errorText ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer
-                        )
+                    SurfaceCard(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
                     ) {
                         Row(
                             modifier = Modifier

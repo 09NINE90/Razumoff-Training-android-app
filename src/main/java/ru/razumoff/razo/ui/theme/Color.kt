@@ -10,7 +10,7 @@ val RedPrimary = Color(0xFFE53935)
 val RedPrimaryDark = Color(0xFFB71C1C)
 val RedPrimaryLight = Color(0xFFFF6B61)
 val RedPrimaryVeryLight = Color(0xFFFFC4C1)
-val RedPrimarySuperLight = Color(0xFFFFE8E6)
+val RedPrimarySuperLight = Color(0xFFFFE6E3)
 
 // ============================================================
 // Дополнительные нейтральные цвета
@@ -36,15 +36,23 @@ val TextMuted = Color(0xFF707070)
 val SurfaceDark = Color(0xFF191919)
 val SurfaceLight = Color(0xFFFFFFFF)
 
-val SurfaceVariantDark = Color(0xFF252525)
-val SurfaceVariantLight = Color(0xFFF4F4F4)
+val SurfaceVariantDark = Color(0xFF303030)
+val SurfaceVariantLight = Color(0xFFF0F0F0)
+
+// Карточки
+val CardLight = Color(0xFFFFF8F7)
+val CardDark = Color(0xFF242424)
+
+// Вложенные/вторичные поверхности
+val CardSecondaryLight = Color(0xFFF3F1F1)
+val CardSecondaryDark = Color(0xFF2A201F)
 
 // ============================================================
 // Цвета для фона
 // ============================================================
 
 val BackgroundDark = Color(0xFF0D0D0D)
-val BackgroundLight = Color(0xFFF9F9F9)
+val BackgroundLight = Color(0xFFF7F7F7)
 
 // ============================================================
 // Семантические цвета

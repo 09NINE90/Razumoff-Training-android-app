@@ -48,7 +48,10 @@ fun EditableField(
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
-            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = 4.dp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }

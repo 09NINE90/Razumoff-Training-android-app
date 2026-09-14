@@ -121,7 +121,8 @@ class GymRepository(
                 templateId = templateId,
                 userId = userId,
                 name = name,
-                description = description
+                description = description,
+                workoutType = workoutType.name
             )
 
             // 2. Обновляем тип всех связанных сессий

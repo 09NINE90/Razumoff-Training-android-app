@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.razumoff.razo.R
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 import ru.razumoff.razo.ui.theme.Success
 import ru.razumoff.razo.utils.FormatUtils
 
@@ -32,14 +31,8 @@ fun StepsCard(
     isRefreshing: Boolean = false,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        ),
-        shape = MaterialTheme.shapes.extraLarge
+    SurfaceCard(
+        modifier = modifier.padding(vertical = 4.dp)
     ) {
         Box(
             modifier = Modifier
@@ -123,9 +116,11 @@ fun StepsCard(
                             progress >= 1f -> Success
                             progress >= 0.75f ->
                                 MaterialTheme.colorScheme.primary
+
                             progress >= 0.5f ->
                                 MaterialTheme.colorScheme.primary
                                     .copy(alpha = 0.75f)
+
                             else ->
                                 MaterialTheme.colorScheme.primary
                                     .copy(alpha = 0.45f)

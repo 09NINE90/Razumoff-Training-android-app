@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.razumoff.razo.R
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 import ru.razumoff.razo.ui.components.charts.WeeklyChart
 import ru.razumoff.razo.ui.components.charts.WeeklyStepData
 import ru.razumoff.razo.utils.FormatUtils
@@ -29,12 +28,8 @@ fun WeeklyStatsCard(
     weeklyAverage: Int,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 5.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = MaterialTheme.shapes.extraLarge
+    SurfaceCard(
+        modifier = Modifier.padding(vertical = 5.dp)
     ) {
         Column(
             modifier = Modifier

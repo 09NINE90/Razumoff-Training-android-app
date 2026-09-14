@@ -86,9 +86,7 @@ fun EditTemplateScreen(
                 OutlinedTextField(
                     value = templateName,
                     onValueChange = viewModel::updateTemplateName,
-                    label = {
-                        Text("Название тренировки")
-                    },
+                    label = {Text(stringResource(R.string.workout_name))},
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     shape = RoundedCornerShape(10.dp)
@@ -97,7 +95,7 @@ fun EditTemplateScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Тип тренировки",
+                    text = stringResource(R.string.workout_type),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -139,9 +137,7 @@ fun EditTemplateScreen(
                 OutlinedTextField(
                     value = templateDescription,
                     onValueChange = viewModel::updateTemplateDescription,
-                    label = {
-                        Text("Описание")
-                    },
+                    label = { Text(stringResource(R.string.exercise_description))},
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 4,
                     shape = RoundedCornerShape(10.dp)
@@ -166,14 +162,14 @@ fun EditTemplateScreen(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !isSaving
                 ) {
-                    Text("Удалить шаблон")
+                    Text(stringResource(R.string.delete_template))
                 }
             }
 
         }
 
         IslandWithButtonHeader(
-            headerText = "Редактирование",
+            headerText = stringResource(R.string.editing),
             onBackClick = onBack,
             showBackButton = true,
             showActionButton = true,
@@ -192,13 +188,10 @@ fun EditTemplateScreen(
                     showDeleteDialog = false
                 },
                 title = {
-                    Text("Удалить шаблон?")
+                    Text(stringResource(R.string.delete_template_question))
                 },
                 text = {
-                    Text(
-                        "Шаблон «$templateName» будет удалён.\n" +
-                                "Это действие нельзя отменить."
-                    )
+                    Text(stringResource(R.string.delete_template_confirmation, templateName))
                 },
                 confirmButton = {
                     TextButton(
@@ -211,7 +204,7 @@ fun EditTemplateScreen(
                         },
                         enabled = !isSaving
                     ) {
-                        Text("Удалить")
+                        Text(stringResource(R.string.delete))
                     }
                 },
                 dismissButton = {

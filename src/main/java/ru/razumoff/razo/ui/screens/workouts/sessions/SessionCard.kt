@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,6 +23,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.R
 import ru.razumoff.razo.models.WorkoutSession
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 import ru.razumoff.razo.ui.theme.Success
 import java.text.SimpleDateFormat
 
@@ -35,11 +34,8 @@ fun SessionCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    SurfaceCard(
+        modifier = modifier.clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
@@ -104,7 +100,7 @@ fun SessionCard(
             // Статус завершения
             if (session.isCompleted) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_check_circle_fill),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_check),
                     contentDescription = stringResource(R.string.completed),
                     tint = Success,
                     modifier = Modifier.size(20.dp)

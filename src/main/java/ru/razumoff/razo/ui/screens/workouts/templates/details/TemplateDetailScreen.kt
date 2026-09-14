@@ -12,15 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -40,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.razumoff.razo.R
 import ru.razumoff.razo.models.TemplateExercise
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 import ru.razumoff.razo.ui.components.headers.IslandWithButtonHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,15 +117,9 @@ fun TemplateDetailScreen(
                     onClick = onStartWorkout,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
-                        .padding(bottom = 16.dp),
-                    shape = RoundedCornerShape(12.dp)
+                        .height(60.dp)
+                        .padding(bottom = 16.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = stringResource(R.string.start_workout)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
                     Text(stringResource(R.string.start_workout))
                 }
             }
@@ -153,12 +142,7 @@ fun TemplateDetailScreen(
 fun TemplateExerciseItem(
     exercise: TemplateExercise
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-    ) {
+    SurfaceCard {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -184,13 +168,6 @@ fun TemplateExerciseItem(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-
-            // Иконка перехода
-            Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-            )
         }
     }
 }

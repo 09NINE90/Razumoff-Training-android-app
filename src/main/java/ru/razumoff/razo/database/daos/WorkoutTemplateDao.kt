@@ -52,18 +52,20 @@ interface WorkoutTemplateDao {
     )
 
     @Query("""
-            UPDATE workout_templates
-            SET name = :name,
-                description = :description,
-                updatedAt = :updatedAt
-            WHERE id = :templateId
-              AND userId = :userId
-        """)
+        UPDATE workout_templates
+        SET name = :name,
+            description = :description,
+            workoutType = :workoutType,
+            updatedAt = :updatedAt
+        WHERE id = :templateId
+          AND userId = :userId
+    """)
     suspend fun updateTemplate(
         templateId: String,
         userId: String,
         name: String,
         description: String?,
+        workoutType: String,
         updatedAt: Long = System.currentTimeMillis()
     )
 }

@@ -48,6 +48,9 @@ private val DarkColorScheme = darkColorScheme(
     surfaceVariant = SurfaceVariantDark,
     onSurfaceVariant = GreyLight,
 
+    surfaceContainer = CardDark,
+    surfaceContainerHigh = CardSecondaryDark,
+
     // Ошибка — отдельный semantic color
     error = ErrorDark,
     onError = Color.White,
@@ -66,45 +69,84 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
 
+    // ========================================================
     // Основной брендовый акцент
+    // ========================================================
+
     primary = RedPrimary,
     onPrimary = Color.White,
 
-    // Светлый красный контейнер
+    // Selected / active
     primaryContainer = RedPrimarySuperLight,
     onPrimaryContainer = RedPrimaryDark,
 
+
+    // ========================================================
     // Вторичный цвет — нейтральный
+    // ========================================================
+
     secondary = GreyDark,
     onSecondary = Color.White,
 
     secondaryContainer = SurfaceVariantLight,
     onSecondaryContainer = TextDark,
 
+
+    // ========================================================
     // Третичный цвет
+    // ========================================================
+
     tertiary = RedPrimaryDark,
     onTertiary = Color.White,
 
+
+    // ========================================================
     // Фон
+    // ========================================================
+
     background = BackgroundLight,
     onBackground = TextDark,
 
-    // Поверхность
+
+    // ========================================================
+    // Основная поверхность
+    // ========================================================
+
     surface = SurfaceLight,
     onSurface = TextDark,
 
-    // Поверхность второго уровня
+
+    // ========================================================
+    // Нейтральная вторичная поверхность
+    // ========================================================
+
     surfaceVariant = SurfaceVariantLight,
     onSurfaceVariant = GreyMedium,
 
-    // Ошибка
+
+    // ========================================================
+    // Карточки
+    // ========================================================
+
+    surfaceContainer = CardLight,
+    surfaceContainerHigh = CardSecondaryLight,
+
+
+    // ========================================================
+    // Ошибки
+    // ========================================================
+
     error = ErrorLight,
     onError = Color.White,
 
     errorContainer = ErrorContainerLight,
     onErrorContainer = OnErrorContainerLight,
 
-    // Нейтральные границы
+
+    // ========================================================
+    // Границы
+    // ========================================================
+
     outline = GreyMedium,
     outlineVariant = GreyLight
 )

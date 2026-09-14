@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.Icon
@@ -37,6 +35,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.razumoff.razo.R
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 import ru.razumoff.razo.ui.components.dialogs.DatePickerDialog
 import ru.razumoff.razo.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razo.ui.components.inputs.EditableField
@@ -140,7 +139,7 @@ fun UserProfileScreen(
                         .align(Alignment.CenterHorizontally)
                         .background(
                             MaterialTheme.colorScheme.primaryContainer,
-                            shape = MaterialTheme.shapes.extraLarge
+                            shape = MaterialTheme.shapes.medium
                         ),
                     contentAlignment = Alignment.Center
                 ) {
@@ -154,11 +153,7 @@ fun UserProfileScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Информация о пользователе
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = MaterialTheme.shapes.medium,
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                ) {
+                SurfaceCard {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -204,7 +199,8 @@ fun UserProfileScreen(
                             value = weight,
                             isEditing = isEditing,
                             onValueChange = { weight = it },
-                            displayValue = user!!.weight?.let { "$it ${stringResource(R.string.kg)}" } ?: stringResource(R.string.not_specified),
+                            displayValue = user!!.weight?.let { "$it ${stringResource(R.string.kg)}" }
+                                ?: stringResource(R.string.not_specified),
                             placeholder = "${stringResource(R.string.weight)} (${stringResource(R.string.kg)})"
                         )
 
@@ -214,7 +210,8 @@ fun UserProfileScreen(
                             value = height,
                             isEditing = isEditing,
                             onValueChange = { height = it },
-                            displayValue = user!!.height?.let { "$it ${stringResource(R.string.cm)}" } ?: stringResource(R.string.not_specified),
+                            displayValue = user!!.height?.let { "$it ${stringResource(R.string.cm)}" }
+                                ?: stringResource(R.string.not_specified),
                             placeholder = "${stringResource(R.string.height)} (${stringResource(R.string.cm)})"
                         )
                     }
@@ -237,7 +234,9 @@ fun UserProfileScreen(
         IslandWithButtonHeader(
             headerText = stringResource(R.string.profile),
             showBackButton = false,
-            actionIcon = if (isEditing) ImageVector.vectorResource(R.drawable.ic_floppy_disk) else ImageVector.vectorResource(R.drawable.ic_pencil_simple),
+            actionIcon = if (isEditing) ImageVector.vectorResource(R.drawable.ic_floppy_disk) else ImageVector.vectorResource(
+                R.drawable.ic_pencil_simple
+            ),
             actionDescription = if (isEditing) stringResource(R.string.save) else stringResource(R.string.edit),
             onActionClick = {
                 if (isEditing) {
@@ -252,16 +251,6 @@ fun UserProfileScreen(
                 } else {
                     isEditing = true
                 }
-            },
-            actionButtonColor = if (isEditing) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.primaryContainer
-            },
-            actionIconTint = if (isEditing) {
-                MaterialTheme.colorScheme.onPrimary
-            } else {
-                MaterialTheme.colorScheme.onPrimaryContainer
             }
         )
     }

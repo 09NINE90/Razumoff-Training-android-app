@@ -8,13 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.models.Exercise
 import ru.razumoff.razo.models.TemplateExercise
 import ru.razumoff.razo.models.localizedName
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 
 @Composable
 fun ExerciseSelectItem(
@@ -34,18 +32,13 @@ fun ExerciseSelectItem(
     isAdded: Boolean,
     onAdd: () -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(enabled = !isAdded) { onAdd() },
-        shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isAdded) {
-                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-            } else {
-                MaterialTheme.colorScheme.surfaceVariant
-            }
-        )
+    SurfaceCard(
+        modifier = Modifier.clickable(enabled = !isAdded) { onAdd() },
+        containerColor = if (isAdded) {
+            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        }
     ) {
         Row(
             modifier = Modifier
@@ -101,13 +94,8 @@ fun SelectedExerciseItem(
     exercise: TemplateExercise,
     onRemove: () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        )
+    SurfaceCard(
+        containerColor = MaterialTheme.colorScheme.primaryContainer
     ) {
         Row(
             modifier = Modifier

@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.R
 import ru.razumoff.razo.models.ExerciseStatistics
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 import ru.razumoff.razo.utils.FormatUtils.formatVolume
 
 @Composable
@@ -26,13 +24,9 @@ fun ExerciseStatisticsCard(
     statistic: ExerciseStatistics,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 1.dp
-        )
-    ) {
+    SurfaceCard(
+        modifier = modifier
+    ){
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
@@ -69,7 +63,7 @@ fun ExerciseStatisticsCard(
                 modifier = Modifier.height(16.dp)
             )
 
-            HorizontalDivider()
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant)
 
             Spacer(
                 modifier = Modifier.height(12.dp)

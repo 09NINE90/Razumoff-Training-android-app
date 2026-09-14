@@ -14,8 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.R
 import ru.razumoff.razo.database.entities.WorkoutSetEntity
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
 
 @Composable
 fun SetsList(
@@ -86,14 +85,9 @@ fun SetsList(
             }
         }
     } else {
-        Card(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(80.dp),
-            shape = RoundedCornerShape(10.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
-            )
+        SurfaceCard(
+            modifier = modifier.height(80.dp),
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),

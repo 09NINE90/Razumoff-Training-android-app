@@ -7,29 +7,23 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.razumoff.razo.models.Exercise
 import ru.razumoff.razo.models.localizedName
-import ru.razumoff.razo.ui.components.text.PrimaryText
+import ru.razumoff.razo.ui.components.cards.SurfaceCard
+import ru.razumoff.razo.ui.screens.exercises.components.SurfaceChip
 
 @Composable
 fun ExerciseCard(
     exercise: Exercise,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    SurfaceCard(
+        modifier = modifier,
     ) {
         Column(
             modifier = Modifier
@@ -57,38 +51,22 @@ fun ExerciseCard(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 // Часть тела
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    modifier = Modifier.wrapContentSize()
-                ) {
-                    PrimaryText(
-                        text = exercise.bodyPart.localizedName()
-                    )
-                }
+                SurfaceChip(
+                    text = exercise.bodyPart.localizedName()
+                )
 
                 // Тип движения
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.tertiaryContainer,
-                    modifier = Modifier.wrapContentSize()
-                ) {
-                    PrimaryText(
-                        text = exercise.movementType.localizedName()
-                    )
-                }
+                SurfaceChip(
+                    text = exercise.movementType.localizedName()
+                )
 
                 // Оборудование (если есть)
                 if (exercise.equipment != null) {
-                    Surface(
-                        shape = RoundedCornerShape(16.dp),
+                    SurfaceChip(
                         color = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier.wrapContentSize()
-                    ) {
-                        PrimaryText(
-                            text = exercise.equipment
-                        )
-                    }
+                        textColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        text = exercise.equipment
+                    )
                 }
             }
 
@@ -100,32 +78,16 @@ fun ExerciseCard(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     exercise.muscleGroups.take(3).forEach { muscle ->
-                        Surface(
-                            shape = RoundedCornerShape(12.dp),
-                            color = MaterialTheme.colorScheme.surfaceVariant,
-                            modifier = Modifier.wrapContentSize()
-                        ) {
-                            Text(
-                                text = muscle.localizedName(),
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                                fontSize = 10.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
+                        SurfaceChip(
+                            textColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            text = muscle.localizedName()
+                        )
                     }
                     if (exercise.muscleGroups.size > 3) {
-                        Surface(
-                            shape = RoundedCornerShape(12.dp),
-                            color = MaterialTheme.colorScheme.surfaceVariant,
-                            modifier = Modifier.wrapContentSize()
-                        ) {
-                            Text(
-                                text = "+${exercise.muscleGroups.size - 3}",
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                                fontSize = 10.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
+                        SurfaceChip(
+                            textColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            text = "+${exercise.muscleGroups.size - 3}"
+                        )
                     }
                 }
             }

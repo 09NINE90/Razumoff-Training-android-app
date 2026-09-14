@@ -14,6 +14,7 @@ object WorkoutTemplateMapper {
             id = templateEntity.id,
             name = templateEntity.name,
             description = templateEntity.description,
+            workoutType = templateEntity.workoutType,
             exercises = exercises,
             createdAt = templateEntity.createdAt,
             updatedAt = templateEntity.updatedAt

@@ -80,7 +80,7 @@ fun SessionDetailScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Тренировка не найдена",
+                    text = stringResource(R.string.workout_not_found),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -140,14 +140,12 @@ fun SessionDetailScreen(
         }
 
         IslandWithButtonHeader(
-            headerText = "Детали тренировки",
+            headerText = stringResource(R.string.workout_details),
             onBackClick = onBack,
             showBackButton = true,
             actionIcon = ImageVector.vectorResource(R.drawable.ic_trash),
-            actionDescription = "Удалить",
-            onActionClick = { showDeleteDialog = true },
-            actionButtonColor = MaterialTheme.colorScheme.error,
-            actionIconTint = MaterialTheme.colorScheme.onError
+            actionDescription = stringResource(R.string.delete),
+            onActionClick = { showDeleteDialog = true }
         )
     }
 
@@ -155,10 +153,10 @@ fun SessionDetailScreen(
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
             title = {
-                Text("Удалить тренировку?")
+                Text(stringResource(R.string.delete_workout_question))
             },
             text = {
-                Text("Это действие нельзя отменить. Вся информация о тренировке будет удалена.")
+                Text(stringResource(R.string.delete_workout_confirmation))
             },
             confirmButton = {
                 TextButton(
@@ -172,7 +170,7 @@ fun SessionDetailScreen(
                         contentColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text("Удалить")
+                    Text(stringResource(R.string.delete))
                 }
             },
             dismissButton = {
