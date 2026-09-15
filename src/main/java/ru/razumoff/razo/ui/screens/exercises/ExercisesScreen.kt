@@ -119,7 +119,7 @@ fun ExercisesScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(top = 70.dp)
+                    contentPadding = PaddingValues(top = 60.dp)
                 ) {
                     itemsIndexed(
                         items = exercises,

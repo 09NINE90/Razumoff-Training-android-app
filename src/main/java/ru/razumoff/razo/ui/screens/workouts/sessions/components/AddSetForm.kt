@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -17,8 +18,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,6 +41,8 @@ fun AddSetForm(
     isEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val weightFocusRequester = remember { FocusRequester() }
+
     SurfaceCard(
         modifier = modifier
     ) {
@@ -58,10 +65,17 @@ fun AddSetForm(
                 OutlinedTextField(
                     value = repsInput,
                     onValueChange = onRepsChange,
-                    label = { Text("Повторения") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(stringResource(R.string.repetitions))
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusProperties {
+                            next = weightFocusRequester
+                        },
                     singleLine = true,
-                    isError = repsInput.isNotEmpty() && repsInput.toIntOrNull() == null,
+                    isError = repsInput.isNotEmpty() &&
+                            repsInput.toIntOrNull() == null,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Next
@@ -71,12 +85,23 @@ fun AddSetForm(
                 OutlinedTextField(
                     value = weightInput,
                     onValueChange = onWeightChange,
-                    label = { Text(stringResource(R.string.weight_label)) },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(stringResource(R.string.weight_label))
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(weightFocusRequester),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            if (isEnabled) {
+                                onAddSet()
+                            }
+                        }
                     )
                 )
             }
@@ -88,8 +113,13 @@ fun AddSetForm(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = isEnabled
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Добавить")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = null
+                )
+
                 Spacer(modifier = Modifier.width(8.dp))
+
                 Text(stringResource(R.string.add_set))
             }
         }

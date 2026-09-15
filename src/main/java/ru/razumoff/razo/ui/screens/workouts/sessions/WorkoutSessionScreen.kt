@@ -3,14 +3,11 @@ package ru.razumoff.razo.ui.screens.workouts.sessions
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
@@ -18,7 +15,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.R
 import ru.razumoff.razo.ui.components.headers.IslandWithButtonHeader
@@ -65,8 +62,6 @@ fun WorkoutSessionScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
-            .imePadding()
-            .windowInsetsPadding(WindowInsets.navigationBars)
     ) {
         when {
             isLoading -> {
@@ -81,12 +76,14 @@ fun WorkoutSessionScreen(
                     }
                 }
             }
+
             state.isCompleted -> {
                 SessionCompleted(
                     exercises = state.exercises,
                     onFinish = onFinish
                 )
             }
+
             currentExercise == null -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -95,14 +92,14 @@ fun WorkoutSessionScreen(
                     Text(stringResource(R.string.no_exercises_available))
                 }
             }
+
             else -> {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(bottom = 90.dp)
-                        .imePadding()
+                        .padding(bottom = 10.dp)
                 ) {
-                    Spacer(modifier = Modifier.height(70.dp))
+                    Spacer(modifier = Modifier.height(60.dp))
 
                     // Шапка: прогресс + название упражнения
                     SessionHeader(
@@ -118,56 +115,65 @@ fun WorkoutSessionScreen(
                         modifier = Modifier.weight(1f)
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Column(
+                        modifier = Modifier.imePadding()
+                    ) {
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    // Форма добавления подхода
-                    AddSetForm(
-                        repsInput = repsInput,
-                        onRepsChange = { repsInput = it },
-                        weightInput = weightInput,
-                        onWeightChange = { weightInput = it },
-                        onAddSet = {
-                            val reps = repsInput.toIntOrNull()
-                            val weight = weightInput.toFloatOrNull()
-                            if (reps != null && reps > 0) {
-                                viewModel.addSet(reps, weight)
-                            }
-                        },
-                        isEnabled = repsInput.isNotEmpty() &&
-                                repsInput.toIntOrNull() != null &&
-                                repsInput.toIntOrNull()!! > 0
-                    )
+                        AddSetForm(
+                            repsInput = repsInput,
+                            onRepsChange = { repsInput = it },
+                            weightInput = weightInput,
+                            onWeightChange = { weightInput = it },
+                            onAddSet = {
+                                val reps = repsInput.toIntOrNull()
+                                val weight = weightInput.toFloatOrNull()
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                                if (reps != null && reps > 0) {
+                                    viewModel.addSet(reps, weight)
+                                }
+                            },
+                            isEnabled = repsInput.isNotEmpty() &&
+                                    repsInput.toIntOrNull() != null &&
+                                    repsInput.toIntOrNull()!! > 0
+                        )
 
-                    // Кнопки навигации
-                    SessionNavigation(
-                        currentIndex = currentIndex,
-                        totalExercises = totalExercises,
-                        hasSets = currentExercise.sets.isNotEmpty(),
-                        onPrevious = { viewModel.previousExercise() },
-                        onNext = { viewModel.nextExercise() },
-                        onFinish = { viewModel.finishSession(null) }
-                    )
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                        SessionNavigation(
+                            currentIndex = currentIndex,
+                            totalExercises = totalExercises,
+                            hasSets = currentExercise.sets.isNotEmpty(),
+                            onPrevious = { viewModel.previousExercise() },
+                            onNext = { viewModel.nextExercise() },
+                            onFinish = { viewModel.finishSession(null) }
+                        )
 
-                    // Прогресс-бар
-                    LinearProgressIndicator(
-                        progress = { (currentIndex + 1).toFloat() / totalExercises },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(4.dp)
-                    )
+                        Spacer(modifier = Modifier.height(10.dp))
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                        LinearProgressIndicator(
+                            progress = {
+                                (currentIndex + 1).toFloat() / totalExercises
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(4.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
         }
 
         // Плавающий заголовок
         IslandWithButtonHeader(
-            headerText = state.templateName.ifEmpty {  pluralStringResource(R.plurals.workouts_count, 1) },
+            headerText = state.templateName.ifEmpty {
+                pluralStringResource(
+                    R.plurals.workouts_count,
+                    1
+                )
+            },
             onBackClick = {
                 if (currentExercise?.sets?.isNotEmpty() == true) {
                     // TODO: Показать диалог подтверждения

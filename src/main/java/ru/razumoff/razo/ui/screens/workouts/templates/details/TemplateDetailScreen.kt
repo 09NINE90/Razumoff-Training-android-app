@@ -16,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +62,7 @@ fun TemplateDetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
-            .padding(bottom = 110.dp)
+            .padding(bottom = 40.dp)
     ) {
         if (isLoading) {
             Box(
@@ -121,6 +122,16 @@ fun TemplateDetailScreen(
                         .padding(bottom = 16.dp)
                 ) {
                     Text(stringResource(R.string.start_workout))
+                }
+
+                OutlinedButton(
+                    onClick = onBack,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                        .padding(bottom = 16.dp)
+                ) {
+                    Text(stringResource(R.string.back))
                 }
             }
         }

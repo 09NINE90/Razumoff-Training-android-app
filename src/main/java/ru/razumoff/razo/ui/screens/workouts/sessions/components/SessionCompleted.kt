@@ -36,87 +36,80 @@ fun SessionCompleted(
     val totalSets = exercises.sumOf { it.sets.size }
     val totalExercises = exercises.size
 
-    Box(
+
+    Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(bottom = 110.dp)
+            .padding(bottom = 16.dp)
     ) {
+        Spacer(modifier = Modifier.height(60.dp))
+
+        // Заголовок
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Заголовок
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.CheckCircle,
-                    contentDescription = stringResource(R.string.completed),
-                    modifier = Modifier.size(56.dp),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.workout_completed_title),
-                    style = MaterialTheme.typography.headlineMedium
-                )
-                Text(
-                    text = stringResource(R.string.great_job),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "${
-                        pluralStringResource(
-                            R.plurals.exercises_count,
-                            totalExercises,
-                            totalExercises
-                        )
-                    } • ${
-                        pluralStringResource(
-                            R.plurals.sets_count,
-                            totalSets,
-                            totalSets
-                        )
-                    }",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-
-            // Список упражнений
-            LazyColumn(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(exercises) { exercise ->
-                    ExerciseSummaryCard(
-                        exercise = exercise
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = stringResource(R.string.completed),
+                modifier = Modifier.size(56.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(R.string.workout_completed_title),
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                text = stringResource(R.string.great_job),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "${
+                    pluralStringResource(
+                        R.plurals.exercises_count,
+                        totalExercises,
+                        totalExercises
                     )
-                }
+                } • ${
+                    pluralStringResource(
+                        R.plurals.sets_count,
+                        totalSets,
+                        totalSets
+                    )
+                }",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
+        // Список упражнений
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(exercises) { exercise ->
+                ExerciseSummaryCard(
+                    exercise = exercise
+                )
             }
+        }
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-            // Кнопка "Закрыть"
-            Button(
-                onClick = onFinish,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text(stringResource(R.string.close))
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
+        // Кнопка "Закрыть"
+        Button(
+            onClick = onFinish,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .padding(bottom = 16.dp)
+        ) {
+            Text(stringResource(R.string.close))
         }
     }
 }

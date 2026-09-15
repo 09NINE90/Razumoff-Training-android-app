@@ -80,16 +80,25 @@ fun EditTemplateScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 70.dp, bottom = 120.dp)
+                    .padding(top = 70.dp, bottom = 40.dp)
             ) {
 
                 OutlinedTextField(
                     value = templateName,
                     onValueChange = viewModel::updateTemplateName,
-                    label = {Text(stringResource(R.string.workout_name))},
+                    label = { Text(stringResource(R.string.workout_name)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    shape = RoundedCornerShape(10.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    isError = templateName.isBlank(),
+                    supportingText = {
+                        if (templateName.isBlank()) {
+                            Text(
+                                text = stringResource(R.string.required_field),
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    },
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -137,7 +146,7 @@ fun EditTemplateScreen(
                 OutlinedTextField(
                     value = templateDescription,
                     onValueChange = viewModel::updateTemplateDescription,
-                    label = { Text(stringResource(R.string.exercise_description))},
+                    label = { Text(stringResource(R.string.exercise_description)) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 4,
                     shape = RoundedCornerShape(10.dp)

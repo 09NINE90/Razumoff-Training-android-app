@@ -26,9 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ru.razumoff.razo.ui.navigation.BottomNavBar
+import ru.razumoff.razo.ui.navigation.AnimatedBottomNavBar
 import ru.razumoff.razo.ui.navigation.NavGraph
+import ru.razumoff.razo.ui.navigation.Screen
 import ru.razumoff.razo.ui.screens.user.UserViewModel
 import ru.razumoff.razo.ui.theme.RazumoffTrainingTheme
 
@@ -56,11 +58,11 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainApp() {
         val navController = rememberNavController()
-        val repository = (application as RazoApplication).appContainer.repository
-        val application = (application as RazoApplication)
-        val appContainer = application.appContainer
 
-        // Создаем и загружаем пользователя
+        val application = application as RazoApplication
+        val appContainer = application.appContainer
+        val repository = appContainer.repository
+
         val userViewModel: UserViewModel = viewModel(
             factory = UserViewModel.Factory(repository, appContainer)
         )
@@ -68,10 +70,21 @@ class MainActivity : ComponentActivity() {
         val user by userViewModel.user.collectAsState()
         val isLoading by userViewModel.isLoading.collectAsState()
 
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
+        val bottomBarRoutes = setOf(
+            Screen.Steps.route,
+            Screen.Workout.route,
+            Screen.UserProfile.route
+        )
+
+
         when {
             isLoading -> {
                 LoadingScreen()
             }
+
             user != null -> {
                 Box(modifier = Modifier.fillMaxSize()) {
 
@@ -85,22 +98,27 @@ class MainActivity : ComponentActivity() {
                             .padding(top = 50.dp)
                     )
 
-                    BottomNavBar(
-                        navController = navController,
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 25.dp)
-                    )
+                    if (currentRoute in bottomBarRoutes) {
+                        AnimatedBottomNavBar(
+                            navController = navController,
+                            visible = currentRoute in bottomBarRoutes,
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                        )
+                    }
                 }
             }
+
             else -> {
                 val errorMessage by userViewModel.errorMessage.collectAsState()
                 Log.d("ERROR", errorMessage.toString())
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxSize().padding(16.dp)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
                 ) {
                     Text(
                         text = "Ошибка загрузки пользователя",

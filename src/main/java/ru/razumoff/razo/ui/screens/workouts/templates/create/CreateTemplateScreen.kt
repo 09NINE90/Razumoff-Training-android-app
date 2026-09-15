@@ -277,7 +277,7 @@ fun CreateTemplateScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(250.dp),
+                        .height(300.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     items(filteredExercises) { exercise ->
@@ -292,39 +292,36 @@ fun CreateTemplateScreen(
             }
 
             // Выбранные упражнения (над строкой поиска)
-            if (selectedExercises.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(vertical = 8.dp),
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(vertical = 8.dp),
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = pluralStringResource(
+                    R.plurals.selected_exercises_count,
+                    selectedExercises.size,
+                    selectedExercises.size
+                ),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            // Список выбранных упражнений
+            selectedExercises.forEachIndexed { index, exercise ->
+                SelectedExerciseItem(
+                    exercise = exercise,
+                    onRemove = { viewModel.removeExercise(exercise.exerciseId) }
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Text(
-                    text = pluralStringResource(
-                        R.plurals.selected_exercises_count,
-                        selectedExercises.size,
-                        selectedExercises.size
-                    ),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-
-                // Список выбранных упражнений
-                selectedExercises.forEachIndexed { index, exercise ->
-                    SelectedExerciseItem(
-                        exercise = exercise,
-                        onRemove = { viewModel.removeExercise(exercise.exerciseId) }
-                    )
-                    if (index < selectedExercises.lastIndex) {
-                        Spacer(modifier = Modifier.height(4.dp))
-                    }
+                if (index < selectedExercises.lastIndex) {
+                    Spacer(modifier = Modifier.height(4.dp))
                 }
-
             }
 
             Spacer(modifier = Modifier.height(120.dp))

@@ -6,7 +6,8 @@ plugins {
 }
 
 val appName = "RAZO"
-val appVersionName = "0.8.3"
+val appVersionName = "0.8.9"
+val appVersionCode = 4
 
 android {
     namespace = "ru.razumoff.razo"
@@ -16,7 +17,7 @@ android {
         applicationId = "ru.razumoff.razumofftraining"
         minSdk = 30
         targetSdk = 37
-        versionCode = 2
+        versionCode = appVersionCode
         versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -48,7 +49,7 @@ androidComponents {
     ) { variant ->
         variant.outputs.forEach { output ->
             output.outputFileName.set(
-                "$appName-debug-v$appVersionName.apk"
+                "$appName-debug-v$appVersionName($appVersionCode).apk"
             )
         }
     }
