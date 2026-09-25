@@ -17,6 +17,7 @@ import ru.razumoff.razo.ui.screens.statistics.StatisticsScreen
 import ru.razumoff.razo.ui.screens.statistics.viewmodel.StatisticsViewModel
 import ru.razumoff.razo.ui.screens.steps.StepsScreen
 import ru.razumoff.razo.ui.screens.user.UserProfileScreen
+import ru.razumoff.razo.ui.screens.user.UserViewModel
 import ru.razumoff.razo.ui.screens.workouts.WorkoutScreen
 import ru.razumoff.razo.ui.screens.workouts.WorkoutViewModel
 import ru.razumoff.razo.ui.screens.workouts.sessions.SessionDetailViewModel
@@ -31,7 +32,7 @@ import ru.razumoff.razo.ui.screens.workouts.templates.details.TemplateDetailScre
 import ru.razumoff.razo.ui.screens.workouts.templates.details.TemplateDetailViewModel
 import ru.razumoff.razo.ui.screens.workouts.templates.edit.EditTemplateScreen
 import ru.razumoff.razo.ui.screens.workouts.templates.edit.EditTemplateViewModel
-import ru.razumoff.razo.ui.screens.user.UserViewModel
+
 
 @Composable
 fun NavGraph(
@@ -45,33 +46,45 @@ fun NavGraph(
         navController = navController,
         startDestination = Screen.Steps.route,
         modifier = modifier,
+
         enterTransition = {
-            slideFadeEnter()
+            when {
+                isForwardHorizontalNavigation() -> horizontalEnter()
+
+                isBackwardHorizontalNavigation() -> horizontalPopEnter()
+
+                else -> verticalEnter()
+            }
         },
+
         exitTransition = {
-            slideFadeExit()
+            when {
+                isForwardHorizontalNavigation() -> horizontalExit()
+
+                isBackwardHorizontalNavigation() -> horizontalPopExit()
+
+                else -> verticalExit()
+            }
         },
+
         popEnterTransition = {
-            slideFadePopEnter()
+            if (isHorizontalNavigation()) {
+                horizontalPopEnter()
+            } else {
+                verticalPopEnter()
+            }
         },
+
         popExitTransition = {
-            slideFadePopExit()
+            if (isHorizontalNavigation()) {
+                horizontalPopExit()
+            } else {
+                verticalPopExit()
+            }
         }
     ) {
         composable(
-            route = Screen.Exercises.route,
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
+            route = Screen.Exercises.route
         ) {
             val viewModel: ExerciseViewModel = viewModel(
                 factory = ExerciseViewModel.Factory(repository, userId)
@@ -87,18 +100,6 @@ fun NavGraph(
 
         composable(
             route = Screen.AddExercise.route,
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
         ) {
             val viewModel: ExerciseViewModel = viewModel(
                 factory = ExerciseViewModel.Factory(repository, userId)
@@ -140,18 +141,6 @@ fun NavGraph(
         composable(
             route = Screen.SessionDetail.route,
             arguments = listOf(navArgument("sessionId") { type = NavType.StringType }),
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
         ) { backStackEntry ->
             val sessionId = backStackEntry.arguments?.getString("sessionId") ?: return@composable
 
@@ -194,18 +183,6 @@ fun NavGraph(
 
         composable(
             route = Screen.Templates.route,
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
         ) {
             val viewModel: TemplatesViewModel = viewModel(
                 factory = TemplatesViewModel.Factory(repository, userId)
@@ -223,18 +200,6 @@ fun NavGraph(
         composable(
             route = Screen.TemplateDetail.route,
             arguments = listOf(navArgument("templateId") { type = NavType.StringType }),
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
         ) { backStackEntry ->
             val templateId = backStackEntry.arguments?.getString("templateId") ?: return@composable
 
@@ -264,18 +229,6 @@ fun NavGraph(
                     type = NavType.StringType
                 }
             ),
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
         ) { backStackEntry ->
 
             val templateId =
@@ -306,18 +259,6 @@ fun NavGraph(
 
         composable(
             route = Screen.CreateTemplate.route,
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
         ) {
             val viewModel: CreateTemplateViewModel = viewModel(
                 factory = CreateTemplateViewModel.Factory(repository, userId)
@@ -335,18 +276,6 @@ fun NavGraph(
         composable(
             route = Screen.WorkoutSession.route,
             arguments = listOf(navArgument("templateId") { type = NavType.StringType }),
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
         ) { backStackEntry ->
             val templateId = backStackEntry.arguments?.getString("templateId") ?: return@composable
 
@@ -362,18 +291,6 @@ fun NavGraph(
 
         composable(
             route = Screen.Statistics.route,
-            enterTransition = {
-                detailEnter()
-            },
-            exitTransition = {
-                detailExit()
-            },
-            popEnterTransition = {
-                detailPopEnter()
-            },
-            popExitTransition = {
-                detailPopExit()
-            }
         ) {
             val viewModel: StatisticsViewModel = viewModel(
                 factory = StatisticsViewModel.Factory(repository, userId)

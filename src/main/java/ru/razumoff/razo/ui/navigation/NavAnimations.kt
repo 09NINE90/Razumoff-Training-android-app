@@ -8,85 +8,214 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.navigation.NavBackStackEntry
 
-fun AnimatedContentTransitionScope<*>.slideFadeEnter(): EnterTransition =
-    slideIntoContainer(
+
+/**
+ * Экраны нижнего/root уровня.
+ *
+ * Переходы между ними:
+ *
+ * Steps <-> Workout <-> UserProfile
+ *
+ * выполняются горизонтально.
+ */
+private val horizontalRoutes = setOf(
+    Screen.Steps.route,
+    Screen.Workout.route,
+    Screen.UserProfile.route
+)
+
+
+private fun isHorizontalRoute(route: String?): Boolean {
+    return route in horizontalRoutes
+}
+
+private fun horizontalIndex(route: String?): Int {
+    return horizontalRoutes.indexOf(route)
+}
+
+fun AnimatedContentTransitionScope<NavBackStackEntry>.isForwardHorizontalNavigation(): Boolean {
+    val from = horizontalIndex(initialState.destination.route)
+    val to = horizontalIndex(targetState.destination.route)
+
+    return from != -1 && to != -1 && to > from
+}
+
+fun AnimatedContentTransitionScope<NavBackStackEntry>.isBackwardHorizontalNavigation(): Boolean {
+    val from = horizontalIndex(initialState.destination.route)
+    val to = horizontalIndex(targetState.destination.route)
+
+    return from != -1 && to != -1 && to < from
+}
+
+
+/**
+ * Определяет, является ли текущий переход
+ * переходом между двумя root-экранами.
+ *
+ * Например:
+ *
+ * Workout -> UserProfile = true
+ * Steps -> Workout         = true
+ *
+ * Workout -> Exercises     = false
+ * Exercises -> Workout     = false
+ * Templates -> Detail      = false
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.isHorizontalNavigation(): Boolean {
+    val from = initialState.destination.route
+    val to = targetState.destination.route
+
+    return isHorizontalRoute(from) && isHorizontalRoute(to)
+}
+
+
+private const val NAV_ANIMATION_DURATION = 300
+
+
+/* ============================================================
+ * HORIZONTAL
+ * ============================================================ */
+
+/**
+ * Push:
+ *
+ * A -> B
+ *
+ * Новый экран появляется справа и движется влево.
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.horizontalEnter(): EnterTransition {
+    return slideIntoContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Left,
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     ) + fadeIn(
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     )
+}
 
-fun AnimatedContentTransitionScope<*>.slideFadeExit(): ExitTransition =
-    slideOutOfContainer(
+
+/**
+ * Push:
+ *
+ * A -> B
+ *
+ * Старый экран уходит влево.
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.horizontalExit(): ExitTransition {
+    return slideOutOfContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Left,
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     ) + fadeOut(
         animationSpec = tween(200)
     )
+}
 
-fun AnimatedContentTransitionScope<*>.slideFadePopEnter(): EnterTransition =
-    slideIntoContainer(
+
+/**
+ * Pop:
+ *
+ * B -> A
+ *
+ * Предыдущий экран появляется слева
+ * и движется вправо.
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.horizontalPopEnter(): EnterTransition {
+    return slideIntoContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Right,
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     ) + fadeIn(
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     )
+}
 
-fun AnimatedContentTransitionScope<*>.slideFadePopExit(): ExitTransition =
-    slideOutOfContainer(
+
+/**
+ * Pop:
+ *
+ * B -> A
+ *
+ * Текущий экран уходит вправо.
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.horizontalPopExit(): ExitTransition {
+    return slideOutOfContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Right,
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     ) + fadeOut(
         animationSpec = tween(200)
     )
+}
 
 
-fun AnimatedContentTransitionScope<*>.detailEnter(): EnterTransition =
-    slideIntoContainer(
+/* ============================================================
+ * VERTICAL
+ * ============================================================ */
+
+/**
+ * Push:
+ *
+ * A -> B
+ *
+ * Новый detail-экран появляется снизу
+ * и движется вверх.
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.verticalEnter(): EnterTransition {
+    return slideIntoContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Up,
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     ) + fadeIn(
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     )
+}
 
-fun AnimatedContentTransitionScope<*>.detailExit(): ExitTransition =
-    slideOutOfContainer(
-        towards = AnimatedContentTransitionScope.SlideDirection.Down,
-        animationSpec = tween(300)
-    ) + fadeOut(
-        animationSpec = tween(200)
-    )
 
-fun AnimatedContentTransitionScope<*>.detailPopEnter(): EnterTransition =
-    slideIntoContainer(
-        towards = AnimatedContentTransitionScope.SlideDirection.Down,
-        animationSpec = tween(300)
-    ) + fadeIn(
-        animationSpec = tween(300)
-    )
-
-fun AnimatedContentTransitionScope<*>.detailPopExit(): ExitTransition =
-    slideOutOfContainer(
+/**
+ * Push:
+ *
+ * A -> B
+ *
+ * Старый экран уходит вверх.
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.verticalExit(): ExitTransition {
+    return slideOutOfContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.Up,
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     ) + fadeOut(
         animationSpec = tween(200)
     )
+}
 
 
-fun scaleFadeEnter(): EnterTransition =
-    scaleIn(
-        initialScale = 0.95f,
-        animationSpec = tween(300)
+/**
+ * Pop:
+ *
+ * B -> A
+ *
+ * Предыдущий экран появляется сверху
+ * и движется вниз.
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.verticalPopEnter(): EnterTransition {
+    return slideIntoContainer(
+        towards = AnimatedContentTransitionScope.SlideDirection.Down,
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     ) + fadeIn(
-        animationSpec = tween(300)
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     )
+}
 
-fun scaleFadeExit(): ExitTransition =
-    scaleOut(
-        targetScale = 0.95f,
-        animationSpec = tween(250)
+
+/**
+ * Pop:
+ *
+ * B -> A
+ *
+ * Текущий detail-экран уходит вниз.
+ */
+fun AnimatedContentTransitionScope<NavBackStackEntry>.verticalPopExit(): ExitTransition {
+    return slideOutOfContainer(
+        towards = AnimatedContentTransitionScope.SlideDirection.Down,
+        animationSpec = tween(NAV_ANIMATION_DURATION)
     ) + fadeOut(
         animationSpec = tween(200)
     )
+}
