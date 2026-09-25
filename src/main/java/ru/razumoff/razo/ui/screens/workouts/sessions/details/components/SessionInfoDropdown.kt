@@ -1,8 +1,5 @@
 package ru.razumoff.razo.ui.screens.workouts.sessions.details.components
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -19,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.R
 import ru.razumoff.razo.models.WorkoutSession
 import ru.razumoff.razo.utils.WorkoutFormatter
+import ru.razumoff.razo.utils.copyToClipboard
 
 @Composable
 fun SessionInfoDropdown(
@@ -89,8 +87,3 @@ fun SessionInfoDropdown(
 
 }
 
-private fun copyToClipboard(context: Context, text: String) {
-    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText("Workout Results", text)
-    clipboard.setPrimaryClip(clip)
-}
