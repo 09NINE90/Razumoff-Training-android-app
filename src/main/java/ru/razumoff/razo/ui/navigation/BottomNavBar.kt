@@ -27,13 +27,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.razumoff.razo.R
+import ru.razumoff.razo.navigateToRoot
 
 @Composable
 fun BottomNavBar(
-    navController: NavController,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     val items = listOf(
@@ -82,13 +83,10 @@ fun BottomNavBar(
                     selected = selected,
                     onClick = {
                         if (!selected) {
-                            navController.navigate(item.screen.route) {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
+                            navigateToRoot(
+                                navController = navController,
+                                route = item.screen.route
+                            )
                         }
                     }
                 )

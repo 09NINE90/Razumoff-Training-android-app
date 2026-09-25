@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,17 +23,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.razumoff.razo.ui.navigation.AnimatedBottomNavBar
 import ru.razumoff.razo.ui.navigation.NavGraph
-import ru.razumoff.razo.ui.navigation.Screen
+import ru.razumoff.razo.ui.navigation.horizontalRoutes
 import ru.razumoff.razo.ui.screens.user.UserViewModel
 import ru.razumoff.razo.ui.theme.RazumoffTrainingTheme
 
@@ -79,13 +86,6 @@ class MainActivity : ComponentActivity() {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
-        val bottomBarRoutes = setOf(
-            Screen.Steps.route,
-            Screen.Workout.route,
-            Screen.UserProfile.route
-        )
-
-
         when {
             isLoading -> {
                 LoadingScreen()
@@ -102,12 +102,27 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(top = 50.dp)
+                            .rootScreenSwipe(
+                                currentRoute = currentRoute,
+                                onSwipeLeft = {
+                                    navigateToNextRoot(
+                                        navController = navController,
+                                        currentRoute = currentRoute
+                                    )
+                                },
+                                onSwipeRight = {
+                                    navigateToPreviousRoot(
+                                        navController = navController,
+                                        currentRoute = currentRoute
+                                    )
+                                }
+                            )
                     )
 
-                    if (currentRoute in bottomBarRoutes) {
+                    if (currentRoute in horizontalRoutes) {
                         AnimatedBottomNavBar(
                             navController = navController,
-                            visible = currentRoute in bottomBarRoutes,
+                            visible = currentRoute in horizontalRoutes,
                             modifier = Modifier
                                 .align(Alignment.BottomCenter)
                                 .fillMaxWidth()
@@ -151,4 +166,85 @@ fun LoadingScreen() {
             Text(stringResource(R.string.loading_data))
         }
     }
+}
+
+private fun Modifier.rootScreenSwipe(
+    currentRoute: String?,
+    onSwipeLeft: () -> Unit,
+    onSwipeRight: () -> Unit
+): Modifier = composed {
+
+    if (currentRoute !in horizontalRoutes) {
+        return@composed this
+    }
+
+    var dragAmount by remember {
+        mutableFloatStateOf(0f)
+    }
+
+    pointerInput(currentRoute) {
+        detectHorizontalDragGestures(
+            onHorizontalDrag = { _, amount ->
+                dragAmount += amount
+            },
+            onDragEnd = {
+                when {
+                    dragAmount < -100f -> onSwipeLeft()
+                    dragAmount > 100f -> onSwipeRight()
+                }
+
+                dragAmount = 0f
+            },
+            onDragCancel = {
+                dragAmount = 0f
+            }
+        )
+    }
+}
+
+fun navigateToRoot(
+    navController: NavHostController,
+    route: String
+) {
+    navController.navigate(route) {
+        popUpTo(navController.graph.startDestinationId) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
+private fun navigateToNextRoot(
+    navController: NavHostController,
+    currentRoute: String?
+) {
+    val currentIndex = horizontalRoutes.indexOf(currentRoute)
+
+    if (currentIndex == -1 ||
+        currentIndex >= horizontalRoutes.lastIndex
+    ) {
+        return
+    }
+
+    navigateToRoot(
+        navController = navController,
+        route = horizontalRoutes[currentIndex + 1]
+    )
+}
+
+private fun navigateToPreviousRoot(
+    navController: NavHostController,
+    currentRoute: String?
+) {
+    val currentIndex = horizontalRoutes.indexOf(currentRoute)
+
+    if (currentIndex <= 0) {
+        return
+    }
+
+    navigateToRoot(
+        navController = navController,
+        route = horizontalRoutes[currentIndex - 1]
+    )
 }

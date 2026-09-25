@@ -6,7 +6,7 @@ plugins {
 }
 
 val appName = "RAZO"
-val appVersionName = "0.9.6"
+val appVersionName = "0.9.8"
 val appVersionCode = 7
 
 android {

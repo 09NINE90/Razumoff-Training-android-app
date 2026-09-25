@@ -6,8 +6,6 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.navigation.NavBackStackEntry
 
 
@@ -20,7 +18,7 @@ import androidx.navigation.NavBackStackEntry
  *
  * выполняются горизонтально.
  */
-private val horizontalRoutes = setOf(
+val horizontalRoutes = listOf(
     Screen.Steps.route,
     Screen.Workout.route,
     Screen.UserProfile.route
