@@ -12,6 +12,7 @@ import ru.razumoff.razo.database.entities.WorkoutSessionEntity
 import ru.razumoff.razo.database.entities.WorkoutSetEntity
 import ru.razumoff.razo.database.entities.WorkoutTemplateEntity
 import ru.razumoff.razo.models.ExerciseStatisticsRow
+import ru.razumoff.razo.models.MeasurementType
 import ru.razumoff.razo.models.WorkoutType
 
 class GymRepository(
@@ -29,6 +30,22 @@ class GymRepository(
     // --- Замеры пользователя ---
     suspend fun insertMeasurement(measurement: UserMeasurementEntity) {
         database.userMeasurementDao().insertMeasurement(measurement)
+    }
+
+    suspend fun getLatestMeasurement(
+        userId: String,
+        type: MeasurementType
+    ): UserMeasurementEntity? {
+        return database.userMeasurementDao().getLatestMeasurement(
+            userId = userId,
+            type = type.name
+        )
+    }
+
+    suspend fun getMeasurementsByUser(
+        userId: String,
+    ): List<UserMeasurementEntity> {
+        return database.userMeasurementDao().getMeasurementsByUser(userId)
     }
 
     // --- Операции с упражнениями ---

@@ -38,6 +38,9 @@
     <string name="error_updating_user">Ошибка обновления пользователя: %1$s</string>
     <string name="error_saving_measurement">Ошибка сохранения замера: %1$s</string>
 
+    <string name="weight_with_unit">Вес, кг</string>
+    <string name="height_with_unit">Рост, см</string>
+
     <!-- Dates & Units -->
     <string name="today">Сегодня</string>
     <string name="select_date">Выбрать дату</string>
@@ -185,7 +188,9 @@
     <string name="bodyweight_exercise">упражнение без веса</string>
 
     <!-- Measurements -->
+    <string name="measurements">Измерения</string>
     <string name="measurement_weight">Вес</string>
+    <string name="measurement_height">Рост</string>
     <string name="measurement_chest">Грудь</string>
     <string name="measurement_waist">Талия</string>
     <string name="measurement_hips">Бёдра</string>

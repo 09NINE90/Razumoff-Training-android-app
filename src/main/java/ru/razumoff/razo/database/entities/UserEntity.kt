@@ -10,8 +10,6 @@ data class UserEntity(
     val id: String = UUID.randomUUID().toString(),
     val name: String = "Аноним",
     val birthDate: Long? = null,
-    val weight: Float? = null,
-    val height: Float? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )

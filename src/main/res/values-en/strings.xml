@@ -38,6 +38,9 @@
     <string name="error_updating_user">Error updating user: %1$s</string>
     <string name="error_saving_measurement">Error saving measurement: %1$s</string>
 
+    <string name="weight_with_unit">Weight, kg</string>
+    <string name="height_with_unit">Height, cm</string>
+
     <!-- Dates & Units -->
     <string name="today">Today</string>
     <string name="select_date">Select date</string>
@@ -185,7 +188,9 @@
     <string name="bodyweight_exercise">bodyweight exercise</string>
 
     <!-- Measurements -->
+    <string name="measurements">Measurements</string>
     <string name="measurement_weight">Weight</string>
+    <string name="measurement_height">Height</string>
     <string name="measurement_chest">Chest</string>
     <string name="measurement_waist">Waist</string>
     <string name="measurement_hips">Hips</string>

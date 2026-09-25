@@ -10,7 +10,7 @@ data class UserMeasurementEntity(
     val id: String = UUID.randomUUID().toString(),
     val userId: String,
     val value: Float,                          // Значение замера
-    val type: String,                          // Тип замера: "weight", "chest", "waist", "biceps", и т.д.
+    val type: String,                          // MeasurementType.name
     val unit: String,                          // Единица измерения: "kg", "cm"
     val dateTime: Long = System.currentTimeMillis(),
     val createdAt: Long = System.currentTimeMillis(),

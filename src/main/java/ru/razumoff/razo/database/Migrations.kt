@@ -2,6 +2,7 @@ package ru.razumoff.razo.database
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import java.util.UUID
 
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
@@ -166,5 +167,97 @@ val MIGRATION_7_8 = object : Migration(7, 8) {
             ADD COLUMN workoutType TEXT NOT NULL DEFAULT 'REGULAR'
             """.trimIndent()
         )
+    }
+}
+
+val MIGRATION_8_9 = object : Migration(8, 9) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+
+        val cursor = db.query(
+            """
+            SELECT
+                id,
+                weight,
+                height,
+                createdAt,
+                updatedAt
+            FROM users
+            WHERE weight IS NOT NULL
+               OR height IS NOT NULL
+            """.trimIndent()
+        )
+
+        cursor.use {
+            val userIdIndex = it.getColumnIndexOrThrow("id")
+            val weightIndex = it.getColumnIndexOrThrow("weight")
+            val heightIndex = it.getColumnIndexOrThrow("height")
+            val createdAtIndex = it.getColumnIndexOrThrow("createdAt")
+            val updatedAtIndex = it.getColumnIndexOrThrow("updatedAt")
+
+            while (it.moveToNext()) {
+                val userId = it.getString(userIdIndex)
+                val createdAt = it.getLong(createdAtIndex)
+                val updatedAt = it.getLong(updatedAtIndex)
+
+                if (!it.isNull(weightIndex)) {
+                    db.execSQL(
+                        """
+                        INSERT INTO user_measurements (
+                            id,
+                            userId,
+                            value,
+                            type,
+                            unit,
+                            dateTime,
+                            createdAt,
+                            updatedAt
+                        )
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        """.trimIndent(),
+                        arrayOf(
+                            UUID.randomUUID().toString(),
+                            userId,
+                            it.getFloat(weightIndex),
+                            "WEIGHT",
+                            "kg",
+                            updatedAt,
+                            createdAt,
+                            updatedAt
+                        )
+                    )
+                }
+
+                if (!it.isNull(heightIndex)) {
+                    db.execSQL(
+                        """
+                        INSERT INTO user_measurements (
+                            id,
+                            userId,
+                            value,
+                            type,
+                            unit,
+                            dateTime,
+                            createdAt,
+                            updatedAt
+                        )
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        """.trimIndent(),
+                        arrayOf(
+                            UUID.randomUUID().toString(),
+                            userId,
+                            it.getFloat(heightIndex),
+                            "HEIGHT",
+                            "cm",
+                            updatedAt,
+                            createdAt,
+                            updatedAt
+                        )
+                    )
+                }
+            }
+        }
+
+        db.execSQL("ALTER TABLE users DROP COLUMN weight")
+        db.execSQL("ALTER TABLE users DROP COLUMN height")
     }
 }

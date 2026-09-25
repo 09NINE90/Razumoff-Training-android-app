@@ -1,24 +1,21 @@
 package ru.razumoff.razo.ui.screens.user
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DisplayMode
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -29,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,10 +38,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.razumoff.razo.R
-import ru.razumoff.razo.ui.components.cards.SurfaceCard
+import ru.razumoff.razo.models.MeasurementType
 import ru.razumoff.razo.ui.components.dialogs.DatePickerDialog
 import ru.razumoff.razo.ui.components.headers.IslandWithButtonHeader
-import ru.razumoff.razo.ui.components.inputs.EditableField
+import ru.razumoff.razo.ui.screens.user.components.ProfileEditContent
+import ru.razumoff.razo.ui.screens.user.components.ProfileViewContent
+import ru.razumoff.razo.utils.enterFadeInExpandVerticallyTransition
+import ru.razumoff.razo.utils.exitFadeOutShrinkVerticallyTransition
+import ru.razumoff.razo.utils.profileContentTransition
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
@@ -56,6 +58,7 @@ fun UserProfileScreen(
     modifier: Modifier = Modifier
 ) {
     val user by viewModel.user.collectAsState()
+    val measurements by viewModel.measurements.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
@@ -63,8 +66,6 @@ fun UserProfileScreen(
     var isEditing by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
     var birthDateString by remember { mutableStateOf("") }
-    var weight by remember { mutableStateOf("") }
-    var height by remember { mutableStateOf("") }
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -74,6 +75,10 @@ fun UserProfileScreen(
     val datePickerState = rememberDatePickerState(
         initialDisplayMode = DisplayMode.Picker
     )
+
+    var measurementInputs by rememberSaveable {
+        mutableStateOf<Map<MeasurementType, String>>(emptyMap())
+    }
 
     val dateFormat = SimpleDateFormat("dd.MM.yyyy", LocalLocale.current.platformLocale)
 
@@ -98,8 +103,6 @@ fun UserProfileScreen(
                 it.birthDate?.let { dateMillis -> dateFormat.format(Date(dateMillis)) } ?: ""
             selectedDateMillis = it.birthDate
             it.birthDate?.let { datePickerState.selectedDateMillis = it }
-            weight = it.weight?.toString() ?: ""
-            height = it.height?.toString() ?: ""
         }
     }
 
@@ -109,15 +112,37 @@ fun UserProfileScreen(
         }
     }
 
+    LaunchedEffect(isEditing, measurements) {
+        if (isEditing) {
+            measurementInputs = MeasurementType.entries.associateWith { type ->
+                measurements[type]?.value?.toString().orEmpty()
+            }
+        }
+    }
+
+    val measurementTypes = MeasurementType.entries
+
+    val userSummary = if (user!!.birthDate != null) {
+        "${user!!.name}, ${calculateAge(user!!.birthDate)}"
+    } else {
+        user!!.name
+    }
+
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 60.dp)
+                .imePadding()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Spacer(modifier = Modifier.height(70.dp))
 
             if (isLoading) {
                 Box(
@@ -137,105 +162,89 @@ fun UserProfileScreen(
                     )
                 }
             } else {
+
                 // Аватар
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .background(
-                            MaterialTheme.colorScheme.primaryContainer,
-                            shape = MaterialTheme.shapes.medium
-                        ),
-                    contentAlignment = Alignment.Center
+                AnimatedVisibility(
+                    visible = !isEditing,
+                    enter = enterFadeInExpandVerticallyTransition(),
+                    exit = exitFadeOutShrinkVerticallyTransition()
                 ) {
-                    Text(
-                        text = user!!.name.take(2).uppercase(),
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                    Box(
+                        modifier = Modifier
+                            .size(70.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .background(
+                                MaterialTheme.colorScheme.primaryContainer,
+                                shape = MaterialTheme.shapes.medium
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = user!!.name.take(2).uppercase(),
+                            style = MaterialTheme.typography.headlineMedium,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
                 // Информация о пользователе
-                SurfaceCard {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    AnimatedContent(
+                        targetState = isEditing,
+                        transitionSpec = {
+                            profileContentTransition()
+                        },
+                        label = "profileContent"
+                    ) { editing ->
 
-                        // Имя
-                        EditableField(
-                            label = stringResource(R.string.name),
-                            value = name,
-                            isEditing = isEditing,
-                            onValueChange = { name = it },
-                            displayValue = user!!.name
-                        )
-
-                        // Возраст
-                        EditableField(
-                            label = stringResource(R.string.age),
-                            value = birthDateString,
-                            isEditing = isEditing,
-                            onValueChange = {},
-                            displayValue = calculateAge(user!!.birthDate),
-                            placeholder = stringResource(R.string.date_of_birth),
-                            trailingIcon = {
-                                if (isEditing) {
-                                    Icon(
-                                        ImageVector.vectorResource(R.drawable.ic_pencil_simple),
-                                        contentDescription = stringResource(R.string.select_date),
-                                        modifier = Modifier.clickable {
-                                            selectedDateMillis?.let {
-                                                datePickerState.selectedDateMillis = it
-                                            }
-                                            showDatePicker = true
-                                        }
-                                    )
+                        if (editing) {
+                            ProfileEditContent(
+                                name = name,
+                                birthDateString = birthDateString,
+                                measurementTypes = measurementTypes,
+                                measurementInputs = measurementInputs,
+                                onNameChange = { name = it },
+                                onMeasurementChange = { type, value ->
+                                    measurementInputs = measurementInputs.toMutableMap().apply {
+                                        this[type] = value
+                                    }
+                                },
+                                onSelectDate = {
+                                    selectedDateMillis?.let {
+                                        datePickerState.selectedDateMillis = it
+                                    }
+                                    showDatePicker = true
                                 }
-                            }
-                        )
+                            )
 
-                        // Вес
-                        EditableField(
-                            label = stringResource(R.string.weight),
-                            value = weight,
-                            isEditing = isEditing,
-                            onValueChange = { weight = it },
-                            displayValue = user!!.weight?.let { "$it ${stringResource(R.string.kg)}" }
-                                ?: stringResource(R.string.not_specified),
-                            placeholder = "${stringResource(R.string.weight)} (${stringResource(R.string.kg)})"
-                        )
-
-                        // Рост
-                        EditableField(
-                            label = stringResource(R.string.height),
-                            value = height,
-                            isEditing = isEditing,
-                            onValueChange = { height = it },
-                            displayValue = user!!.height?.let { "$it ${stringResource(R.string.cm)}" }
-                                ?: stringResource(R.string.not_specified),
-                            placeholder = "${stringResource(R.string.height)} (${stringResource(R.string.cm)})"
-                        )
+                        } else {
+                            ProfileViewContent(
+                                userSummary = userSummary,
+                                measurementTypes = measurementTypes,
+                                measurements = measurements
+                            )
+                        }
                     }
                 }
 
                 AnimatedVisibility(
                     visible = isEditing,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
+                    enter = enterFadeInExpandVerticallyTransition(),
+                    exit = exitFadeOutShrinkVerticallyTransition()
                 ) {
-                    Column {
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Button(
-                            onClick = { isEditing = false },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(stringResource(R.string.cancel))
-                        }
+                    Button(
+                        onClick = { isEditing = false },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                top = 12.dp
+                            )
+                    ) {
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             }
@@ -252,12 +261,13 @@ fun UserProfileScreen(
             onActionClick = {
                 if (isEditing) {
                     val birthDateToSave = selectedDateMillis ?: user?.birthDate
-                    viewModel.updateUser(
+
+                    viewModel.saveProfile(
                         name = name,
                         birthDate = birthDateToSave,
-                        weight = weight.toFloatOrNull(),
-                        height = height.toFloatOrNull()
+                        measurements = measurementInputs
                     )
+
                     isEditing = false
                 } else {
                     isEditing = true

@@ -18,9 +18,6 @@ interface UserMeasurementDao {
     @Query("SELECT * FROM user_measurements WHERE userId = :userId AND type = :type ORDER BY dateTime DESC")
     fun getMeasurementsByType(userId: String, type: String): Flow<List<UserMeasurementEntity>>
 
-    @Query("SELECT * FROM user_measurements WHERE userId = :userId AND type = :type ORDER BY dateTime DESC LIMIT 1")
-    suspend fun getLatestMeasurement(userId: String, type: String): UserMeasurementEntity?
-
     @Query("SELECT * FROM user_measurements WHERE id = :id AND userId = :userId")
     suspend fun getMeasurementById(id: String, userId: String): UserMeasurementEntity?
 
@@ -29,4 +26,31 @@ interface UserMeasurementDao {
 
     @Query("DELETE FROM user_measurements WHERE userId = :userId")
     suspend fun deleteAllMeasurements(userId: String)
+
+    @Query(
+        """
+    SELECT *
+    FROM user_measurements
+    WHERE userId = :userId
+      AND type = :type
+    ORDER BY dateTime DESC
+    LIMIT 1
+    """
+    )
+    suspend fun getLatestMeasurement(
+        userId: String,
+        type: String
+    ): UserMeasurementEntity?
+
+    @Query(
+        """
+    SELECT *
+    FROM user_measurements
+    WHERE userId = :userId
+    ORDER BY dateTime DESC
+    """
+    )
+    suspend fun getMeasurementsByUser(
+        userId: String
+    ): List<UserMeasurementEntity>
 }
