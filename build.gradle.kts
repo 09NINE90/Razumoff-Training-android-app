@@ -6,8 +6,8 @@ plugins {
 }
 
 val appName = "RAZO"
-val appVersionName = "0.9.3"
-val appVersionCode = 6
+val appVersionName = "0.9.6"
+val appVersionCode = 7
 
 android {
     namespace = "ru.razumoff.razo"
