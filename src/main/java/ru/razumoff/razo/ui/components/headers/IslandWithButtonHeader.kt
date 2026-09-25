@@ -1,5 +1,11 @@
 package ru.razumoff.razo.ui.components.headers
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -122,17 +128,26 @@ fun IslandWithButtonHeader(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    actionIcon?.let {
-                        Icon(
-                            imageVector = it,
-                            contentDescription = actionDescription,
-                            modifier = Modifier.size(28.dp),
-                            tint = if (enableActionButton) {
-                                actionIconTint
-                            } else {
-                                MaterialTheme.colorScheme.onSurfaceVariant
-                            }
-                        )
+                    AnimatedContent(
+                        targetState = actionIcon,
+                        transitionSpec = {
+                            scaleIn() + fadeIn() togetherWith scaleOut() + fadeOut()
+                        },
+                        label = "actionIcon"
+                    ) { icon ->
+
+                        icon?.let {
+                            Icon(
+                                imageVector = it,
+                                contentDescription = actionDescription,
+                                modifier = Modifier.size(28.dp),
+                                tint = if (enableActionButton) {
+                                    actionIconTint
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                }
+                            )
+                        }
                     }
                 }
             }

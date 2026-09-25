@@ -1,12 +1,17 @@
 package ru.razumoff.razo.ui.screens.workouts.sessions.details.components
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.DatePicker
@@ -14,6 +19,7 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -53,6 +59,7 @@ fun SessionInfoCard(
     // Состояния для диалогов
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+    var showCopyMenu by remember { mutableStateOf(false) }
 
     // Текущие дата и время
     val calendar = Calendar.getInstance().apply {
@@ -80,12 +87,44 @@ fun SessionInfoCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text(
-                text = session.templateName,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = session.templateName,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f)
+                )
+
+                Box {
+                    IconButton(
+                        onClick = {
+                            showCopyMenu = true
+                        },
+                        modifier = Modifier.offset(x = 8.dp)
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(
+                                R.drawable.dots_three_vertical
+                            ),
+                            modifier = Modifier.size(30.dp),
+                            contentDescription = stringResource(R.string.more)
+                        )
+                    }
+
+                    SessionInfoDropdown(
+                        session = session,
+                        expanded = showCopyMenu,
+                        onDismissRequest = {
+                            showCopyMenu = false
+                        }
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -286,4 +325,10 @@ fun SessionInfoCard(
             }
         }
     }
+}
+
+private fun copyToClipboard(context: Context, text: String) {
+    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("Workout Results", text)
+    clipboard.setPrimaryClip(clip)
 }

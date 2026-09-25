@@ -17,6 +17,7 @@
     <string name="done">Завершить</string>
     <string name="next">Далее</string>
     <string name="edit_label">Редактировать</string>
+    <string name="more">Подробнее</string>
 
     <!-- Main Sections -->
     <string name="workout">Тренировка</string>

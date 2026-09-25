@@ -6,8 +6,8 @@ plugins {
 }
 
 val appName = "RAZO"
-val appVersionName = "0.8.9"
-val appVersionCode = 4
+val appVersionName = "0.9.3"
+val appVersionCode = 6
 
 android {
     namespace = "ru.razumoff.razo"
@@ -107,6 +107,8 @@ dependencies {
 
     // Tests
     testImplementation(libs.junit)
+
+    implementation(libs.patrykandpatrick.vico)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

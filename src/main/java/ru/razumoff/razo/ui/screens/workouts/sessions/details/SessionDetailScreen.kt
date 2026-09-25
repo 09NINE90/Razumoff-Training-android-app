@@ -15,6 +15,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -30,16 +31,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.razumoff.razo.R
 import ru.razumoff.razo.ui.components.headers.IslandWithButtonHeader
 import ru.razumoff.razo.ui.screens.workouts.sessions.SessionDetailViewModel
-import ru.razumoff.razo.ui.screens.workouts.sessions.details.components.SessionExerciseDetailCard
+import ru.razumoff.razo.ui.screens.workouts.sessions.details.components.SessionExerciseSets
 import ru.razumoff.razo.ui.screens.workouts.sessions.details.components.SessionInfoCard
-import ru.razumoff.razo.ui.screens.workouts.sessions.details.components.SessionInfoCopyButtons
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,26 +97,11 @@ fun SessionDetailScreen(
                     }
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                // Кнопки копирования информации о сессии
-                SessionInfoCopyButtons(
-                    session = session,
-                    modifier = modifier
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
                 // Список упражнений
-                Text(
-                    text = pluralStringResource(
-                        R.plurals.exercises_count,
-                        session!!.exercises.size,
-                        session!!.exercises.size
-                    ),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(vertical = 12.dp, horizontal = 6.dp),
                 )
 
                 LazyColumn(
@@ -128,10 +112,10 @@ fun SessionDetailScreen(
                         items = session!!.exercises,
                         key = { _, item -> item.id }
                     ) { index, exercise ->
-                        SessionExerciseDetailCard(
-                            exercise = exercise,
+                        SessionExerciseSets(
+                            exercise=exercise,
                             modifier = Modifier.padding(
-                                bottom = if (index == session!!.exercises.lastIndex) 130.dp else 0.dp
+                                bottom = if (index == session!!.exercises.lastIndex) 50.dp else 0.dp
                             )
                         )
                     }

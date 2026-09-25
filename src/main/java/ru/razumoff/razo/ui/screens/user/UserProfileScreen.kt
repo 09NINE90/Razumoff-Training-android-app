@@ -1,5 +1,10 @@
 package ru.razumoff.razo.ui.screens.user
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -217,14 +222,20 @@ fun UserProfileScreen(
                     }
                 }
 
-                if (isEditing) {
-                    Spacer(modifier = Modifier.height(16.dp))
+                AnimatedVisibility(
+                    visible = isEditing,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    Column {
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    Button(
-                        onClick = { isEditing = false },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(stringResource(R.string.cancel))
+                        Button(
+                            onClick = { isEditing = false },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.cancel))
+                        }
                     }
                 }
             }
